@@ -38,6 +38,7 @@ export interface TransformVals {
 export default function DragableContainer(props: DragableContainerProps) {
   const { children, pan = true, zoom = true, minZoom = 0.1, maxZoom = 2, zoomStep = 0.1 } = props;
   const containerRef: React.Ref<HTMLDivElement> = useRef(null);
+  const wrapperRef: React.Ref<HTMLDivElement> = useRef(null);
   const [isMove, setIsMove] = useState(false);
   const [transform, _setTransform] = useState<TransformVals>(initTransform);
   const transfromRef = useRef<TransformVals>(initTransform);
@@ -55,12 +56,14 @@ export default function DragableContainer(props: DragableContainerProps) {
     containerRef.current?.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMove);
     document.addEventListener('mouseup', handleUp);
+    wrapperRef.current?.addEventListener('wheel', handleWheelMove);
 
     // calcOriginPoint();
     return () => {
       containerRef.current?.removeEventListener('mousedown', handleDown);
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
+      wrapperRef.current?.removeEventListener('wheel', handleWheelMove);
     };
   }, []);
 
@@ -135,9 +138,9 @@ export default function DragableContainer(props: DragableContainerProps) {
     posRef.current.isMove = false;
   };
 
-  const handleWheelMove: React.WheelEventHandler<HTMLDivElement> = (ev) => {
+  const handleWheelMove = (ev: WheelEvent) => {
     ev.preventDefault();
-    ev.persist();
+    ev.stopPropagation();
     const wheelDirection = ev.deltaY;
 
     setTransform({
@@ -146,7 +149,7 @@ export default function DragableContainer(props: DragableContainerProps) {
   };
 
   return (
-    <div className={cls('drag-wrapper')} onWheel={handleWheelMove}>
+    <div className={cls('drag-wrapper')} ref={wrapperRef}>
       <div
         className={cls('drag-container')}
         ref={containerRef}
