@@ -8,7 +8,7 @@ import styles from './OrgTree.module.less';
 
 const cls = classnames(styles);
 
-export default function OrgTree(props: OrgTreeProps) {
+function OrgTree(props: OrgTreeProps) {
   const { pan, zoom, minZoom, maxZoom, zoomStep, layout } = props;
 
   return (
@@ -27,3 +27,5 @@ export default function OrgTree(props: OrgTreeProps) {
     </DragableContainer>
   );
 }
+
+export default OrgTree;

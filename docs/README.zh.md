@@ -1,7 +1,7 @@
 ---
-title: react-org-tree
+title: rc-dragable-org-chart
 hero:
-  title: react-org-tree
+  title: rc-dragable-org-chart
   desc: 一个基于react的组织树组件
   actions:
     - text: 快速开始 →
@@ -16,22 +16,22 @@ features:
 footer: MIT Licensed | Copyright © 2020-present<br />Powered by [artdong](https://github.com/artdong)
 ---
 
-# react-org-tree
+# rc-dragable-org-chart
 
 ### 📦 安装
 
 ```
 # use npm
-npm i react-org-tree
+npm i rc-dragable-org-chart
 
 # use yarn
-yarn add react-org-tree
+yarn add rc-dragable-org-chart
 ```
 
 ### 🔨 示例
 
 ```js
-import OrgTree from 'react-org-tree';
+import OrgTree from 'rc-dragable-org-chart';
 
 const horizontal = false; // true：横向  false：纵向
 const collapsable = true; // true：可折叠 false：不可折叠

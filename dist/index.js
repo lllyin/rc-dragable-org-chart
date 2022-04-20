@@ -8,111 +8,6 @@ function _interopDefaultLegacy(e) {
 
 var React__default = /*#__PURE__*/ _interopDefaultLegacy(React);
 
-function classnames(styles) {
-  return function (className) {
-    var commonClassName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-    var classList = className.split(/\s+/);
-    return (
-      classList
-        .map(function (name) {
-          return styles[name];
-        })
-        .join(' ') +
-      ' ' +
-      commonClassName
-    );
-  };
-}
-
-function styleInject(css, ref) {
-  if (ref === void 0) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') {
-    return;
-  }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z =
-  ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n  padding-left: 10px;\n  padding-right: 10px;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n";
-var styles = {
-  'tree-node': 'TreeNode-module_tree-node__2gHNt',
-  label: 'TreeNode-module_label__dGNlq',
-  'label-inner': 'TreeNode-module_label-inner__nVX8y',
-  children: 'TreeNode-module_children__3g1ss',
-};
-styleInject(css_248z);
-
-var cls = classnames(styles);
-
-var renderDefaultContent = function renderDefaultContent(data) {
-  return /*#__PURE__*/ React__default['default'].createElement(
-    'div',
-    {
-      className: cls('label-inner'),
-    },
-    data.label,
-  );
-};
-
-var renderNode = function renderNode(data, props) {
-  var _props$renderContent = props.renderContent,
-    renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent;
-  return /*#__PURE__*/ React__default['default'].createElement(
-    'div',
-    {
-      className: cls('tree-node', 'tree-node'),
-    },
-    /*#__PURE__*/ React__default['default'].createElement(
-      'div',
-      {
-        className: cls('label'),
-      },
-      renderContent(data),
-    ),
-    data.children && data.children.length > 0 && renderChildren(data.children, props),
-  );
-};
-
-var renderChildren = function renderChildren(children, props) {
-  return /*#__PURE__*/ React__default['default'].createElement(
-    'div',
-    {
-      className: cls('children'),
-    },
-    children &&
-      (children === null || children === void 0
-        ? void 0
-        : children.map(function (data) {
-            return renderNode(data, props);
-          })),
-  );
-};
-
-function TreeNode(props) {
-  return renderNode(props.data, props);
-}
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
@@ -228,6 +123,111 @@ function _nonIterableRest() {
   throw new TypeError(
     'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.',
   );
+}
+
+function classnames(styles) {
+  return function (className) {
+    var commonClassName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var classList = className.split(/\s+/);
+    return (
+      classList
+        .map(function (name) {
+          return styles[name];
+        })
+        .join(' ') +
+      ' ' +
+      commonClassName
+    );
+  };
+}
+
+function styleInject(css, ref) {
+  if (ref === void 0) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') {
+    return;
+  }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z =
+  ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  padding-right: 10px;\n  padding-left: 10px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n";
+var styles = {
+  'tree-node': 'TreeNode-module_tree-node__2gHNt',
+  label: 'TreeNode-module_label__dGNlq',
+  'label-inner': 'TreeNode-module_label-inner__nVX8y',
+  children: 'TreeNode-module_children__3g1ss',
+};
+styleInject(css_248z);
+
+var cls = classnames(styles);
+
+var renderDefaultContent = function renderDefaultContent(data) {
+  return /*#__PURE__*/ React__default['default'].createElement(
+    'div',
+    {
+      className: cls('label-inner'),
+    },
+    data.label,
+  );
+};
+
+var renderNode = function renderNode(data, props) {
+  var _props$renderContent = props.renderContent,
+    renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent;
+  return /*#__PURE__*/ React__default['default'].createElement(
+    'div',
+    {
+      className: cls('tree-node', 'tree-node'),
+    },
+    /*#__PURE__*/ React__default['default'].createElement(
+      'div',
+      {
+        className: cls('label'),
+      },
+      renderContent(data),
+    ),
+    data.children && data.children.length > 0 && renderChildren(data.children, props),
+  );
+};
+
+var renderChildren = function renderChildren(children, props) {
+  return /*#__PURE__*/ React__default['default'].createElement(
+    'div',
+    {
+      className: cls('children'),
+    },
+    children &&
+      (children === null || children === void 0
+        ? void 0
+        : children.map(function (data) {
+            return renderNode(data, props);
+          })),
+  );
+};
+
+function TreeNode(props) {
+  return renderNode(props.data, props);
 }
 
 var css_248z$1 =
@@ -409,6 +409,7 @@ var styles$2 = {
 styleInject(css_248z$2);
 
 var cls$2 = classnames(styles$2);
+
 function OrgTree(props) {
   var pan = props.pan,
     zoom = props.zoom,
@@ -435,7 +436,7 @@ function OrgTree(props) {
         {
           className: cls$2('org-tree', layout),
         },
-        /*#__PURE__*/ React__default['default'].createElement(TreeNode, props),
+        /*#__PURE__*/ React__default['default'].createElement(TreeNode, _objectSpread2({}, props)),
       ),
     ),
   );

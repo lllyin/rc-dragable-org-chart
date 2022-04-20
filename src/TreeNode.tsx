@@ -13,7 +13,7 @@ const renderDefaultContent = (data: TreeData) => {
 const renderNode = (data: TreeData, props: TreeNodeProps) => {
   const { renderContent = renderDefaultContent } = props;
   return (
-    <div className={cls('tree-node', 'tree-node')}>
+    <div className={cls('tree-node', 'tree-node')} key={data.id || data.key}>
       <div className={cls('label')}>{renderContent(data)}</div>
       {data.children && data.children.length > 0 && renderChildren(data.children, props)}
     </div>

@@ -15,10 +15,10 @@ export default defineConfig({
     ['zh', '中文'],
   ],
   alias: {
-    'rc-dragable-org-chart': path.resolve('src/index.js'),
+    'rc-dragable-org-chart': path.resolve('src/index.ts'),
   },
   chainWebpack(memo) {
-    memo.resolve.alias.set('rc-dragable-org-chart', path.resolve('src/index.js'));
+    memo.resolve.alias.set('rc-dragable-org-chart', path.resolve('src/index.ts'));
   },
   cssModulesTypescriptLoader: {
     mode: 'emit',

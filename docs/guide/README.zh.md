@@ -11,10 +11,10 @@ toc: menu
 
 ```
 # use npm
-npm i react-org-tree
+npm i rc-dragable-org-chart
 
 # use yarn
-yarn add react-org-tree
+yarn add rc-dragable-org-chart
 ```
 
 ### 第一个例子
