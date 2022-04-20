@@ -1,7 +1,7 @@
 {
-  "private": true,
+  "private": false,
   "name": "rc-dragable-org-chart",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -13,8 +13,9 @@
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build"
   },
-  "module": "es/index.js",
-  "typings": "es/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -27,8 +28,7 @@
     ]
   },
   "dependencies": {
-    "react": "^16.12.0 || ^17.0.0",
-    "react-org-tree": "^1.0.0"
+    "react": "^16.12.0 || ^17.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import OrgTree from 'react-org-tree';
+import OrgTree from 'rc-dragable-org-chart"';
 
 class OrgTreeDemo extends Component {
   constructor(props) {

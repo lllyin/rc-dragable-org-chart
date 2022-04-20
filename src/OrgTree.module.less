@@ -1,0 +1,21 @@
+.org-tree-container {
+  .org-tree {
+    display: table;
+    &:before,
+    &:after {
+      display: table;
+      content: '';
+    }
+
+    &:after {
+      clear: both;
+    }
+
+    > :global(.tree-node) {
+      padding-top: 0;
+      &::after {
+        border: none;
+      }
+    }
+  }
+}

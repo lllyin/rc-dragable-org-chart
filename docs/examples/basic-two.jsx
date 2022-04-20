@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import OrgTree from 'rc-dragable-org-chart"';
+
 class OrgTreeDemo extends Component {
   constructor(props) {
     super(props);
@@ -59,9 +60,9 @@ class OrgTreeDemo extends Component {
           collapsable={collapsable}
           labelClassName={labelClassName}
           expandAll={expandAll}
-          renderContent={(data) => {
-            return data.label;
-          }}
+          // renderContent={(data) => {
+          //   return data.label;
+          // }}
           onClick={(e, data) => {
             //todo
           }}

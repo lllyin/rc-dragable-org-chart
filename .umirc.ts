@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+const path = require('path');
 
 export default defineConfig({
   title: 'rc-dragable-org-chart',
@@ -13,4 +14,13 @@ export default defineConfig({
     ['en', 'English'],
     ['zh', '中文'],
   ],
+  alias: {
+    'rc-dragable-org-chart': path.resolve('src/index.js'),
+  },
+  chainWebpack(memo) {
+    memo.resolve.alias.set('rc-dragable-org-chart', path.resolve('src/index.js'));
+  },
+  cssModulesTypescriptLoader: {
+    mode: 'emit',
+  },
 });

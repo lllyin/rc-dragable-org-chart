@@ -1,0 +1,78 @@
+.tree-node {
+  display: table-cell;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+  vertical-align: top;
+
+  &:global(.is-leaf, ) &:global(.collapsed) {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 19px;
+    content: '';
+  }
+
+  &:after {
+    left: 50%;
+    border-left: 1px solid #ddd;
+  }
+
+  &:not(:first-child):before,
+  &:not(:last-child):after {
+    border-top: 1px solid #ddd;
+  }
+
+  .label {
+    position: relative;
+    display: inline-block;
+    .label-inner {
+      padding: 10px 15px;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    }
+  }
+  .children {
+    display: table;
+    padding-top: 20px;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 20px;
+      border-left: 1px solid #ddd;
+      content: '';
+    }
+
+    &:after {
+      display: table;
+      clear: both;
+      content: '';
+    }
+  }
+}
+
+.tree-node,
+.tree-node .children {
+  position: relative;
+  margin: 0;
+  // padding: 0;
+  list-style-type: none;
+  &:before,
+  &:after {
+    transition: all 0.35s;
+  }
+}
+
+:global(.horizontal) {
+}

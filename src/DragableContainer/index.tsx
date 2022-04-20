@@ -16,22 +16,22 @@ const initTransform = {
 export interface DragableContainerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   // 图层是否允许拖动
-  pan: boolean;
+  pan?: boolean;
   // 图层是否允许缩放
-  zoom: boolean;
+  zoom?: boolean;
   // 图层最小缩放比例
-  minZoom: number;
+  minZoom?: number;
   // 图层最大缩放比例
-  maxZoom: number;
+  maxZoom?: number;
   // 缩放幅度
-  zoomStep: 0.1;
+  zoomStep?: 0.1;
 }
 export interface TransformVals {
   scale: number;
   translateX: number;
   translateY: number;
-  originX: number;
-  originY: number;
+  originX: number | string;
+  originY: number | string;
   wheelDirection: number;
 }
 

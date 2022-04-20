@@ -1,3 +1,5 @@
 export default {
-  esm: 'babel',
+  // esm: 'babel',
+  esm: 'rollup',
+  cjs: 'rollup',
 };
