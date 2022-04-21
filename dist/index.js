@@ -199,6 +199,7 @@ var renderNode = function renderNode(data, props) {
     'div',
     {
       className: cls('tree-node', 'tree-node'),
+      key: data.id || data.key,
     },
     /*#__PURE__*/ React__default['default'].createElement(
       'div',
@@ -260,6 +261,7 @@ function DragableContainer(props) {
     _props$zoomStep = props.zoomStep,
     zoomStep = _props$zoomStep === void 0 ? 0.1 : _props$zoomStep;
   var containerRef = React.useRef(null);
+  var wrapperRef = React.useRef(null);
 
   var _useState = React.useState(false),
     _useState2 = _slicedToArray(_useState, 2),
@@ -278,22 +280,28 @@ function DragableContainer(props) {
     deltaY: 0,
   });
   React.useEffect(function () {
-    var _containerRef$current;
+    var _containerRef$current, _wrapperRef$current;
 
     (_containerRef$current = containerRef.current) === null || _containerRef$current === void 0
       ? void 0
       : _containerRef$current.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseup', handleUp); // calcOriginPoint();
+    document.addEventListener('mouseup', handleUp);
+    (_wrapperRef$current = wrapperRef.current) === null || _wrapperRef$current === void 0
+      ? void 0
+      : _wrapperRef$current.addEventListener('wheel', handleWheelMove); // calcOriginPoint();
 
     return function () {
-      var _containerRef$current2;
+      var _containerRef$current2, _wrapperRef$current2;
 
       (_containerRef$current2 = containerRef.current) === null || _containerRef$current2 === void 0
         ? void 0
         : _containerRef$current2.removeEventListener('mousedown', handleDown);
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
+      (_wrapperRef$current2 = wrapperRef.current) === null || _wrapperRef$current2 === void 0
+        ? void 0
+        : _wrapperRef$current2.removeEventListener('wheel', handleWheelMove);
     };
   }, []);
   React.useEffect(
@@ -368,7 +376,7 @@ function DragableContainer(props) {
 
   var handleWheelMove = function handleWheelMove(ev) {
     ev.preventDefault();
-    ev.persist();
+    ev.stopPropagation();
     var wheelDirection = ev.deltaY;
     setTransform({
       wheelDirection: wheelDirection,
@@ -379,7 +387,7 @@ function DragableContainer(props) {
     'div',
     {
       className: cls$1('drag-wrapper'),
-      onWheel: handleWheelMove,
+      ref: wrapperRef,
     },
     /*#__PURE__*/ React__default['default'].createElement(
       'div',
@@ -392,7 +400,18 @@ function DragableContainer(props) {
             .concat(transform.translateX, 'px, ')
             .concat(transform.translateY, 'px) scale(')
             .concat(transform.scale, ')'),
-          transformOrigin: ''.concat(transform.originX, 'px ').concat(transform.originY, 'px'),
+          transformOrigin: ''
+            .concat(
+              typeof transform.originX === 'number'
+                ? ''.concat(transform.originX)
+                : transform.originX,
+              ' ',
+            )
+            .concat(
+              typeof transform.originY === 'number'
+                ? ''.concat(transform.originY)
+                : transform.originY,
+            ),
         },
       },
       children,
@@ -401,7 +420,7 @@ function DragableContainer(props) {
 }
 
 var css_248z$2 =
-  ".OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq {\n  display: table;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:before,\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  display: table;\n  content: '';\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  clear: both;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node {\n  padding-top: 0;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node::after {\n  border: none;\n}\n";
+  ".OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq {\n  display: table;\n  text-align: center;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:before,\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  display: table;\n  content: '';\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  clear: both;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node {\n  padding-top: 0;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node::after {\n  border: none;\n}\n";
 var styles$2 = {
   'org-tree-container': 'OrgTree-module_org-tree-container__3iceM',
   'org-tree': 'OrgTree-module_org-tree__1kbUq',

@@ -156,7 +156,9 @@ export default function DragableContainer(props: DragableContainerProps) {
         style={{
           cursor: isMove ? 'move' : 'default',
           transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scale})`,
-          transformOrigin: `${transform.originX}px ${transform.originY}px`,
+          transformOrigin: `${
+            typeof transform.originX === 'number' ? `${transform.originX}` : transform.originX
+          } ${typeof transform.originY === 'number' ? `${transform.originY}` : transform.originY}`,
         }}
       >
         {children}

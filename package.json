@@ -1,5 +1,6 @@
 {
   "private": false,
+  "license": "MIT",
   "name": "rc-dragable-org-chart",
   "version": "1.0.1",
   "scripts": {
@@ -43,5 +44,12 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "yorkie": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lllyin/rc-dragable-org-chart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lllyin/rc-dragable-org-chart/issues"
   }
 }
