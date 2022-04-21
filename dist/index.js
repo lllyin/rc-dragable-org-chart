@@ -240,14 +240,6 @@ var styles$1 = {
 styleInject(css_248z$1);
 
 var cls$1 = classnames(styles$1);
-var initTransform = {
-  scale: 1,
-  wheelDirection: 0,
-  translateX: 0,
-  translateY: 0,
-  originX: '50%',
-  originY: '50%',
-};
 function DragableContainer(props) {
   var children = props.children,
     _props$pan = props.pan,
@@ -259,7 +251,25 @@ function DragableContainer(props) {
     _props$maxZoom = props.maxZoom,
     maxZoom = _props$maxZoom === void 0 ? 2 : _props$maxZoom,
     _props$zoomStep = props.zoomStep,
-    zoomStep = _props$zoomStep === void 0 ? 0.1 : _props$zoomStep;
+    zoomStep = _props$zoomStep === void 0 ? 0.1 : _props$zoomStep,
+    _props$defaultTransfo = props.defaultTransform,
+    defaultTransform =
+      _props$defaultTransfo === void 0
+        ? {
+            x: 0,
+            y: 0,
+          }
+        : _props$defaultTransfo,
+    _props$center = props.center,
+    center = _props$center === void 0 ? true : _props$center;
+  var initTransform = {
+    scale: 1,
+    wheelDirection: 0,
+    translateX: defaultTransform.x || 0,
+    translateY: defaultTransform.y || 0,
+    originX: '50%',
+    originY: '50%',
+  };
   var containerRef = React.useRef(null);
   var wrapperRef = React.useRef(null);
 
@@ -316,6 +326,30 @@ function DragableContainer(props) {
       }
     },
     [transform.wheelDirection, zoom],
+  );
+  React.useEffect(
+    function () {
+      setTimeout(function () {
+        if (center && containerRef.current) {
+          var treeDom = containerRef.current.querySelector('.org-tree');
+
+          if (treeDom) {
+            var _containerRef$current3 = containerRef.current.getBoundingClientRect(),
+              containerW = _containerRef$current3.width,
+              containerH = _containerRef$current3.height;
+
+            var _treeDom$getBoundingC = treeDom.getBoundingClientRect(),
+              width = _treeDom$getBoundingC.width,
+              height = _treeDom$getBoundingC.height;
+
+            setTransform({
+              translateX: (containerW - width) / 2,
+            });
+          }
+        }
+      }, 10);
+    },
+    [center],
   );
 
   var setTransform = function setTransform(values) {
@@ -383,6 +417,10 @@ function DragableContainer(props) {
     });
   };
 
+  var getUnitValue = function getUnitValue(value) {
+    return typeof value === 'number' ? ''.concat(value, 'px') : value;
+  };
+
   return /*#__PURE__*/ React__default['default'].createElement(
     'div',
     {
@@ -397,21 +435,12 @@ function DragableContainer(props) {
         style: {
           cursor: isMove ? 'move' : 'default',
           transform: 'translate('
-            .concat(transform.translateX, 'px, ')
-            .concat(transform.translateY, 'px) scale(')
+            .concat(getUnitValue(transform.translateX), ', ')
+            .concat(getUnitValue(transform.translateY), ') scale(')
             .concat(transform.scale, ')'),
           transformOrigin: ''
-            .concat(
-              typeof transform.originX === 'number'
-                ? ''.concat(transform.originX)
-                : transform.originX,
-              ' ',
-            )
-            .concat(
-              typeof transform.originY === 'number'
-                ? ''.concat(transform.originY)
-                : transform.originY,
-            ),
+            .concat(getUnitValue(transform.originX), ' ')
+            .concat(getUnitValue(transform.originY)),
         },
       },
       children,
@@ -453,7 +482,7 @@ function OrgTree(props) {
       /*#__PURE__*/ React__default['default'].createElement(
         'div',
         {
-          className: cls$2('org-tree', layout),
+          className: cls$2('org-tree', ''.concat(layout, ' org-tree')),
         },
         /*#__PURE__*/ React__default['default'].createElement(TreeNode, _objectSpread2({}, props)),
       ),

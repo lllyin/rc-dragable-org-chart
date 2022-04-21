@@ -6,6 +6,11 @@ export interface DragableContainerProps
   minZoom?: number;
   maxZoom?: number;
   zoomStep?: 0.1;
+  defaultTransform?: {
+    x: number;
+    y: number;
+  };
+  center?: boolean;
 }
 export interface TransformVals {
   scale: number;
