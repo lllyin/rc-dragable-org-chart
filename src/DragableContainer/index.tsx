@@ -4,15 +4,6 @@ import classnames from '../utils/classnames';
 import styles from './index.module.less';
 
 const cls = classnames(styles);
-const initTransform = {
-  scale: 1,
-  wheelDirection: 0,
-  translateX: 0,
-  translateY: 0,
-  originX: '50%',
-  originY: '50%',
-};
-
 export interface DragableContainerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   // 图层是否允许拖动
@@ -25,6 +16,13 @@ export interface DragableContainerProps
   maxZoom?: number;
   // 缩放幅度
   zoomStep?: 0.1;
+  // 默认位移
+  defaultTransform?: {
+    x: number;
+    y: number;
+  };
+  // 是否居中
+  center?: boolean;
 }
 export interface TransformVals {
   scale: number;
@@ -36,7 +34,27 @@ export interface TransformVals {
 }
 
 export default function DragableContainer(props: DragableContainerProps) {
-  const { children, pan = true, zoom = true, minZoom = 0.1, maxZoom = 2, zoomStep = 0.1 } = props;
+  const {
+    children,
+    pan = true,
+    zoom = true,
+    minZoom = 0.1,
+    maxZoom = 2,
+    zoomStep = 0.1,
+    defaultTransform = {
+      x: 0,
+      y: 0,
+    },
+    center = true,
+  } = props;
+  const initTransform = {
+    scale: 1,
+    wheelDirection: 0,
+    translateX: defaultTransform.x || 0,
+    translateY: defaultTransform.y || 0,
+    originX: '50%',
+    originY: '50%',
+  };
   const containerRef: React.Ref<HTMLDivElement> = useRef(null);
   const wrapperRef: React.Ref<HTMLDivElement> = useRef(null);
   const [isMove, setIsMove] = useState(false);
@@ -76,6 +94,23 @@ export default function DragableContainer(props: DragableContainerProps) {
       onZoomIn();
     }
   }, [transform.wheelDirection, zoom]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (center && containerRef.current) {
+        const treeDom = containerRef.current.querySelector('.org-tree');
+        if (treeDom) {
+          const { width: containerW, height: containerH } =
+            containerRef.current.getBoundingClientRect();
+          const { width, height } = treeDom.getBoundingClientRect();
+
+          setTransform({
+            translateX: (containerW - width) / 2,
+          });
+        }
+      }
+    }, 10);
+  }, [center]);
 
   const setTransform = (values: Partial<TransformVals>) => {
     _setTransform((state) => {
@@ -148,6 +183,10 @@ export default function DragableContainer(props: DragableContainerProps) {
     });
   };
 
+  const getUnitValue = (value: number | string) => {
+    return typeof value === 'number' ? `${value}px` : value;
+  };
+
   return (
     <div className={cls('drag-wrapper')} ref={wrapperRef}>
       <div
@@ -155,10 +194,10 @@ export default function DragableContainer(props: DragableContainerProps) {
         ref={containerRef}
         style={{
           cursor: isMove ? 'move' : 'default',
-          transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scale})`,
-          transformOrigin: `${
-            typeof transform.originX === 'number' ? `${transform.originX}` : transform.originX
-          } ${typeof transform.originY === 'number' ? `${transform.originY}` : transform.originY}`,
+          transform: `translate(${getUnitValue(transform.translateX)}, ${getUnitValue(
+            transform.translateY,
+          )}) scale(${transform.scale})`,
+          transformOrigin: `${getUnitValue(transform.originX)} ${getUnitValue(transform.originY)}`,
         }}
       >
         {children}

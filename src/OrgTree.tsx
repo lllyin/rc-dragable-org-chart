@@ -20,7 +20,7 @@ function OrgTree(props: OrgTreeProps) {
       zoomStep={zoomStep}
     >
       <div className={cls('org-tree-container')}>
-        <div className={cls('org-tree', layout)}>
+        <div className={cls('org-tree', `${layout} org-tree`)}>
           <TreeNode {...props} />
         </div>
       </div>
