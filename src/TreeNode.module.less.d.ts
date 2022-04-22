@@ -2,6 +2,7 @@
 // Please do not change this file!
 interface CssExports {
   children: string;
+  'epxand-btn': string;
   label: string;
   'label-inner': string;
   'tree-node': string;
