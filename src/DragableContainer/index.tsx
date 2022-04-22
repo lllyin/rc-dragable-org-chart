@@ -71,14 +71,14 @@ export default function DragableContainer(props: DragableContainerProps) {
   });
 
   useEffect(() => {
-    containerRef.current?.addEventListener('mousedown', handleDown);
+    // containerRef.current?.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMove);
     document.addEventListener('mouseup', handleUp);
     wrapperRef.current?.addEventListener('wheel', handleWheelMove);
 
     // calcOriginPoint();
     return () => {
-      containerRef.current?.removeEventListener('mousedown', handleDown);
+      // containerRef.current?.removeEventListener('mousedown', handleDown);
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
       wrapperRef.current?.removeEventListener('wheel', handleWheelMove);
@@ -146,10 +146,11 @@ export default function DragableContainer(props: DragableContainerProps) {
     }));
   };
 
-  const handleDown = (ev: globalThis.MouseEvent) => {
+  const handleDown: React.MouseEventHandler<HTMLDivElement> = (ev) => {
     ev.preventDefault();
     setIsMove(true);
 
+    console.log('mousedown 2');
     posRef.current.isMove = true;
     posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
     posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;
@@ -173,7 +174,7 @@ export default function DragableContainer(props: DragableContainerProps) {
     posRef.current.isMove = false;
   };
 
-  const handleWheelMove = (ev: WheelEvent) => {
+  const handleWheelMove = (ev: globalThis.WheelEvent) => {
     ev.preventDefault();
     ev.stopPropagation();
     const wheelDirection = ev.deltaY;
@@ -199,6 +200,7 @@ export default function DragableContainer(props: DragableContainerProps) {
           )}) scale(${transform.scale})`,
           transformOrigin: `${getUnitValue(transform.originX)} ${getUnitValue(transform.originY)}`,
         }}
+        onMouseDown={handleDown}
       >
         {children}
       </div>

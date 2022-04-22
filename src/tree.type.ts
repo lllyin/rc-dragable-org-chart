@@ -7,7 +7,7 @@ export interface TreeData {
 }
 
 export interface OrgTreeProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>,
     DragableContainerProps {
   // 布局
   layout: 'horizontal' | 'vertical';
@@ -26,6 +26,8 @@ export interface OrgTreeProps
   renderContent?: (data: TreeData) => ReactNode;
   // 自定义展开按钮
   renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
+  // 点击node
+  onClick?: (data: TreeData) => void;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {

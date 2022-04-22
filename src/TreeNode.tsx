@@ -24,8 +24,14 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
     renderExpandButton = renderDefaultExpandBtn,
     collapsable,
     onExpand,
+    onClick,
   } = props;
   const isExpand = data['_expand'];
+
+  const handleExpand = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    ev.stopPropagation();
+    onExpand(ev, data);
+  };
 
   return (
     <div
@@ -35,10 +41,17 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
       )}
       key={data.id || data.key}
     >
-      <div className={cls('label')}>
+      <div
+        className={cls('label')}
+        onClick={() => onClick && onClick(data)}
+        onMouseDown={(ev) => {
+          ev.stopPropagation();
+          console.log('onMouseDown');
+        }}
+      >
         {renderContent(data)}
         {collapsable && data.children && data.children.length > 0 && (
-          <div onClick={(e) => onExpand(e, data)}>{renderExpandButton(isExpand, data)}</div>
+          <div onClick={handleExpand}>{renderExpandButton(isExpand, data)}</div>
         )}
       </div>
       {isExpand &&
