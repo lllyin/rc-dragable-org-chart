@@ -63,6 +63,10 @@ class OrgTreeDemo extends Component {
           // renderContent={(data) => {
           //   return data.label;
           // }}
+          defaultTransform={{
+            x: 0,
+            y: 20,
+          }}
           onClick={(e, data) => {
             //todo
           }}

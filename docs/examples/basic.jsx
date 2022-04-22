@@ -59,9 +59,9 @@ class OrgTreeDemo extends Component {
           collapsable={collapsable}
           labelClassName={labelClassName}
           expandAll={expandAll}
-          renderContent={(data) => {
-            return data.label;
-          }}
+          // renderContent={(data) => {
+          //   return data.label;
+          // }}
           onClick={(e, data) => {
             //todo
           }}

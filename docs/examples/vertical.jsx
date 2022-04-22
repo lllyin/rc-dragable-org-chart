@@ -56,13 +56,13 @@ class OrgTreeDemo extends Component {
       <div className="m-t-lg text-center">
         <OrgTree
           data={data}
-          horizontal={horizontal}
+          layout="vertical"
           collapsable={collapsable}
           labelClassName={labelClassName}
           expandAll={expandAll}
-          renderContent={(data) => {
-            return data.label;
-          }}
+          // renderContent={(data) => {
+          //   return data.label;
+          // }}
           onClick={(e, data) => {
             //todo
           }}

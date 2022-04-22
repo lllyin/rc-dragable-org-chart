@@ -33,7 +33,7 @@ yarn add rc-dragable-org-chart
 ```js
 import OrgTree from 'rc-dragable-org-chart';
 
-const horizontal = false; // true：横向  false：纵向
+const layout = 'vertical'; // horizontal：横向  vertical：纵向
 const collapsable = true; // true：可折叠 false：不可折叠
 const expandAll = true; // true: 全部展开 false：全部折叠
 
@@ -64,7 +64,7 @@ const data = {
 
 <OrgTree
     data={data}
-    horizontal={horizontal}
+    layout="vertical"
     collapsable={collapsable}
     expandAll={expandAll}
 >
@@ -75,6 +75,10 @@ See details：[Getting Started](/guide)
 ### Support
 
 <p align='center'>
-  <a href="https://www.buymeacoffee.com/artd" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-violet.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" >
-  </a>
+  <b style="color: #5E3111">
+  Buy me A Coffee
+  </b>
+</p>
+<p align='center'>
+ <img src="./img/wechat.jpg" width="200">
 </p>
