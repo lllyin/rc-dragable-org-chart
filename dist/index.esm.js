@@ -163,16 +163,21 @@ function styleInject(css, ref) {
 }
 
 var css_248z =
-  ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  padding-right: 10px;\n  padding-left: 10px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n";
+  ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf,\n.TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  float: none;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:before,\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  width: 19px;\n  height: 50%;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  top: 50%;\n  left: 0;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:only-child:before {\n  top: 1px;\n  border-bottom: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 0;\n  border-left: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:only-child):after {\n  border-top: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt.is-leaf,\n.horizontal .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-top: 10px;\n  padding-bottom: 10px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  display: table-cell;\n  vertical-align: middle;\n}\n.horizontal .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_children__3g1ss:before {\n  top: 50%;\n  left: 0;\n  width: 20px;\n  height: 0;\n  border-top: 1px solid #ddd;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_children__3g1ss:after {\n  display: none;\n}\n.horizontal .TreeNode-module_children__3g1ss > .TreeNode-module_tree-node__2gHNt {\n  display: block;\n}\n.horizontal > .TreeNode-module_tree-node__2gHNt:only-child::before {\n  border-bottom: 0;\n}\n.horizontal .TreeNode-module_epxand-btn__6p0ph {\n  top: 50%;\n  left: 100%;\n  margin-top: -11px;\n  margin-left: 9px;\n}\n.TreeNode-module_epxand-btn__6p0ph {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  z-index: 10;\n  width: 20px;\n  height: 20px;\n  margin-top: 9px;\n  margin-left: -11px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n}\n.TreeNode-module_epxand-btn__6p0ph:hover {\n  background-color: #e7e8e9;\n  transform: scale(1.15);\n}\n.TreeNode-module_epxand-btn__6p0ph:before,\n.TreeNode-module_epxand-btn__6p0ph:after {\n  position: absolute;\n  content: '';\n}\n.TreeNode-module_epxand-btn__6p0ph:before {\n  top: 50%;\n  right: 4px;\n  left: 4px;\n  height: 0;\n  border-top: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph:after {\n  top: 4px;\n  bottom: 4px;\n  left: 50%;\n  width: 0;\n  border-left: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph.expanded:after {\n  border: none;\n}\n";
 var styles = {
   'tree-node': 'TreeNode-module_tree-node__2gHNt',
   label: 'TreeNode-module_label__dGNlq',
   'label-inner': 'TreeNode-module_label-inner__nVX8y',
   children: 'TreeNode-module_children__3g1ss',
+  'epxand-btn': 'TreeNode-module_epxand-btn__6p0ph',
 };
 styleInject(css_248z);
 
 var cls = classnames(styles);
+
+var isLeaf = function isLeaf(data) {
+  return !data.children || data.children.length === 0;
+};
 
 var renderDefaultContent = function renderDefaultContent(data) {
   return /*#__PURE__*/ React.createElement(
@@ -184,23 +189,62 @@ var renderDefaultContent = function renderDefaultContent(data) {
   );
 };
 
+var renderDefaultExpandBtn = function renderDefaultExpandBtn(isExpand, data) {
+  return /*#__PURE__*/ React.createElement('span', {
+    className: cls('epxand-btn', isExpand ? 'expanded' : ''),
+  });
+};
+
 var renderNode = function renderNode(data, props) {
   var _props$renderContent = props.renderContent,
-    renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent;
+    renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent,
+    _props$renderExpandBu = props.renderExpandButton,
+    renderExpandButton =
+      _props$renderExpandBu === void 0 ? renderDefaultExpandBtn : _props$renderExpandBu,
+    collapsable = props.collapsable,
+    onExpand = props.onExpand,
+    _onClick = props.onClick;
+  var isExpand = data['_expand'];
+
+  var handleExpand = function handleExpand(ev) {
+    ev.stopPropagation();
+    onExpand(ev, data);
+  };
+
   return /*#__PURE__*/ React.createElement(
     'div',
     {
-      className: cls('tree-node', 'tree-node'),
+      className: cls(
+        'tree-node',
+        'tree-node '.concat(isLeaf(data) ? 'is-leaf' : '', ' ').concat(isExpand ? '' : 'collapsed'),
+      ),
       key: data.id || data.key,
     },
     /*#__PURE__*/ React.createElement(
       'div',
       {
         className: cls('label'),
+        onClick: function onClick() {
+          return _onClick && _onClick(data);
+        },
+        onMouseDown: function onMouseDown(ev) {
+          ev.stopPropagation();
+          console.log('onMouseDown');
+        },
       },
       renderContent(data),
+      collapsable &&
+        data.children &&
+        data.children.length > 0 &&
+        /*#__PURE__*/ React.createElement(
+          'div',
+          {
+            onClick: handleExpand,
+          },
+          renderExpandButton(isExpand, data),
+        ),
     ),
-    data.children && data.children.length > 0 && renderChildren(data.children, props),
+    isExpand && data.children && data.children.length > 0 && renderChildren(data.children, props),
   );
 };
 
@@ -282,11 +326,9 @@ function DragableContainer(props) {
     deltaY: 0,
   });
   useEffect(function () {
-    var _containerRef$current, _wrapperRef$current;
+    var _wrapperRef$current;
 
-    (_containerRef$current = containerRef.current) === null || _containerRef$current === void 0
-      ? void 0
-      : _containerRef$current.addEventListener('mousedown', handleDown);
+    // containerRef.current?.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMove);
     document.addEventListener('mouseup', handleUp);
     (_wrapperRef$current = wrapperRef.current) === null || _wrapperRef$current === void 0
@@ -294,11 +336,9 @@ function DragableContainer(props) {
       : _wrapperRef$current.addEventListener('wheel', handleWheelMove); // calcOriginPoint();
 
     return function () {
-      var _containerRef$current2, _wrapperRef$current2;
+      var _wrapperRef$current2;
 
-      (_containerRef$current2 = containerRef.current) === null || _containerRef$current2 === void 0
-        ? void 0
-        : _containerRef$current2.removeEventListener('mousedown', handleDown);
+      // containerRef.current?.removeEventListener('mousedown', handleDown);
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handleUp);
       (_wrapperRef$current2 = wrapperRef.current) === null || _wrapperRef$current2 === void 0
@@ -326,9 +366,9 @@ function DragableContainer(props) {
           var treeDom = containerRef.current.querySelector('.org-tree');
 
           if (treeDom) {
-            var _containerRef$current3 = containerRef.current.getBoundingClientRect(),
-              containerW = _containerRef$current3.width,
-              containerH = _containerRef$current3.height;
+            var _containerRef$current = containerRef.current.getBoundingClientRect(),
+              containerW = _containerRef$current.width,
+              containerH = _containerRef$current.height;
 
             var _treeDom$getBoundingC = treeDom.getBoundingClientRect(),
               width = _treeDom$getBoundingC.width,
@@ -380,6 +420,7 @@ function DragableContainer(props) {
   var handleDown = function handleDown(ev) {
     ev.preventDefault();
     setIsMove(true);
+    console.log('mousedown 2');
     posRef.current.isMove = true;
     posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
     posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;
@@ -434,6 +475,7 @@ function DragableContainer(props) {
             .concat(getUnitValue(transform.originX), ' ')
             .concat(getUnitValue(transform.originY)),
         },
+        onMouseDown: handleDown,
       },
       children,
     ),
@@ -456,7 +498,77 @@ function OrgTree(props) {
     minZoom = props.minZoom,
     maxZoom = props.maxZoom,
     zoomStep = props.zoomStep,
-    layout = props.layout;
+    defaultTransform = props.defaultTransform,
+    _props$center = props.center,
+    center = _props$center === void 0 ? true : _props$center,
+    _props$layout = props.layout,
+    layout = _props$layout === void 0 ? 'vertical' : _props$layout,
+    _props$nodeKeys = props.nodeKeys,
+    nodeKeys =
+      _props$nodeKeys === void 0
+        ? {
+            label: 'label',
+            expand: '_expand',
+          }
+        : _props$nodeKeys,
+    _props$collapsable = props.collapsable,
+    _props$expandAll = props.expandAll,
+    expandAll = _props$expandAll === void 0 ? true : _props$expandAll;
+
+  var _useState = useState(Date.now),
+    _useState2 = _slicedToArray(_useState, 2),
+    refresh = _useState2[0],
+    setRefresh = _useState2[1];
+
+  var expandKey = nodeKeys.expand;
+  useEffect(
+    function () {
+      if (expandAll) {
+        toogleExpandAll(props.data, expandAll);
+      }
+    },
+    [props.data],
+  );
+
+  var foreUpdate = function foreUpdate() {
+    setRefresh(Date.now);
+  };
+
+  var handleExpand = function handleExpand(e, nodeData) {
+    nodeData[expandKey] = !nodeData[expandKey];
+
+    if (!nodeData[expandKey] && nodeData.children) {
+      collapse(nodeData.children);
+    }
+
+    foreUpdate();
+  };
+
+  var collapse = function collapse() {
+    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    list.forEach(function (childNode) {
+      childNode[expandKey] = false;
+      childNode.children && collapse(childNode.children);
+    });
+  };
+
+  function expandAllNode(nodeData, isExpand) {
+    nodeData[expandKey] = isExpand;
+
+    if (nodeData.children) {
+      nodeData.children.forEach(function (node) {
+        return expandAllNode(node, isExpand);
+      });
+    }
+
+    return nodeData;
+  }
+
+  var toogleExpandAll = function toogleExpandAll(nodeData, isExpand) {
+    var newNodeData = expandAllNode(nodeData, isExpand);
+    foreUpdate();
+  };
+
   return /*#__PURE__*/ React.createElement(
     DragableContainer,
     {
@@ -465,6 +577,8 @@ function OrgTree(props) {
       minZoom: minZoom,
       maxZoom: maxZoom,
       zoomStep: zoomStep,
+      defaultTransform: defaultTransform,
+      center: center,
     },
     /*#__PURE__*/ React.createElement(
       'div',
@@ -476,7 +590,21 @@ function OrgTree(props) {
         {
           className: cls$2('org-tree', ''.concat(layout, ' org-tree')),
         },
-        /*#__PURE__*/ React.createElement(TreeNode, _objectSpread2({}, props)),
+        /*#__PURE__*/ React.createElement(
+          TreeNode,
+          _objectSpread2(
+            _objectSpread2(
+              {
+                key: refresh,
+              },
+              props,
+            ),
+            {},
+            {
+              onExpand: handleExpand,
+            },
+          ),
+        ),
       ),
     ),
   );

@@ -5,13 +5,20 @@ export interface TreeData {
   children?: TreeData[];
 }
 export interface OrgTreeProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>,
     DragableContainerProps {
   layout: 'horizontal' | 'vertical';
+  nodeKeys?: {
+    label: string;
+    expand: string;
+  };
   data: TreeData;
+  collapsable?: boolean;
+  expandAll?: boolean;
+  renderContent?: (data: TreeData) => ReactNode;
+  renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
+  onClick?: (data: TreeData) => void;
 }
 export interface TreeNodeProps extends OrgTreeProps {
-  layout: 'horizontal' | 'vertical';
-  data: TreeData;
-  renderContent?: (data: TreeData) => ReactNode;
+  onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;
 }
