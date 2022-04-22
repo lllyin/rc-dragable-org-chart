@@ -62,8 +62,8 @@ class OrgTreeDemo extends Component {
           // renderContent={(data) => {
           //   return data.label;
           // }}
-          onClick={(e, data) => {
-            //todo
+          onClick={(data) => {
+            console.log('点击node', data);
           }}
         ></OrgTree>
       </div>
