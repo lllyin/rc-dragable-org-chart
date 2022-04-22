@@ -1,3 +1,1 @@
-export default function classnames(
-  styles: any,
-): (className: string, commonClassName?: string) => string;
+export default function classnames(styles: any): (className: string, commonClassName?: string) => string;
