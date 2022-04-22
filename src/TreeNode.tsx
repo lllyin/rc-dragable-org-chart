@@ -6,6 +6,10 @@ import styles from './TreeNode.module.less';
 
 const cls = classnames(styles);
 
+const isLeaf = (data: TreeData) => {
+  return !data.children || data.children.length === 0;
+};
+
 const renderDefaultContent = (data: TreeData) => {
   return <div className={cls('label-inner')}>{data.label}</div>;
 };
@@ -13,7 +17,10 @@ const renderDefaultContent = (data: TreeData) => {
 const renderNode = (data: TreeData, props: TreeNodeProps) => {
   const { renderContent = renderDefaultContent } = props;
   return (
-    <div className={cls('tree-node', 'tree-node')} key={data.id || data.key}>
+    <div
+      className={cls('tree-node', `tree-node ${isLeaf(data) ? 'is-leaf' : ''}`)}
+      key={data.id || data.key}
+    >
       <div className={cls('label')}>{renderContent(data)}</div>
       {data.children && data.children.length > 0 && renderChildren(data.children, props)}
     </div>
