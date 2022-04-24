@@ -21,15 +21,16 @@ function OrgTree(props: OrgTreeProps) {
     nodeKeys = {
       label: 'label',
       expand: '_expand',
+      level: '_level',
     },
-    collapsable = false,
     expandAll = true,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
   const expandKey = nodeKeys.expand;
+  const levelKey = nodeKeys.level;
 
   useEffect(() => {
-    if (expandAll) {
+    if (expandAll !== void 0) {
       toogleExpandAll(props.data, expandAll);
     }
   }, [props.data]);
@@ -55,15 +56,20 @@ function OrgTree(props: OrgTreeProps) {
 
   function expandAllNode(nodeData: TreeData, isExpand: boolean) {
     nodeData[expandKey] = isExpand;
+    nodeData[levelKey] = nodeData[levelKey] || 1;
+
     if (nodeData.children) {
-      nodeData.children.forEach((node) => expandAllNode(node, isExpand));
+      nodeData.children.forEach((node) => {
+        node[levelKey] = nodeData[levelKey] + 1;
+        expandAllNode(node, isExpand);
+      });
     }
 
     return nodeData;
   }
 
   const toogleExpandAll = (nodeData: TreeData, isExpand: boolean) => {
-    const newNodeData = expandAllNode(nodeData, isExpand);
+    expandAllNode(nodeData, isExpand);
     foreUpdate();
   };
 
@@ -79,7 +85,15 @@ function OrgTree(props: OrgTreeProps) {
     >
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
-          <TreeNode key={refresh} {...props} onExpand={handleExpand} />
+          <TreeNode
+            key={refresh}
+            {...props}
+            center={center}
+            layout={layout}
+            nodeKeys={nodeKeys}
+            expandAll={expandAll}
+            onExpand={handleExpand}
+          />
         </div>
       </div>
     </DragableContainer>

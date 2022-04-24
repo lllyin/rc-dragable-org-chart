@@ -59,7 +59,8 @@ class OrgTreeDemo extends Component {
           collapsable={collapsable}
           labelClassName={labelClassName}
           expandAll={expandAll}
-          // renderContent={(data) => {
+          // renderContent={(data, level) => {
+          //   console.log('level:', data.label, level)
           //   return data.label;
           // }}
           onClick={(data) => {

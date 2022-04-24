@@ -15,6 +15,7 @@ export interface OrgTreeProps
   nodeKeys?: {
     label: string;
     expand: string;
+    level: string;
   };
   // 数据
   data: TreeData;
@@ -23,7 +24,7 @@ export interface OrgTreeProps
   // 是否展开所有
   expandAll?: boolean;
   // 自定义节点内容
-  renderContent?: (data: TreeData) => ReactNode;
+  renderContent?: (data: TreeData, level: number) => ReactNode;
   // 自定义展开按钮
   renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
   // 点击node
