@@ -9,11 +9,12 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     nodeKeys?: {
         label: string;
         expand: string;
+        level: string;
     };
     data: TreeData;
     collapsable?: boolean;
     expandAll?: boolean;
-    renderContent?: (data: TreeData) => ReactNode;
+    renderContent?: (data: TreeData, level: number) => ReactNode;
     renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
     onClick?: (data: TreeData) => void;
 }

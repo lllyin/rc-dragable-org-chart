@@ -166,8 +166,11 @@ var renderNode = function renderNode(data, props) {
       renderExpandButton = _props$renderExpandBu === void 0 ? renderDefaultExpandBtn : _props$renderExpandBu,
       collapsable = props.collapsable,
       onExpand = props.onExpand,
-      _onClick = props.onClick;
-  var isExpand = data['_expand'];
+      _onClick = props.onClick,
+      nodeKeys = props.nodeKeys;
+  var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
+  var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
+  var isExpand = data[expandKey];
 
   var handleExpand = function handleExpand(ev) {
     ev.stopPropagation();
@@ -186,7 +189,7 @@ var renderNode = function renderNode(data, props) {
       ev.stopPropagation();
       console.log('onMouseDown');
     }
-  }, renderContent(data), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, renderContent(data, data[levelKey]), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React.createElement("div", {
     onClick: handleExpand
   }, renderExpandButton(isExpand, data))), isExpand && data.children && data.children.length > 0 && renderChildren(data.children, props));
 };
@@ -400,9 +403,9 @@ function OrgTree(props) {
       _props$nodeKeys = props.nodeKeys,
       nodeKeys = _props$nodeKeys === void 0 ? {
     label: 'label',
-    expand: '_expand'
+    expand: '_expand',
+    level: '_level'
   } : _props$nodeKeys,
-      _props$collapsable = props.collapsable,
       _props$expandAll = props.expandAll,
       expandAll = _props$expandAll === void 0 ? true : _props$expandAll;
 
@@ -412,8 +415,9 @@ function OrgTree(props) {
       setRefresh = _useState2[1];
 
   var expandKey = nodeKeys.expand;
+  var levelKey = nodeKeys.level;
   useEffect(function () {
-    if (expandAll) {
+    if (expandAll !== void 0) {
       toogleExpandAll(props.data, expandAll);
     }
   }, [props.data]);
@@ -442,10 +446,12 @@ function OrgTree(props) {
 
   function expandAllNode(nodeData, isExpand) {
     nodeData[expandKey] = isExpand;
+    nodeData[levelKey] = nodeData[levelKey] || 1;
 
     if (nodeData.children) {
       nodeData.children.forEach(function (node) {
-        return expandAllNode(node, isExpand);
+        node[levelKey] = nodeData[levelKey] + 1;
+        expandAllNode(node, isExpand);
       });
     }
 
@@ -453,7 +459,7 @@ function OrgTree(props) {
   }
 
   var toogleExpandAll = function toogleExpandAll(nodeData, isExpand) {
-    var newNodeData = expandAllNode(nodeData, isExpand);
+    expandAllNode(nodeData, isExpand);
     foreUpdate();
   };
 
@@ -472,6 +478,10 @@ function OrgTree(props) {
   }, /*#__PURE__*/React.createElement(TreeNode, _objectSpread2(_objectSpread2({
     key: refresh
   }, props), {}, {
+    center: center,
+    layout: layout,
+    nodeKeys: nodeKeys,
+    expandAll: expandAll,
     onExpand: handleExpand
   })))));
 }
