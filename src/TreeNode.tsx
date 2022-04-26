@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment } from 'react';
 import classnames from './utils/classnames';
 import { TreeData, TreeNodeProps } from './tree.type';
 
@@ -16,6 +16,35 @@ const renderDefaultContent = (data: TreeData) => {
 
 const renderDefaultExpandBtn = (isExpand: boolean, data: TreeData) => {
   return <span className={cls('epxand-btn', isExpand ? 'expanded' : '')}></span>;
+};
+
+const renderCombineNodes = (nodes: TreeData[], props: TreeNodeProps) => {
+  const {
+    renderContent = renderDefaultContent,
+    renderExpandButton = renderDefaultExpandBtn,
+    onClick,
+    nodeKeys,
+  } = props;
+  const expandKey = nodeKeys?.expand || '_expand';
+  const levelKey = nodeKeys?.level || '_level';
+  const isExpand = true;
+
+  return (
+    <div
+      className={cls('tree-node', `tree-node is-leaf'} ${isExpand ? '' : 'collapsed'}`)}
+      key={`leafs-len-${nodes.length}`}
+    >
+      <div
+        className={cls('label')}
+        onClick={() => onClick && onClick(nodes)}
+        onMouseDown={(ev) => {
+          ev.stopPropagation();
+        }}
+      >
+        {nodes.map((leaf) => renderContent(leaf, leaf[levelKey]))}
+      </div>
+    </div>
+  );
 };
 
 const renderNode = (data: TreeData, props: TreeNodeProps) => {
@@ -49,7 +78,6 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
         onClick={() => onClick && onClick(data)}
         onMouseDown={(ev) => {
           ev.stopPropagation();
-          console.log('onMouseDown');
         }}
       >
         {renderContent(data, data[levelKey])}
@@ -66,11 +94,36 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
 };
 
 const renderChildren = (children: TreeData['children'], props: TreeNodeProps) => {
-  return (
+  let combinedNodes: TreeData[] = [];
+
+  const childEles = [
     <div className={cls('children')}>
-      {children && children?.map((data) => renderNode(data, props))}
-    </div>
-  );
+      {children?.map((node) => {
+        const isCombine = node[props.nodeKeys?.combine || ''];
+        if (isCombine) {
+          combinedNodes.push(node);
+          return null;
+        }
+        if (combinedNodes.length > 0) {
+          const Compnent = (
+            <Fragment>
+              {renderCombineNodes(combinedNodes, props)}
+              {renderNode(node, props)}
+            </Fragment>
+          );
+          combinedNodes = [];
+          return Compnent;
+        }
+        return renderNode(node, props);
+      })}
+    </div>,
+  ];
+
+  if (combinedNodes.length > 0) {
+    childEles.unshift(renderCombineNodes(combinedNodes, props));
+  }
+
+  return childEles;
 };
 
 export default function TreeNode(props: TreeNodeProps) {

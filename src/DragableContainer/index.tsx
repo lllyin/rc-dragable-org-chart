@@ -150,7 +150,6 @@ export default function DragableContainer(props: DragableContainerProps) {
     ev.preventDefault();
     setIsMove(true);
 
-    console.log('mousedown 2');
     posRef.current.isMove = true;
     posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
     posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;

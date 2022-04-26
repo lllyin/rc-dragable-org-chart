@@ -16,6 +16,7 @@ export interface OrgTreeProps
     label: string;
     expand: string;
     level: string;
+    combine: string;
   };
   // 数据
   data: TreeData;

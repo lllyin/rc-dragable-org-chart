@@ -8,6 +8,13 @@ import styles from './OrgTree.module.less';
 
 const cls = classnames(styles);
 
+const defaultNodeKeys = {
+  label: 'label',
+  expand: '_expand',
+  level: '_level',
+  combine: 'isStaff',
+};
+
 function OrgTree(props: OrgTreeProps) {
   const {
     pan,
@@ -18,11 +25,7 @@ function OrgTree(props: OrgTreeProps) {
     defaultTransform,
     center = true,
     layout = 'vertical',
-    nodeKeys = {
-      label: 'label',
-      expand: '_expand',
-      level: '_level',
-    },
+    nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
     expandAll = true,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
