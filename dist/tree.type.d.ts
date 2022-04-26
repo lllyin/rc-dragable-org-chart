@@ -10,6 +10,7 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
         label: string;
         expand: string;
         level: string;
+        combine: string;
     };
     data: TreeData;
     collapsable?: boolean;

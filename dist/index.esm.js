@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { Fragment, useRef, useState, useEffect } from 'react';
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -159,14 +159,38 @@ var renderDefaultExpandBtn = function renderDefaultExpandBtn(isExpand, data) {
   });
 };
 
-var renderNode = function renderNode(data, props) {
+var renderCombineNodes = function renderCombineNodes(nodes, props) {
   var _props$renderContent = props.renderContent,
       renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent,
       _props$renderExpandBu = props.renderExpandButton,
-      renderExpandButton = _props$renderExpandBu === void 0 ? renderDefaultExpandBtn : _props$renderExpandBu,
+      _onClick = props.onClick,
+      nodeKeys = props.nodeKeys;
+  var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
+  var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
+  return /*#__PURE__*/React.createElement("div", {
+    className: cls('tree-node', "tree-node is-leaf'} ".concat( '' )),
+    key: "leafs-len-".concat(nodes.length)
+  }, /*#__PURE__*/React.createElement("div", {
+    className: cls('label'),
+    onClick: function onClick() {
+      return _onClick && _onClick(nodes);
+    },
+    onMouseDown: function onMouseDown(ev) {
+      ev.stopPropagation();
+    }
+  }, nodes.map(function (leaf) {
+    return renderContent(leaf, leaf[levelKey]);
+  })));
+};
+
+var renderNode = function renderNode(data, props) {
+  var _props$renderContent2 = props.renderContent,
+      renderContent = _props$renderContent2 === void 0 ? renderDefaultContent : _props$renderContent2,
+      _props$renderExpandBu2 = props.renderExpandButton,
+      renderExpandButton = _props$renderExpandBu2 === void 0 ? renderDefaultExpandBtn : _props$renderExpandBu2,
       collapsable = props.collapsable,
       onExpand = props.onExpand,
-      _onClick = props.onClick,
+      _onClick2 = props.onClick,
       nodeKeys = props.nodeKeys;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
@@ -183,11 +207,10 @@ var renderNode = function renderNode(data, props) {
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
-      return _onClick && _onClick(data);
+      return _onClick2 && _onClick2(data);
     },
     onMouseDown: function onMouseDown(ev) {
       ev.stopPropagation();
-      console.log('onMouseDown');
     }
   }, renderContent(data, data[levelKey]), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React.createElement("div", {
     onClick: handleExpand
@@ -195,11 +218,33 @@ var renderNode = function renderNode(data, props) {
 };
 
 var renderChildren = function renderChildren(children, props) {
-  return /*#__PURE__*/React.createElement("div", {
+  var combinedNodes = [];
+  var childEles = [/*#__PURE__*/React.createElement("div", {
     className: cls('children')
-  }, children && (children === null || children === void 0 ? void 0 : children.map(function (data) {
-    return renderNode(data, props);
-  })));
+  }, children === null || children === void 0 ? void 0 : children.map(function (node) {
+    var _props$nodeKeys;
+
+    var isCombine = node[((_props$nodeKeys = props.nodeKeys) === null || _props$nodeKeys === void 0 ? void 0 : _props$nodeKeys.combine) || ''];
+
+    if (isCombine) {
+      combinedNodes.push(node);
+      return null;
+    }
+
+    if (combinedNodes.length > 0) {
+      var Compnent = /*#__PURE__*/React.createElement(Fragment, null, renderCombineNodes(combinedNodes, props), renderNode(node, props));
+      combinedNodes = [];
+      return Compnent;
+    }
+
+    return renderNode(node, props);
+  }))];
+
+  if (combinedNodes.length > 0) {
+    childEles.unshift(renderCombineNodes(combinedNodes, props));
+  }
+
+  return childEles;
 };
 
 function TreeNode(props) {
@@ -334,7 +379,6 @@ function DragableContainer(props) {
   var handleDown = function handleDown(ev) {
     ev.preventDefault();
     setIsMove(true);
-    console.log('mousedown 2');
     posRef.current.isMove = true;
     posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
     posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;
@@ -388,6 +432,12 @@ var styles$2 = {"org-tree-container":"OrgTree-module_org-tree-container__3iceM",
 styleInject(css_248z$2);
 
 var cls$2 = classnames(styles$2);
+var defaultNodeKeys = {
+  label: 'label',
+  expand: '_expand',
+  level: '_level',
+  combine: 'isStaff'
+};
 
 function OrgTree(props) {
   var pan = props.pan,
@@ -401,11 +451,7 @@ function OrgTree(props) {
       _props$layout = props.layout,
       layout = _props$layout === void 0 ? 'vertical' : _props$layout,
       _props$nodeKeys = props.nodeKeys,
-      nodeKeys = _props$nodeKeys === void 0 ? {
-    label: 'label',
-    expand: '_expand',
-    level: '_level'
-  } : _props$nodeKeys,
+      nodeKeys = _props$nodeKeys === void 0 ? _objectSpread2(_objectSpread2({}, defaultNodeKeys), props.nodeKeys) : _props$nodeKeys,
       _props$expandAll = props.expandAll,
       expandAll = _props$expandAll === void 0 ? true : _props$expandAll;
 
