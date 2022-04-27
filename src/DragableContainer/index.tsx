@@ -23,6 +23,8 @@ export interface DragableContainerProps
   };
   // 是否居中
   center?: boolean;
+  // 包裹类
+  wrapperClassName?: string;
 }
 export interface TransformVals {
   scale: number;
@@ -35,6 +37,7 @@ export interface TransformVals {
 
 export default function DragableContainer(props: DragableContainerProps) {
   const {
+    wrapperClassName = '',
     children,
     pan = true,
     zoom = true,
@@ -188,7 +191,11 @@ export default function DragableContainer(props: DragableContainerProps) {
   };
 
   return (
-    <div className={cls('drag-wrapper')} ref={wrapperRef}>
+    <div
+      className={cls('drag-wrapper', wrapperClassName)}
+      ref={wrapperRef}
+      onMouseDown={handleDown}
+    >
       <div
         className={cls('drag-container')}
         ref={containerRef}
@@ -199,7 +206,6 @@ export default function DragableContainer(props: DragableContainerProps) {
           )}) scale(${transform.scale})`,
           transformOrigin: `${getUnitValue(transform.originX)} ${getUnitValue(transform.originY)}`,
         }}
-        onMouseDown={handleDown}
       >
         {children}
       </div>

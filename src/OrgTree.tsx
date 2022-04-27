@@ -23,6 +23,7 @@ function OrgTree(props: OrgTreeProps) {
     maxZoom,
     zoomStep,
     defaultTransform,
+    wrapperClassName,
     center = true,
     layout = 'vertical',
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
@@ -85,6 +86,7 @@ function OrgTree(props: OrgTreeProps) {
       zoomStep={zoomStep}
       defaultTransform={defaultTransform}
       center={center}
+      wrapperClassName={wrapperClassName}
     >
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
