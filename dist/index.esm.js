@@ -240,7 +240,9 @@ var renderChildren = function renderChildren(children, props) {
     return renderNode(node, props);
   }))];
 
-  if (combinedNodes.length > 0) {
+  if (combinedNodes.length === (children === null || children === void 0 ? void 0 : children.length)) {
+    childEles = [renderCombineNodes(combinedNodes, props)];
+  } else {
     childEles.unshift(renderCombineNodes(combinedNodes, props));
   }
 
@@ -257,7 +259,9 @@ styleInject(css_248z$1);
 
 var cls$1 = classnames(styles$1);
 function DragableContainer(props) {
-  var children = props.children,
+  var _props$wrapperClassNa = props.wrapperClassName,
+      wrapperClassName = _props$wrapperClassNa === void 0 ? '' : _props$wrapperClassNa,
+      children = props.children,
       _props$pan = props.pan,
       pan = _props$pan === void 0 ? true : _props$pan,
       _props$zoom = props.zoom,
@@ -413,8 +417,9 @@ function DragableContainer(props) {
   };
 
   return /*#__PURE__*/React.createElement("div", {
-    className: cls$1('drag-wrapper'),
-    ref: wrapperRef
+    className: cls$1('drag-wrapper', wrapperClassName),
+    ref: wrapperRef,
+    onMouseDown: handleDown
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$1('drag-container'),
     ref: containerRef,
@@ -422,8 +427,7 @@ function DragableContainer(props) {
       cursor: isMove ? 'move' : 'default',
       transform: "translate(".concat(getUnitValue(transform.translateX), ", ").concat(getUnitValue(transform.translateY), ") scale(").concat(transform.scale, ")"),
       transformOrigin: "".concat(getUnitValue(transform.originX), " ").concat(getUnitValue(transform.originY))
-    },
-    onMouseDown: handleDown
+    }
   }, children));
 }
 
@@ -446,6 +450,7 @@ function OrgTree(props) {
       maxZoom = props.maxZoom,
       zoomStep = props.zoomStep,
       defaultTransform = props.defaultTransform,
+      wrapperClassName = props.wrapperClassName,
       _props$center = props.center,
       center = _props$center === void 0 ? true : _props$center,
       _props$layout = props.layout,
@@ -516,7 +521,8 @@ function OrgTree(props) {
     maxZoom: maxZoom,
     zoomStep: zoomStep,
     defaultTransform: defaultTransform,
-    center: center
+    center: center,
+    wrapperClassName: wrapperClassName
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React.createElement("div", {

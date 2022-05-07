@@ -10,6 +10,7 @@ export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDi
         y: number;
     };
     center?: boolean;
+    wrapperClassName?: string;
 }
 export interface TransformVals {
     scale: number;
