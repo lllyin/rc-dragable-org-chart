@@ -28,6 +28,7 @@ function OrgTree(props: OrgTreeProps) {
     layout = 'vertical',
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
     expandAll = true,
+    forward,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
   const expandKey = nodeKeys.expand;
@@ -37,9 +38,17 @@ function OrgTree(props: OrgTreeProps) {
     if (expandAll !== void 0) {
       toogleExpandAll(props.data, expandAll);
     }
+    forward &&
+      forward({
+        data: props.data,
+        foreUpdate,
+      });
   }, [props.data]);
 
-  const foreUpdate = () => {
+  const foreUpdate = (fn?: (tree: TreeData) => TreeData) => {
+    if (typeof fn === 'function') {
+      fn(props.data);
+    }
     setRefresh(Date.now);
   };
 

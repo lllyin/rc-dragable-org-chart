@@ -30,6 +30,8 @@ export interface OrgTreeProps
   renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
   // 点击node
   onClick?: (data: TreeData) => void;
+  // forward
+  forward?: (params: { data: TreeData; foreUpdate: Function }) => void;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {

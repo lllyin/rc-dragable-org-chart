@@ -41,7 +41,9 @@ const renderCombineNodes = (nodes: TreeData[], props: TreeNodeProps) => {
           ev.stopPropagation();
         }}
       >
-        {nodes.map((leaf) => renderContent(leaf, leaf[levelKey]))}
+        <div className={cls('combine-nodes', 'combine-nodes')}>
+          {nodes.map((leaf) => renderContent(leaf, leaf[levelKey]))}
+        </div>
       </div>
     </div>
   );
@@ -121,7 +123,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps) =>
 
   if (combinedNodes.length === children?.length) {
     childEles = [renderCombineNodes(combinedNodes, props)];
-  } else {
+  } else if (combinedNodes.length > 0) {
     childEles.unshift(renderCombineNodes(combinedNodes, props));
   }
 
