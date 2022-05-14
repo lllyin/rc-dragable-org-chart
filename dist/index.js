@@ -165,12 +165,14 @@ var renderDefaultExpandBtn = function renderDefaultExpandBtn(isExpand, data) {
   });
 };
 
-var renderCombineNodes = function renderCombineNodes(nodes, props) {
-  var _props$renderContent = props.renderContent,
-      renderContent = _props$renderContent === void 0 ? renderDefaultContent : _props$renderContent,
-      _props$renderExpandBu = props.renderExpandButton,
-      _onClick = props.onClick,
-      nodeKeys = props.nodeKeys;
+function CombinedNodes(props) {
+  var nodes = props.nodes,
+      extraProps = props.extraProps;
+  var _extraProps$renderCon = extraProps.renderContent,
+      renderContent = _extraProps$renderCon === void 0 ? renderDefaultContent : _extraProps$renderCon,
+      _extraProps$renderExp = extraProps.renderExpandButton,
+      _onClick = extraProps.onClick,
+      nodeKeys = extraProps.nodeKeys;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   return /*#__PURE__*/React__default['default'].createElement("div", {
@@ -180,24 +182,25 @@ var renderCombineNodes = function renderCombineNodes(nodes, props) {
     className: cls('label'),
     onClick: function onClick() {
       return _onClick && _onClick(nodes);
-    },
-    onMouseDown: function onMouseDown(ev) {
-      ev.stopPropagation();
     }
+  }, /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls('combine-nodes', 'combine-nodes')
   }, nodes.map(function (leaf) {
     return renderContent(leaf, leaf[levelKey]);
-  })));
-};
+  }))));
+}
 
-var renderNode = function renderNode(data, props) {
-  var _props$renderContent2 = props.renderContent,
-      renderContent = _props$renderContent2 === void 0 ? renderDefaultContent : _props$renderContent2,
-      _props$renderExpandBu2 = props.renderExpandButton,
-      renderExpandButton = _props$renderExpandBu2 === void 0 ? renderDefaultExpandBtn : _props$renderExpandBu2,
-      collapsable = props.collapsable,
-      onExpand = props.onExpand,
-      _onClick2 = props.onClick,
-      nodeKeys = props.nodeKeys;
+function Node(props) {
+  var data = props.data,
+      extraProps = props.extraProps;
+  var _extraProps$renderCon2 = extraProps.renderContent,
+      renderContent = _extraProps$renderCon2 === void 0 ? renderDefaultContent : _extraProps$renderCon2,
+      _extraProps$renderExp2 = extraProps.renderExpandButton,
+      renderExpandButton = _extraProps$renderExp2 === void 0 ? renderDefaultExpandBtn : _extraProps$renderExp2,
+      collapsable = extraProps.collapsable,
+      onExpand = extraProps.onExpand,
+      _onClick2 = extraProps.onClick,
+      nodeKeys = extraProps.nodeKeys;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   var isExpand = data[expandKey];
@@ -208,20 +211,18 @@ var renderNode = function renderNode(data, props) {
   };
 
   return /*#__PURE__*/React__default['default'].createElement("div", {
+    key: data.id || data.key,
     className: cls('tree-node', "tree-node ".concat(isLeaf(data) ? 'is-leaf' : '', " ").concat(isExpand ? '' : 'collapsed')),
-    key: data.id || data.key
+    "data-id": data.id
   }, /*#__PURE__*/React__default['default'].createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
       return _onClick2 && _onClick2(data);
-    },
-    onMouseDown: function onMouseDown(ev) {
-      ev.stopPropagation();
     }
   }, renderContent(data, data[levelKey]), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React__default['default'].createElement("div", {
     onClick: handleExpand
-  }, renderExpandButton(isExpand, data))), isExpand && data.children && data.children.length > 0 && renderChildren(data.children, props));
-};
+  }, renderExpandButton(isExpand, data))), isExpand && data.children && data.children.length > 0 && renderChildren(data.children, extraProps));
+}
 
 var renderChildren = function renderChildren(children, props) {
   var combinedNodes = [];
@@ -238,25 +239,45 @@ var renderChildren = function renderChildren(children, props) {
     }
 
     if (combinedNodes.length > 0) {
-      var Compnent = /*#__PURE__*/React__default['default'].createElement(React.Fragment, null, renderCombineNodes(combinedNodes, props), renderNode(node, props));
+      var Compnent = /*#__PURE__*/React__default['default'].createElement(React.Fragment, null, /*#__PURE__*/React__default['default'].createElement(CombinedNodes, {
+        nodes: combinedNodes,
+        extraProps: props
+      }), /*#__PURE__*/React__default['default'].createElement(Node, {
+        key: node.id,
+        data: node,
+        extraProps: props
+      }));
       combinedNodes = [];
       return Compnent;
     }
 
-    return renderNode(node, props);
+    return /*#__PURE__*/React__default['default'].createElement(Node, {
+      key: node.id,
+      data: node,
+      extraProps: props
+    });
   }))];
 
   if (combinedNodes.length === (children === null || children === void 0 ? void 0 : children.length)) {
-    childEles = [renderCombineNodes(combinedNodes, props)];
-  } else {
-    childEles.unshift(renderCombineNodes(combinedNodes, props));
+    childEles = [/*#__PURE__*/React__default['default'].createElement(CombinedNodes, {
+      nodes: combinedNodes,
+      extraProps: props
+    })];
+  } else if (combinedNodes.length > 0) {
+    childEles.unshift( /*#__PURE__*/React__default['default'].createElement(CombinedNodes, {
+      nodes: combinedNodes,
+      extraProps: props
+    }));
   }
 
   return childEles;
 };
 
 function TreeNode(props) {
-  return renderNode(props.data, props);
+  return /*#__PURE__*/React__default['default'].createElement(Node, {
+    data: props.data,
+    extraProps: props
+  });
 }
 
 var css_248z$1 = ".index-module_drag-wrapper__2qxHS .index-module_drag-container__qXc8X {\n  cursor: default;\n}\n.__dumi-default-previewer-demo {\n  overflow: hidden;\n}\n";
@@ -457,6 +478,7 @@ function OrgTree(props) {
       zoomStep = props.zoomStep,
       defaultTransform = props.defaultTransform,
       wrapperClassName = props.wrapperClassName,
+      defaultExpandLevels = props.defaultExpandLevels,
       _props$center = props.center,
       center = _props$center === void 0 ? true : _props$center,
       _props$layout = props.layout,
@@ -464,7 +486,8 @@ function OrgTree(props) {
       _props$nodeKeys = props.nodeKeys,
       nodeKeys = _props$nodeKeys === void 0 ? _objectSpread2(_objectSpread2({}, defaultNodeKeys), props.nodeKeys) : _props$nodeKeys,
       _props$expandAll = props.expandAll,
-      expandAll = _props$expandAll === void 0 ? true : _props$expandAll;
+      expandAll = _props$expandAll === void 0 ? true : _props$expandAll,
+      forward = props.forward;
 
   var _useState = React.useState(Date.now),
       _useState2 = _slicedToArray(_useState, 2),
@@ -475,12 +498,23 @@ function OrgTree(props) {
   var levelKey = nodeKeys.level;
   React.useEffect(function () {
     if (expandAll !== void 0) {
-      toogleExpandAll(props.data, expandAll);
+      toogleExpandAll(props.data, expandAll, defaultExpandLevels);
     }
+
+    forward && forward({
+      data: props.data,
+      foreUpdate: foreUpdate
+    });
   }, [props.data]);
 
-  var foreUpdate = function foreUpdate() {
-    setRefresh(Date.now);
+  var foreUpdate = function foreUpdate(fn) {
+    if (typeof fn === 'function') {
+      fn(props.data);
+    }
+
+    var refreshKey = Date.now();
+    props.data.refreshKey = refreshKey;
+    setRefresh(refreshKey);
   };
 
   var handleExpand = function handleExpand(e, nodeData) {
@@ -501,9 +535,9 @@ function OrgTree(props) {
     });
   };
 
-  function expandAllNode(nodeData, isExpand) {
-    nodeData[expandKey] = isExpand;
+  function expandAllNode(nodeData, isExpand, defaultExpandLevels) {
     nodeData[levelKey] = nodeData[levelKey] || 1;
+    nodeData[expandKey] = defaultExpandLevels ? defaultExpandLevels.includes(nodeData[levelKey]) : isExpand;
 
     if (nodeData.children) {
       nodeData.children.forEach(function (node) {
@@ -515,10 +549,11 @@ function OrgTree(props) {
     return nodeData;
   }
 
-  var toogleExpandAll = function toogleExpandAll(nodeData, isExpand) {
-    expandAllNode(nodeData, isExpand);
+  var toogleExpandAll = function toogleExpandAll(nodeData, isExpand, defaultExpandLevels) {
+    expandAllNode(nodeData, isExpand, defaultExpandLevels);
     foreUpdate();
-  };
+  }; // console.log('refresh Key::', refresh);
+
 
   return /*#__PURE__*/React__default['default'].createElement(DragableContainer, {
     pan: pan,
@@ -533,9 +568,8 @@ function OrgTree(props) {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React__default['default'].createElement("div", {
     className: cls$2('org-tree', "".concat(layout, " org-tree"))
-  }, /*#__PURE__*/React__default['default'].createElement(TreeNode, _objectSpread2(_objectSpread2({
-    key: refresh
-  }, props), {}, {
+  }, /*#__PURE__*/React__default['default'].createElement(TreeNode // key={refresh}
+  , _objectSpread2(_objectSpread2({}, props), {}, {
     center: center,
     layout: layout,
     nodeKeys: nodeKeys,

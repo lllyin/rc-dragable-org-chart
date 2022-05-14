@@ -18,6 +18,10 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     renderContent?: (data: TreeData, level: number) => ReactNode;
     renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
     onClick?: (data: TreeData) => void;
+    forward?: (params: {
+        data: TreeData;
+        foreUpdate: Function;
+    }) => void;
 }
 export interface TreeNodeProps extends OrgTreeProps {
     onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;

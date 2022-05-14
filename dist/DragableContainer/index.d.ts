@@ -11,6 +11,7 @@ export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDi
     };
     center?: boolean;
     wrapperClassName?: string;
+    defaultExpandLevels?: number[];
 }
 export interface TransformVals {
     scale: number;
