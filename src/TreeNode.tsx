@@ -18,13 +18,15 @@ const renderDefaultExpandBtn = (isExpand: boolean, data: TreeData) => {
   return <span className={cls('epxand-btn', isExpand ? 'expanded' : '')}></span>;
 };
 
-const renderCombineNodes = (nodes: TreeData[], props: TreeNodeProps) => {
+function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps }) {
+  const { nodes, extraProps } = props;
+
   const {
     renderContent = renderDefaultContent,
     renderExpandButton = renderDefaultExpandBtn,
     onClick,
     nodeKeys,
-  } = props;
+  } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
   const isExpand = true;
@@ -37,9 +39,9 @@ const renderCombineNodes = (nodes: TreeData[], props: TreeNodeProps) => {
       <div
         className={cls('label')}
         onClick={() => onClick && onClick(nodes)}
-        onMouseDown={(ev) => {
-          ev.stopPropagation();
-        }}
+        // onMouseDown={(ev) => {
+        //   ev.stopPropagation();
+        // }}
       >
         <div className={cls('combine-nodes', 'combine-nodes')}>
           {nodes.map((leaf) => renderContent(leaf, leaf[levelKey]))}
@@ -47,9 +49,10 @@ const renderCombineNodes = (nodes: TreeData[], props: TreeNodeProps) => {
       </div>
     </div>
   );
-};
+}
 
-const renderNode = (data: TreeData, props: TreeNodeProps) => {
+function Node(props: { data: TreeData; extraProps: TreeNodeProps }) {
+  const { data, extraProps } = props;
   const {
     renderContent = renderDefaultContent,
     renderExpandButton = renderDefaultExpandBtn,
@@ -57,7 +60,7 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
     onExpand,
     onClick,
     nodeKeys,
-  } = props;
+  } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
   const isExpand = data[expandKey];
@@ -69,18 +72,19 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
 
   return (
     <div
+      key={data.id || data.key}
       className={cls(
         'tree-node',
         `tree-node ${isLeaf(data) ? 'is-leaf' : ''} ${isExpand ? '' : 'collapsed'}`,
       )}
-      key={data.id || data.key}
+      data-id={data.id}
     >
       <div
         className={cls('label')}
         onClick={() => onClick && onClick(data)}
-        onMouseDown={(ev) => {
-          ev.stopPropagation();
-        }}
+        // onMouseDown={(ev) => {
+        //   ev.stopPropagation();
+        // }}
       >
         {renderContent(data, data[levelKey])}
         {collapsable && data.children && data.children.length > 0 && (
@@ -90,10 +94,10 @@ const renderNode = (data: TreeData, props: TreeNodeProps) => {
       {isExpand &&
         data.children &&
         data.children.length > 0 &&
-        renderChildren(data.children, props)}
+        renderChildren(data.children, extraProps)}
     </div>
   );
-};
+}
 
 const renderChildren = (children: TreeData['children'], props: TreeNodeProps) => {
   let combinedNodes: TreeData[] = [];
@@ -109,27 +113,27 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps) =>
         if (combinedNodes.length > 0) {
           const Compnent = (
             <Fragment>
-              {renderCombineNodes(combinedNodes, props)}
-              {renderNode(node, props)}
+              <CombinedNodes nodes={combinedNodes} extraProps={props} />
+              <Node key={node.id} data={node} extraProps={props} />
             </Fragment>
           );
           combinedNodes = [];
           return Compnent;
         }
-        return renderNode(node, props);
+        return <Node key={node.id} data={node} extraProps={props} />;
       })}
     </div>,
   ];
 
   if (combinedNodes.length === children?.length) {
-    childEles = [renderCombineNodes(combinedNodes, props)];
+    childEles = [<CombinedNodes nodes={combinedNodes} extraProps={props} />];
   } else if (combinedNodes.length > 0) {
-    childEles.unshift(renderCombineNodes(combinedNodes, props));
+    childEles.unshift(<CombinedNodes nodes={combinedNodes} extraProps={props} />);
   }
 
   return childEles;
 };
 
 export default function TreeNode(props: TreeNodeProps) {
-  return renderNode(props.data, props);
+  return <Node data={props.data} extraProps={props} />;
 }

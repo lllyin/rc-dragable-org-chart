@@ -25,6 +25,8 @@ export interface DragableContainerProps
   center?: boolean;
   // 包裹类
   wrapperClassName?: string;
+  // 默认展开层级
+  defaultExpandLevels?: number[];
 }
 export interface TransformVals {
   scale: number;

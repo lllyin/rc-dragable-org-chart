@@ -24,6 +24,7 @@ function OrgTree(props: OrgTreeProps) {
     zoomStep,
     defaultTransform,
     wrapperClassName,
+    defaultExpandLevels,
     center = true,
     layout = 'vertical',
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
@@ -36,7 +37,7 @@ function OrgTree(props: OrgTreeProps) {
 
   useEffect(() => {
     if (expandAll !== void 0) {
-      toogleExpandAll(props.data, expandAll);
+      toogleExpandAll(props.data, expandAll, defaultExpandLevels);
     }
     forward &&
       forward({
@@ -49,7 +50,9 @@ function OrgTree(props: OrgTreeProps) {
     if (typeof fn === 'function') {
       fn(props.data);
     }
-    setRefresh(Date.now);
+    const refreshKey = Date.now();
+    props.data.refreshKey = refreshKey;
+    setRefresh(refreshKey);
   };
 
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, nodeData: TreeData) => {
@@ -67,9 +70,11 @@ function OrgTree(props: OrgTreeProps) {
     });
   };
 
-  function expandAllNode(nodeData: TreeData, isExpand: boolean) {
-    nodeData[expandKey] = isExpand;
+  function expandAllNode(nodeData: TreeData, isExpand: boolean, defaultExpandLevels?: number[]) {
     nodeData[levelKey] = nodeData[levelKey] || 1;
+    nodeData[expandKey] = defaultExpandLevels
+      ? defaultExpandLevels.includes(nodeData[levelKey])
+      : isExpand;
 
     if (nodeData.children) {
       nodeData.children.forEach((node) => {
@@ -81,10 +86,16 @@ function OrgTree(props: OrgTreeProps) {
     return nodeData;
   }
 
-  const toogleExpandAll = (nodeData: TreeData, isExpand: boolean) => {
-    expandAllNode(nodeData, isExpand);
+  const toogleExpandAll = (
+    nodeData: TreeData,
+    isExpand: boolean,
+    defaultExpandLevels?: number[],
+  ) => {
+    expandAllNode(nodeData, isExpand, defaultExpandLevels);
     foreUpdate();
   };
+
+  // console.log('refresh Key::', refresh);
 
   return (
     <DragableContainer
@@ -100,7 +111,7 @@ function OrgTree(props: OrgTreeProps) {
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
           <TreeNode
-            key={refresh}
+            // key={refresh}
             {...props}
             center={center}
             layout={layout}
