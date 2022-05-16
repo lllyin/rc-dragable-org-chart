@@ -94,7 +94,7 @@ function OrgTree(props: OrgTreeProps) {
     defaultExpandLevels?: number[],
   ) => {
     expandAllNode(nodeData, isExpand, defaultExpandLevels);
-    foreUpdate();
+    foreUpdate(void 0, true);
   };
 
   return (
