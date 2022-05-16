@@ -46,13 +46,15 @@ function OrgTree(props: OrgTreeProps) {
       });
   }, [props.data]);
 
-  const foreUpdate = (fn?: (tree: TreeData) => TreeData) => {
+  const foreUpdate = (fn?: (tree: TreeData) => TreeData, force = false) => {
     if (typeof fn === 'function') {
       fn(props.data);
     }
     const refreshKey = Date.now();
     props.data.refreshKey = refreshKey;
-    setRefresh(refreshKey);
+    if (force) {
+      setRefresh(refreshKey);
+    }
   };
 
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, nodeData: TreeData) => {
@@ -95,8 +97,6 @@ function OrgTree(props: OrgTreeProps) {
     foreUpdate();
   };
 
-  // console.log('refresh Key::', refresh);
-
   return (
     <DragableContainer
       pan={pan}
@@ -111,7 +111,7 @@ function OrgTree(props: OrgTreeProps) {
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
           <TreeNode
-            // key={refresh}
+            key={refresh}
             {...props}
             center={center}
             layout={layout}
