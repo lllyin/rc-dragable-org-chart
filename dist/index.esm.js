@@ -502,13 +502,18 @@ function OrgTree(props) {
   }, [props.data]);
 
   var foreUpdate = function foreUpdate(fn) {
+    var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     if (typeof fn === 'function') {
       fn(props.data);
     }
 
     var refreshKey = Date.now();
     props.data.refreshKey = refreshKey;
-    setRefresh(refreshKey);
+
+    if (force) {
+      setRefresh(refreshKey);
+    }
   };
 
   var handleExpand = function handleExpand(e, nodeData) {
@@ -545,9 +550,8 @@ function OrgTree(props) {
 
   var toogleExpandAll = function toogleExpandAll(nodeData, isExpand, defaultExpandLevels) {
     expandAllNode(nodeData, isExpand, defaultExpandLevels);
-    foreUpdate();
-  }; // console.log('refresh Key::', refresh);
-
+    foreUpdate(void 0, true);
+  };
 
   return /*#__PURE__*/React.createElement(DragableContainer, {
     pan: pan,
@@ -562,8 +566,9 @@ function OrgTree(props) {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$2('org-tree', "".concat(layout, " org-tree"))
-  }, /*#__PURE__*/React.createElement(TreeNode // key={refresh}
-  , _objectSpread2(_objectSpread2({}, props), {}, {
+  }, /*#__PURE__*/React.createElement(TreeNode, _objectSpread2(_objectSpread2({
+    key: refresh
+  }, props), {}, {
     center: center,
     layout: layout,
     nodeKeys: nodeKeys,
