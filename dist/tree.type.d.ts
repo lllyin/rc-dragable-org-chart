@@ -15,7 +15,7 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     data: TreeData;
     collapsable?: boolean;
     expandAll?: boolean;
-    renderContent?: (data: TreeData, level: number) => ReactNode;
+    renderContent?: (data: TreeData, level: number, colNum: number) => ReactNode;
     renderExpandButton?: (isExpand: boolean, data: TreeData) => ReactNode;
     onClick?: (data: TreeData) => void;
     forward?: (params: {

@@ -137,8 +137,8 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf,\n.TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  float: none;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:before,\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  width: 19px;\n  height: 50%;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  top: 50%;\n  left: 0;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:only-child:before {\n  top: 1px;\n  border-bottom: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 0;\n  border-left: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:only-child):after {\n  border-top: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt.is-leaf,\n.horizontal .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-top: 10px;\n  padding-bottom: 10px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  display: table-cell;\n  vertical-align: middle;\n}\n.horizontal .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_children__3g1ss:before {\n  top: 50%;\n  left: 0;\n  width: 20px;\n  height: 0;\n  border-top: 1px solid #ddd;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_children__3g1ss:after {\n  display: none;\n}\n.horizontal .TreeNode-module_children__3g1ss > .TreeNode-module_tree-node__2gHNt {\n  display: block;\n}\n.horizontal > .TreeNode-module_tree-node__2gHNt:only-child::before {\n  border-bottom: 0;\n}\n.horizontal .TreeNode-module_epxand-btn__6p0ph {\n  top: 50%;\n  left: 100%;\n  margin-top: -11px;\n  margin-left: 9px;\n}\n.TreeNode-module_epxand-btn__6p0ph {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  z-index: 10;\n  width: 20px;\n  height: 20px;\n  margin-top: 9px;\n  margin-left: -11px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n}\n.TreeNode-module_epxand-btn__6p0ph:hover {\n  background-color: #e7e8e9;\n  transform: scale(1.15);\n}\n.TreeNode-module_epxand-btn__6p0ph:before,\n.TreeNode-module_epxand-btn__6p0ph:after {\n  position: absolute;\n  content: '';\n}\n.TreeNode-module_epxand-btn__6p0ph:before {\n  top: 50%;\n  right: 4px;\n  left: 4px;\n  height: 0;\n  border-top: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph:after {\n  top: 4px;\n  bottom: 4px;\n  left: 50%;\n  width: 0;\n  border-left: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph.expanded:after {\n  border: none;\n}\n";
-var styles = {"tree-node":"TreeNode-module_tree-node__2gHNt","label":"TreeNode-module_label__dGNlq","label-inner":"TreeNode-module_label-inner__nVX8y","children":"TreeNode-module_children__3g1ss","epxand-btn":"TreeNode-module_epxand-btn__6p0ph"};
+var css_248z = ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf,\n.TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_combine-nodes__93IVM {\n  padding: 0 10px;\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt.TreeNode-module_combine-tree-node__AXMnr::before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss.TreeNode-module_combine-tree-node__AXMnr::before {\n  display: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  float: none;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:before,\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  width: 19px;\n  height: 50%;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  top: 50%;\n  left: 0;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:only-child:before {\n  top: 1px;\n  border-bottom: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 0;\n  border-left: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:only-child):after {\n  border-top: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt.is-leaf,\n.horizontal .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-top: 10px;\n  padding-bottom: 10px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  display: table-cell;\n  vertical-align: middle;\n}\n.horizontal .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_children__3g1ss:before {\n  top: 50%;\n  left: 0;\n  width: 20px;\n  height: 0;\n  border-top: 1px solid #ddd;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_children__3g1ss:after {\n  display: none;\n}\n.horizontal .TreeNode-module_children__3g1ss > .TreeNode-module_tree-node__2gHNt {\n  display: block;\n}\n.horizontal > .TreeNode-module_tree-node__2gHNt:only-child::before {\n  border-bottom: 0;\n}\n.horizontal .TreeNode-module_epxand-btn__6p0ph {\n  top: 50%;\n  left: 100%;\n  margin-top: -11px;\n  margin-left: 9px;\n}\n.TreeNode-module_epxand-btn__6p0ph {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  z-index: 10;\n  width: 20px;\n  height: 20px;\n  margin-top: 9px;\n  margin-left: -11px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n}\n.TreeNode-module_epxand-btn__6p0ph:hover {\n  background-color: #e7e8e9;\n  transform: scale(1.15);\n}\n.TreeNode-module_epxand-btn__6p0ph:before,\n.TreeNode-module_epxand-btn__6p0ph:after {\n  position: absolute;\n  content: '';\n}\n.TreeNode-module_epxand-btn__6p0ph:before {\n  top: 50%;\n  right: 4px;\n  left: 4px;\n  height: 0;\n  border-top: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph:after {\n  top: 4px;\n  bottom: 4px;\n  left: 50%;\n  width: 0;\n  border-left: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph.expanded:after {\n  border: none;\n}\n";
+var styles = {"tree-node":"TreeNode-module_tree-node__2gHNt","label":"TreeNode-module_label__dGNlq","label-inner":"TreeNode-module_label-inner__nVX8y","children":"TreeNode-module_children__3g1ss","combine-nodes":"TreeNode-module_combine-nodes__93IVM","combine-tree-node":"TreeNode-module_combine-tree-node__AXMnr","epxand-btn":"TreeNode-module_epxand-btn__6p0ph"};
 styleInject(css_248z);
 
 var cls = classnames(styles);
@@ -161,7 +161,8 @@ var renderDefaultExpandBtn = function renderDefaultExpandBtn(isExpand, data) {
 
 function CombinedNodes(props) {
   var nodes = props.nodes,
-      extraProps = props.extraProps;
+      extraProps = props.extraProps,
+      colNum = props.colNum;
   var _extraProps$renderCon = extraProps.renderContent,
       renderContent = _extraProps$renderCon === void 0 ? renderDefaultContent : _extraProps$renderCon,
       _extraProps$renderExp = extraProps.renderExpandButton,
@@ -170,23 +171,26 @@ function CombinedNodes(props) {
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   return /*#__PURE__*/React.createElement("div", {
-    className: cls('tree-node', "tree-node is-leaf'} ".concat( '' )),
-    key: "leafs-len-".concat(nodes.length)
+    className: cls('tree-node combine-tree-node', "tree-node is-leaf'} ".concat( '' )),
+    key: "leafs-len-".concat(nodes.length),
+    "data-colNum": colNum
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
       return _onClick && _onClick(nodes);
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: cls('combine-nodes', 'combine-nodes')
+    className: cls('combine-nodes', 'combine-nodes'),
+    "data-colNum": colNum
   }, nodes.map(function (leaf) {
-    return renderContent(leaf, leaf[levelKey]);
+    return renderContent(leaf, leaf[levelKey], colNum);
   }))));
 }
 
 function Node(props) {
   var data = props.data,
-      extraProps = props.extraProps;
+      extraProps = props.extraProps,
+      colNum = props.colNum;
   var _extraProps$renderCon2 = extraProps.renderContent,
       renderContent = _extraProps$renderCon2 === void 0 ? renderDefaultContent : _extraProps$renderCon2,
       _extraProps$renderExp2 = extraProps.renderExpandButton,
@@ -198,6 +202,7 @@ function Node(props) {
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   var isExpand = data[expandKey];
+  var keyId = data.id || data.user_id || data.key || Math.random();
 
   var handleExpand = function handleExpand(ev) {
     ev.stopPropagation();
@@ -205,24 +210,25 @@ function Node(props) {
   };
 
   return /*#__PURE__*/React.createElement("div", {
-    key: data.id || data.key,
+    key: keyId,
     className: cls('tree-node', "tree-node ".concat(isLeaf(data) ? 'is-leaf' : '', " ").concat(isExpand ? '' : 'collapsed')),
-    "data-id": data.id
+    "data-id": keyId,
+    "data-colNum": colNum !== null && colNum !== void 0 ? colNum : ''
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
       return _onClick2 && _onClick2(data);
     }
-  }, renderContent(data, data[levelKey]), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, renderContent(data, data[levelKey], colNum), collapsable && data.children && data.children.length > 0 && /*#__PURE__*/React.createElement("div", {
     onClick: handleExpand
-  }, renderExpandButton(isExpand, data))), isExpand && data.children && data.children.length > 0 && renderChildren(data.children, extraProps));
+  }, renderExpandButton(isExpand, data))), isExpand && data.children && data.children.length > 0 && renderChildren(data.children, extraProps, colNum));
 }
 
-var renderChildren = function renderChildren(children, props) {
+var renderChildren = function renderChildren(children, props, colNum) {
   var combinedNodes = [];
   var childEles = [/*#__PURE__*/React.createElement("div", {
     className: cls('children')
-  }, children === null || children === void 0 ? void 0 : children.map(function (node) {
+  }, children === null || children === void 0 ? void 0 : children.map(function (node, index) {
     var _props$nodeKeys;
 
     var isCombine = node[((_props$nodeKeys = props.nodeKeys) === null || _props$nodeKeys === void 0 ? void 0 : _props$nodeKeys.combine) || ''];
@@ -233,34 +239,41 @@ var renderChildren = function renderChildren(children, props) {
     }
 
     if (combinedNodes.length > 0) {
+      index += 1;
       var Compnent = /*#__PURE__*/React.createElement(Fragment, null, /*#__PURE__*/React.createElement(CombinedNodes, {
         nodes: combinedNodes,
-        extraProps: props
+        extraProps: props,
+        colNum: colNum
       }), /*#__PURE__*/React.createElement(Node, {
         key: node.id,
         data: node,
-        extraProps: props
+        extraProps: props,
+        colNum: index
       }));
       combinedNodes = [];
       return Compnent;
     }
 
+    index += 1;
     return /*#__PURE__*/React.createElement(Node, {
       key: node.id,
       data: node,
-      extraProps: props
+      extraProps: props,
+      colNum: index
     });
   }))];
 
   if (combinedNodes.length === (children === null || children === void 0 ? void 0 : children.length)) {
     childEles = [/*#__PURE__*/React.createElement(CombinedNodes, {
       nodes: combinedNodes,
-      extraProps: props
+      extraProps: props,
+      colNum: colNum
     })];
   } else if (combinedNodes.length > 0) {
     childEles.unshift( /*#__PURE__*/React.createElement(CombinedNodes, {
       nodes: combinedNodes,
-      extraProps: props
+      extraProps: props,
+      colNum: colNum
     }));
   }
 
@@ -270,7 +283,8 @@ var renderChildren = function renderChildren(children, props) {
 function TreeNode(props) {
   return /*#__PURE__*/React.createElement(Node, {
     data: props.data,
-    extraProps: props
+    extraProps: props,
+    colNum: 0
   });
 }
 
@@ -506,6 +520,8 @@ function OrgTree(props) {
 
     if (typeof fn === 'function') {
       fn(props.data);
+      toogleExpandAll(props.data, expandAll, defaultExpandLevels);
+      return;
     }
 
     var refreshKey = Date.now();
@@ -523,7 +539,7 @@ function OrgTree(props) {
       collapse(nodeData.children);
     }
 
-    foreUpdate();
+    foreUpdate(void 0, true);
   };
 
   var collapse = function collapse() {
@@ -551,7 +567,8 @@ function OrgTree(props) {
   var toogleExpandAll = function toogleExpandAll(nodeData, isExpand, defaultExpandLevels) {
     expandAllNode(nodeData, isExpand, defaultExpandLevels);
     foreUpdate(void 0, true);
-  };
+  }; // console.log('datas--:', props.data);
+
 
   return /*#__PURE__*/React.createElement(DragableContainer, {
     pan: pan,
