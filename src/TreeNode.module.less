@@ -66,12 +66,21 @@
   }
 }
 
+.combine-nodes {
+  padding: 0 10px;
+}
+
 .tree-node,
 .tree-node .children {
   position: relative;
   margin: 0;
   // padding: 0;
   list-style-type: none;
+
+  &.combine-tree-node::before {
+    display: none;
+  }
+
   &:before,
   &:after {
     transition: all 0.35s;

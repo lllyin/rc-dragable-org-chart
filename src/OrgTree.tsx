@@ -49,6 +49,8 @@ function OrgTree(props: OrgTreeProps) {
   const foreUpdate = (fn?: (tree: TreeData) => TreeData, force = false) => {
     if (typeof fn === 'function') {
       fn(props.data);
+      toogleExpandAll(props.data, expandAll, defaultExpandLevels);
+      return;
     }
     const refreshKey = Date.now();
     props.data.refreshKey = refreshKey;
@@ -62,7 +64,7 @@ function OrgTree(props: OrgTreeProps) {
     if (!nodeData[expandKey] && nodeData.children) {
       collapse(nodeData.children);
     }
-    foreUpdate();
+    foreUpdate(void 0, true);
   };
 
   const collapse = (list: TreeData['children'] = []) => {
@@ -96,6 +98,8 @@ function OrgTree(props: OrgTreeProps) {
     expandAllNode(nodeData, isExpand, defaultExpandLevels);
     foreUpdate(void 0, true);
   };
+
+  // console.log('datas--:', props.data);
 
   return (
     <DragableContainer
