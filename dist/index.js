@@ -232,9 +232,10 @@ function Node(props) {
 
 var renderChildren = function renderChildren(children, props, colNum) {
   var combinedNodes = [];
+  var index = 0;
   var childEles = [/*#__PURE__*/React__default['default'].createElement("div", {
     className: cls('children')
-  }, children === null || children === void 0 ? void 0 : children.map(function (node, index) {
+  }, children === null || children === void 0 ? void 0 : children.map(function (node) {
     var _props$nodeKeys;
 
     var isCombine = node[((_props$nodeKeys = props.nodeKeys) === null || _props$nodeKeys === void 0 ? void 0 : _props$nodeKeys.combine) || ''];
