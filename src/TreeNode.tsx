@@ -111,7 +111,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
 
   let childEles = [
     <div className={cls('children')}>
-      {children?.map((node, index) => {
+      {children?.map((node) => {
         const isCombine = node[props.nodeKeys?.combine || ''];
         if (isCombine) {
           combinedNodes.push(node);
