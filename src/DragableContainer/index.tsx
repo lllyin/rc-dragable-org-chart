@@ -1,5 +1,6 @@
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classnames from '../utils/classnames';
+import { throttle } from '../utils';
 
 import styles from './index.module.less';
 
@@ -28,13 +29,12 @@ export interface DragableContainerProps
   // 默认展开层级
   defaultExpandLevels?: number[];
 }
-export interface TransformVals {
+export interface Styles {
   scale: number;
   translateX: number;
   translateY: number;
   originX: number | string;
   originY: number | string;
-  wheelDirection: number;
 }
 
 export default function DragableContainer(props: DragableContainerProps) {
@@ -52,9 +52,8 @@ export default function DragableContainer(props: DragableContainerProps) {
     },
     center = true,
   } = props;
-  const initTransform = {
+  const defaultStyles = {
     scale: 1,
-    wheelDirection: 0,
     translateX: defaultTransform.x || 0,
     translateY: defaultTransform.y || 0,
     originX: '50%',
@@ -63,8 +62,8 @@ export default function DragableContainer(props: DragableContainerProps) {
   const containerRef: React.Ref<HTMLDivElement> = useRef(null);
   const wrapperRef: React.Ref<HTMLDivElement> = useRef(null);
   const [isMove, setIsMove] = useState(false);
-  const [transform, _setTransform] = useState<TransformVals>(initTransform);
-  const transfromRef = useRef<TransformVals>(initTransform);
+  const [styles, _setStyles] = useState<Styles>(defaultStyles);
+  const stylesRef = useRef<Styles>(defaultStyles);
   const posRef = useRef<{
     deltaX: number;
     deltaY: number;
@@ -77,28 +76,18 @@ export default function DragableContainer(props: DragableContainerProps) {
 
   useEffect(() => {
     // containerRef.current?.addEventListener('mousedown', handleDown);
-    document.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseup', handleUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
     wrapperRef.current?.addEventListener('wheel', handleWheelMove);
 
     // calcOriginPoint();
     return () => {
       // containerRef.current?.removeEventListener('mousedown', handleDown);
-      document.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseup', handleUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
       wrapperRef.current?.removeEventListener('wheel', handleWheelMove);
     };
   }, []);
-
-  useEffect(() => {
-    if (!zoom) return;
-    const { wheelDirection } = transform;
-    if (wheelDirection > 0) {
-      onZoomOut();
-    } else if (wheelDirection < 0) {
-      onZoomIn();
-    }
-  }, [transform.wheelDirection, zoom]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -109,7 +98,7 @@ export default function DragableContainer(props: DragableContainerProps) {
             containerRef.current.getBoundingClientRect();
           const { width, height } = treeDom.getBoundingClientRect();
 
-          setTransform({
+          setStyles({
             translateX: (containerW - width) / 2,
           });
         }
@@ -117,96 +106,124 @@ export default function DragableContainer(props: DragableContainerProps) {
     }, 10);
   }, [center]);
 
-  const setTransform = (values: Partial<TransformVals>) => {
-    _setTransform((state) => {
+  const setStyles = (values: Partial<Styles>) => {
+    _setStyles((state) => {
       const newStaste = { ...state, ...values };
 
-      transfromRef.current = newStaste;
+      stylesRef.current = newStaste;
       return newStaste;
     });
   };
 
   // 计算缩放原点
-  const calcOriginPoint = () => {
-    if (!containerRef.current) return;
-    const { width, height } = containerRef.current.getBoundingClientRect();
+  const calcScaleOriginTransform = (opts: { ratio: number; ev: globalThis.WheelEvent }) => {
+    if (!wrapperRef.current) return;
+    const { ratio, ev } = opts;
+    const { translateX, translateY } = stylesRef.current;
+    const {
+      width: containerW,
+      height: containerH,
+      left,
+      top,
+    } = wrapperRef.current.getBoundingClientRect();
+    const origin = {
+      x: (ratio - 1) * containerW * 0.5,
+      y: (ratio - 1) * containerH * 0.5,
+    };
+    // 计算偏移量
+    const x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
+    const y = translateY - ((ratio - 1) * (ev.clientY - top - translateY) - origin.y);
 
-    setTransform({
-      originX: Math.round(width / 2),
-      originY: Math.round(height / 2),
-    });
+    return {
+      translateX: Number(x.toFixed(3)),
+      translateY: Number(y.toFixed(3)),
+    };
   };
 
-  const onZoomIn = () => {
-    _setTransform((state) => ({
+  const onZoom = (ev: globalThis.WheelEvent) => {
+    const wheelDirection = ev.deltaY;
+    const state = stylesRef.current;
+
+    // console.log('onZoom:', ev.deltaY);
+
+    let _scale = state.scale;
+
+    if (wheelDirection > 0) {
+      // 缩小
+      _scale = _scale <= minZoom ? minZoom : _scale - zoomStep;
+    } else if (wheelDirection < 0) {
+      // 放大
+      _scale = _scale >= maxZoom ? maxZoom : _scale + zoomStep;
+    }
+    const trans = calcScaleOriginTransform({ ratio: _scale / state.scale, ev });
+
+    // console.log('trans:', trans);
+    const newState = {
       ...state,
-      scale: state.scale >= maxZoom ? maxZoom : state.scale + zoomStep,
-    }));
+      ...trans,
+      scale: _scale,
+    };
+
+    setStyles(newState);
   };
 
-  const onZoomOut = () => {
-    _setTransform((state) => ({
-      ...state,
-      scale: state.scale <= minZoom ? minZoom : state.scale - zoomStep,
-    }));
-  };
+  const throttleOnZoom = throttle(onZoom, 1);
 
-  const handleDown: React.MouseEventHandler<HTMLDivElement> = (ev) => {
+  const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (ev) => {
     ev.preventDefault();
     setIsMove(true);
 
     posRef.current.isMove = true;
-    posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
-    posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;
+    posRef.current.deltaX = ev.clientX - stylesRef.current.translateX;
+    posRef.current.deltaY = ev.clientY - stylesRef.current.translateY;
   };
 
-  const handleMove = (ev: globalThis.MouseEvent) => {
+  const handleMouseMove = (ev: globalThis.MouseEvent) => {
     if (!posRef.current.isMove || !pan) return;
 
-    const x = ev.pageX - posRef.current.deltaX;
-    const y = ev.pageY - posRef.current.deltaY;
+    const x = ev.clientX - posRef.current.deltaX;
+    const y = ev.clientY - posRef.current.deltaY;
 
-    setTransform({
+    setStyles({
       translateX: x,
       translateY: y,
     });
   };
 
-  const handleUp = (ev: globalThis.MouseEvent) => {
+  const handleMouseUp = (ev: globalThis.MouseEvent) => {
     setIsMove(false);
 
     posRef.current.isMove = false;
   };
 
   const handleWheelMove = (ev: globalThis.WheelEvent) => {
+    if (!zoom) return;
     ev.preventDefault();
     ev.stopPropagation();
-    const wheelDirection = ev.deltaY;
 
-    setTransform({
-      wheelDirection,
-    });
+    throttleOnZoom(ev);
   };
 
   const getUnitValue = (value: number | string) => {
     return typeof value === 'number' ? `${value}px` : value;
   };
 
+  // console.log('render styles:', styles);
   return (
     <div
       className={cls('drag-wrapper', wrapperClassName)}
       ref={wrapperRef}
-      onMouseDown={handleDown}
+      onMouseDown={handleMouseDown}
     >
       <div
         className={cls('drag-container')}
         ref={containerRef}
         style={{
           cursor: isMove ? 'move' : 'default',
-          transform: `translate(${getUnitValue(transform.translateX)}, ${getUnitValue(
-            transform.translateY,
-          )}) scale(${transform.scale})`,
-          transformOrigin: `${getUnitValue(transform.originX)} ${getUnitValue(transform.originY)}`,
+          transform: `translate(${getUnitValue(styles.translateX)}, ${getUnitValue(
+            styles.translateY,
+          )}) scale(${styles.scale})`,
+          transformOrigin: `${getUnitValue(styles.originX)} ${getUnitValue(styles.originY)}`,
         }}
       >
         {children}

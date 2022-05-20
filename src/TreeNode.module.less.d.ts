@@ -2,6 +2,8 @@
 // Please do not change this file!
 interface CssExports {
   children: string;
+  'combine-nodes': string;
+  'combine-tree-node': string;
   'epxand-btn': string;
   label: string;
   'label-inner': string;
