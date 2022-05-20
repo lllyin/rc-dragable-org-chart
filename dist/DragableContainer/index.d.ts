@@ -13,12 +13,11 @@ export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDi
     wrapperClassName?: string;
     defaultExpandLevels?: number[];
 }
-export interface TransformVals {
+export interface Styles {
     scale: number;
     translateX: number;
     translateY: number;
     originX: number | string;
     originY: number | string;
-    wheelDirection: number;
 }
 export default function DragableContainer(props: DragableContainerProps): JSX.Element;

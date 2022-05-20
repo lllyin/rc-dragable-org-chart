@@ -173,7 +173,7 @@ function CombinedNodes(props) {
   return /*#__PURE__*/React.createElement("div", {
     className: cls('tree-node combine-tree-node', "tree-node is-leaf'} ".concat( '' )),
     key: "leafs-len-".concat(nodes.length),
-    "data-colNum": colNum
+    "data-colnum": colNum
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
@@ -181,7 +181,7 @@ function CombinedNodes(props) {
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('combine-nodes', 'combine-nodes'),
-    "data-colNum": colNum
+    "data-colnum": colNum
   }, nodes.map(function (leaf) {
     return renderContent(leaf, leaf[levelKey], colNum);
   }))));
@@ -213,7 +213,7 @@ function Node(props) {
     key: keyId,
     className: cls('tree-node', "tree-node ".concat(isLeaf(data) ? 'is-leaf' : '', " ").concat(isExpand ? '' : 'collapsed')),
     "data-id": keyId,
-    "data-colNum": colNum !== null && colNum !== void 0 ? colNum : ''
+    "data-colnum": colNum !== null && colNum !== void 0 ? colNum : ''
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
@@ -289,6 +289,25 @@ function TreeNode(props) {
   });
 }
 
+function throttle(fn, delay) {
+  var timer; // @ts-ignore
+
+  var context = this;
+  return function () {
+    var args = Array.prototype.slice.call(arguments);
+
+    if (timer) {
+      return;
+    }
+
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+      clearTimeout(timer);
+      timer = null;
+    }, delay);
+  };
+}
+
 var css_248z$1 = ".index-module_drag-wrapper__2qxHS .index-module_drag-container__qXc8X {\n  cursor: default;\n}\n.__dumi-default-previewer-demo {\n  overflow: hidden;\n}\n";
 var styles$1 = {"drag-wrapper":"index-module_drag-wrapper__2qxHS","drag-container":"index-module_drag-container__qXc8X"};
 styleInject(css_248z$1);
@@ -315,9 +334,8 @@ function DragableContainer(props) {
   } : _props$defaultTransfo,
       _props$center = props.center,
       center = _props$center === void 0 ? true : _props$center;
-  var initTransform = {
+  var defaultStyles = {
     scale: 1,
-    wheelDirection: 0,
     translateX: defaultTransform.x || 0,
     translateY: defaultTransform.y || 0,
     originX: '50%',
@@ -331,12 +349,12 @@ function DragableContainer(props) {
       isMove = _useState2[0],
       setIsMove = _useState2[1];
 
-  var _useState3 = useState(initTransform),
+  var _useState3 = useState(defaultStyles),
       _useState4 = _slicedToArray(_useState3, 2),
-      transform = _useState4[0],
-      _setTransform = _useState4[1];
+      styles = _useState4[0],
+      _setStyles = _useState4[1];
 
-  var transfromRef = useRef(initTransform);
+  var stylesRef = useRef(defaultStyles);
   var posRef = useRef({
     isMove: false,
     deltaX: 0,
@@ -346,29 +364,19 @@ function DragableContainer(props) {
     var _wrapperRef$current;
 
     // containerRef.current?.addEventListener('mousedown', handleDown);
-    document.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseup', handleUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
     (_wrapperRef$current = wrapperRef.current) === null || _wrapperRef$current === void 0 ? void 0 : _wrapperRef$current.addEventListener('wheel', handleWheelMove); // calcOriginPoint();
 
     return function () {
       var _wrapperRef$current2;
 
       // containerRef.current?.removeEventListener('mousedown', handleDown);
-      document.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseup', handleUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
       (_wrapperRef$current2 = wrapperRef.current) === null || _wrapperRef$current2 === void 0 ? void 0 : _wrapperRef$current2.removeEventListener('wheel', handleWheelMove);
     };
   }, []);
-  useEffect(function () {
-    if (!zoom) return;
-    var wheelDirection = transform.wheelDirection;
-
-    if (wheelDirection > 0) {
-      onZoomOut();
-    } else if (wheelDirection < 0) {
-      onZoomIn();
-    }
-  }, [transform.wheelDirection, zoom]);
   useEffect(function () {
     setTimeout(function () {
       if (center && containerRef.current) {
@@ -383,7 +391,7 @@ function DragableContainer(props) {
               width = _treeDom$getBoundingC.width,
               height = _treeDom$getBoundingC.height;
 
-          setTransform({
+          setStyles({
             translateX: (containerW - width) / 2
           });
         }
@@ -391,78 +399,117 @@ function DragableContainer(props) {
     }, 10);
   }, [center]);
 
-  var setTransform = function setTransform(values) {
-    _setTransform(function (state) {
+  var setStyles = function setStyles(values) {
+    _setStyles(function (state) {
       var newStaste = _objectSpread2(_objectSpread2({}, state), values);
 
-      transfromRef.current = newStaste;
+      stylesRef.current = newStaste;
       return newStaste;
     });
   }; // 计算缩放原点
 
-  var onZoomIn = function onZoomIn() {
-    _setTransform(function (state) {
-      return _objectSpread2(_objectSpread2({}, state), {}, {
-        scale: state.scale >= maxZoom ? maxZoom : state.scale + zoomStep
-      });
-    });
+
+  var calcScaleOriginTransform = function calcScaleOriginTransform(opts) {
+    if (!wrapperRef.current) return;
+    var ratio = opts.ratio,
+        ev = opts.ev;
+    var _stylesRef$current = stylesRef.current,
+        translateX = _stylesRef$current.translateX,
+        translateY = _stylesRef$current.translateY;
+
+    var _wrapperRef$current$g = wrapperRef.current.getBoundingClientRect(),
+        containerW = _wrapperRef$current$g.width,
+        containerH = _wrapperRef$current$g.height,
+        left = _wrapperRef$current$g.left,
+        top = _wrapperRef$current$g.top;
+
+    var origin = {
+      x: (ratio - 1) * containerW * 0.5,
+      y: (ratio - 1) * containerH * 0.5
+    }; // 计算偏移量
+
+    var x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
+    var y = translateY - ((ratio - 1) * (ev.clientY - top - translateY) - origin.y);
+    return {
+      translateX: Number(x.toFixed(3)),
+      translateY: Number(y.toFixed(3))
+    };
   };
 
-  var onZoomOut = function onZoomOut() {
-    _setTransform(function (state) {
-      return _objectSpread2(_objectSpread2({}, state), {}, {
-        scale: state.scale <= minZoom ? minZoom : state.scale - zoomStep
-      });
+  var onZoom = function onZoom(ev) {
+    var wheelDirection = ev.deltaY;
+    var state = stylesRef.current; // console.log('onZoom:', ev.deltaY);
+
+    var _scale = state.scale;
+
+    if (wheelDirection > 0) {
+      // 缩小
+      _scale = _scale <= minZoom ? minZoom : _scale - zoomStep;
+    } else if (wheelDirection < 0) {
+      // 放大
+      _scale = _scale >= maxZoom ? maxZoom : _scale + zoomStep;
+    }
+
+    var trans = calcScaleOriginTransform({
+      ratio: _scale / state.scale,
+      ev: ev
+    }); // console.log('trans:', trans);
+
+    var newState = _objectSpread2(_objectSpread2(_objectSpread2({}, state), trans), {}, {
+      scale: _scale
     });
+
+    setStyles(newState);
   };
 
-  var handleDown = function handleDown(ev) {
+  var throttleOnZoom = throttle(onZoom, 1);
+
+  var handleMouseDown = function handleMouseDown(ev) {
     ev.preventDefault();
     setIsMove(true);
     posRef.current.isMove = true;
-    posRef.current.deltaX = ev.pageX - transfromRef.current.translateX;
-    posRef.current.deltaY = ev.pageY - transfromRef.current.translateY;
+    posRef.current.deltaX = ev.clientX - stylesRef.current.translateX;
+    posRef.current.deltaY = ev.clientY - stylesRef.current.translateY;
   };
 
-  var handleMove = function handleMove(ev) {
+  var handleMouseMove = function handleMouseMove(ev) {
     if (!posRef.current.isMove || !pan) return;
-    var x = ev.pageX - posRef.current.deltaX;
-    var y = ev.pageY - posRef.current.deltaY;
-    setTransform({
+    var x = ev.clientX - posRef.current.deltaX;
+    var y = ev.clientY - posRef.current.deltaY;
+    setStyles({
       translateX: x,
       translateY: y
     });
   };
 
-  var handleUp = function handleUp(ev) {
+  var handleMouseUp = function handleMouseUp(ev) {
     setIsMove(false);
     posRef.current.isMove = false;
   };
 
   var handleWheelMove = function handleWheelMove(ev) {
+    if (!zoom) return;
     ev.preventDefault();
     ev.stopPropagation();
-    var wheelDirection = ev.deltaY;
-    setTransform({
-      wheelDirection: wheelDirection
-    });
+    throttleOnZoom(ev);
   };
 
   var getUnitValue = function getUnitValue(value) {
     return typeof value === 'number' ? "".concat(value, "px") : value;
-  };
+  }; // console.log('render styles:', styles);
+
 
   return /*#__PURE__*/React.createElement("div", {
     className: cls$1('drag-wrapper', wrapperClassName),
     ref: wrapperRef,
-    onMouseDown: handleDown
+    onMouseDown: handleMouseDown
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$1('drag-container'),
     ref: containerRef,
     style: {
       cursor: isMove ? 'move' : 'default',
-      transform: "translate(".concat(getUnitValue(transform.translateX), ", ").concat(getUnitValue(transform.translateY), ") scale(").concat(transform.scale, ")"),
-      transformOrigin: "".concat(getUnitValue(transform.originX), " ").concat(getUnitValue(transform.originY))
+      transform: "translate(".concat(getUnitValue(styles.translateX), ", ").concat(getUnitValue(styles.translateY), ") scale(").concat(styles.scale, ")"),
+      transformOrigin: "".concat(getUnitValue(styles.originX), " ").concat(getUnitValue(styles.originY))
     }
   }, children));
 }
