@@ -1,6 +1,7 @@
 import React from 'react';
 export declare type Placement = 'topLeft' | 'topCenter' | 'leftCenter' | 'center';
 export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+    autoAdjust?: boolean;
     pan?: boolean;
     zoom?: boolean;
     minZoom?: number;

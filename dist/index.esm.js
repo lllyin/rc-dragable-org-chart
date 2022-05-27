@@ -340,7 +340,9 @@ function DragableContainer(props, ref) {
       _props$placement = props.placement,
       placement = _props$placement === void 0 ? 'center' : _props$placement,
       _props$transition = props.transition,
-      transition = _props$transition === void 0 ? 'transform 0.25s ease-out' : _props$transition;
+      transition = _props$transition === void 0 ? 'transform 0.25s ease-out' : _props$transition,
+      _props$autoAdjust = props.autoAdjust,
+      autoAdjust = _props$autoAdjust === void 0 ? true : _props$autoAdjust;
   var defaultStyles = {
     scale: 1,
     translateX: defaultTransform.x || 0,
@@ -373,7 +375,8 @@ function DragableContainer(props, ref) {
     // containerRef.current?.addEventListener('mousedown', handleDown);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-    (_wrapperRef$current = wrapperRef.current) === null || _wrapperRef$current === void 0 ? void 0 : _wrapperRef$current.addEventListener('wheel', handleWheelMove); // calcOriginPoint();
+    (_wrapperRef$current = wrapperRef.current) === null || _wrapperRef$current === void 0 ? void 0 : _wrapperRef$current.addEventListener('wheel', handleWheelMove);
+    initfixVisible(); // calcOriginPoint();
 
     return function () {
       var _wrapperRef$current2;
@@ -393,8 +396,7 @@ function DragableContainer(props, ref) {
   }, [placement]);
   useImperativeHandle(ref, function () {
     return {
-      setPlacement: setPlacement,
-      fixVisible: fixVisible
+      setPlacement: setPlacement
     };
   });
 
@@ -420,7 +422,8 @@ function DragableContainer(props, ref) {
           setStyles({
             translateX: (containerW - width) / 2,
             translateY: (containerH - height) / 2,
-            transition: _transition
+            transition: _transition,
+            scale: 1
           });
           break;
         }
@@ -430,7 +433,8 @@ function DragableContainer(props, ref) {
           setStyles({
             translateX: offset.x,
             translateY: offset.y,
-            transition: _transition
+            transition: _transition,
+            scale: 1
           });
           break;
         }
@@ -440,7 +444,8 @@ function DragableContainer(props, ref) {
           setStyles({
             translateX: (containerW - width) / 2 + offset.x,
             translateY: offset.y,
-            transition: _transition
+            transition: _transition,
+            scale: 1
           });
           break;
         }
@@ -450,7 +455,8 @@ function DragableContainer(props, ref) {
           setStyles({
             translateX: 0,
             translateY: (containerH - height) / 2,
-            transition: _transition
+            transition: _transition,
+            scale: 1
           });
           break;
         }
@@ -463,31 +469,28 @@ function DragableContainer(props, ref) {
     }, 300);
   };
 
-  var fixVisible = function fixVisible() {
+  var initfixVisible = function initfixVisible() {
     if (!wrapperRef.current) return;
     var treeDom = wrapperRef.current.querySelector('.org-tree');
     if (!treeDom) return;
+    var options = {
+      root: document.querySelector('#scrollArea'),
+      rootMargin: '0px',
+      threshold: [0, 1]
+    };
+    var observer = new IntersectionObserver(function (entries, observer) {
+      var res = entries[0];
 
-    var _wrapperRef$current$g2 = wrapperRef.current.getBoundingClientRect(),
-        containerW = _wrapperRef$current$g2.width,
-        containerH = _wrapperRef$current$g2.height;
-
-    var _treeDom$getBoundingC2 = treeDom.getBoundingClientRect(),
-        width = _treeDom$getBoundingC2.width,
-        height = _treeDom$getBoundingC2.height;
-
-    var _stylesRef$current = stylesRef.current,
-        translateX = _stylesRef$current.translateX,
-        translateY = _stylesRef$current.translateY;
-    var xRange = [-width, containerW];
-    var yRange = [-height, containerH];
-
-    if (translateX > xRange[0] && translateX < xRange[1] && translateY > yRange[0] && translateY < yRange[1]) ; else {
-      // console.log('不在可视范围内:', placement)
-      setTimeout(function () {
-        setPlacement(placement, true);
-      }, 0);
-    }
+      if (res.intersectionRatio > 0) ; else {
+        // console.log('--不在可视范围内:', posRef.current.isMove, res, treeDom)
+        setTimeout(function () {
+          if (!posRef.current.isMove && autoAdjust) {
+            setPlacement(placement, true);
+          }
+        }, 200);
+      }
+    }, options);
+    observer.observe(treeDom);
   };
 
   var setStyles = function setStyles(values) {
@@ -504,15 +507,16 @@ function DragableContainer(props, ref) {
     if (!wrapperRef.current) return;
     var ratio = opts.ratio,
         ev = opts.ev;
-    var _stylesRef$current2 = stylesRef.current,
-        translateX = _stylesRef$current2.translateX,
-        translateY = _stylesRef$current2.translateY;
+    var _stylesRef$current = stylesRef.current,
+        translateX = _stylesRef$current.translateX,
+        translateY = _stylesRef$current.translateY;
 
-    var _wrapperRef$current$g3 = wrapperRef.current.getBoundingClientRect(),
-        containerW = _wrapperRef$current$g3.width,
-        containerH = _wrapperRef$current$g3.height,
-        left = _wrapperRef$current$g3.left,
-        top = _wrapperRef$current$g3.top;
+    var _wrapperRef$current$g2 = wrapperRef.current.getBoundingClientRect(),
+        containerW = _wrapperRef$current$g2.width,
+        containerH = _wrapperRef$current$g2.height,
+        left = _wrapperRef$current$g2.left,
+        top = _wrapperRef$current$g2.top; // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
+
 
     var origin = {
       x: (ratio - 1) * containerW * 0.5,
@@ -674,14 +678,6 @@ function OrgTree(props) {
     if (force) {
       setRefresh(refreshKey);
     }
-
-    if (autoAdjust) {
-      setTimeout(function () {
-        var _dragContainerRef$cur;
-
-        (_dragContainerRef$cur = dragContainerRef.current) === null || _dragContainerRef$cur === void 0 ? void 0 : _dragContainerRef$cur.fixVisible();
-      }, 160);
-    }
   };
 
   var handleExpand = function handleExpand(e, nodeData) {
@@ -731,7 +727,8 @@ function OrgTree(props) {
     defaultTransform: defaultTransform,
     placement: placement,
     wrapperClassName: wrapperClassName,
-    offset: offset
+    offset: offset,
+    autoAdjust: autoAdjust
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React.createElement("div", {

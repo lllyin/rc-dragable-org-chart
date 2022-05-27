@@ -5,7 +5,6 @@ export interface TreeData {
     children?: TreeData[];
 }
 export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>, DragableContainerProps {
-    autoAdjust?: boolean;
     layout: 'horizontal' | 'vertical';
     nodeKeys?: {
         label: string;
