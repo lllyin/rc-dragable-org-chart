@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import classnames from '../utils/classnames';
 import { throttle } from '../utils';
 
 import styles from './index.module.less';
 
 const cls = classnames(styles);
-export type Placement = 'topLeft' | 'topCenter' | 'center';
+export type Placement = 'topLeft' | 'topCenter' | 'leftCenter' | 'center';
 export interface DragableContainerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   // 图层是否允许拖动
@@ -23,12 +23,18 @@ export interface DragableContainerProps
     x: number;
     y: number;
   };
+  offset?: {
+    x: number;
+    y: number;
+  };
   // 位置
   placement?: Placement;
   // 包裹类
   wrapperClassName?: string;
   // 默认展开层级
   defaultExpandLevels?: number[];
+  // 动画
+  transition?: string;
 }
 export interface Styles {
   scale: number;
@@ -36,9 +42,10 @@ export interface Styles {
   translateY: number;
   originX: number | string;
   originY: number | string;
+  transition?: string;
 }
 
-export default function DragableContainer(props: DragableContainerProps) {
+export function DragableContainer(props: DragableContainerProps, ref) {
   const {
     wrapperClassName = '',
     children,
@@ -51,7 +58,12 @@ export default function DragableContainer(props: DragableContainerProps) {
       x: 0,
       y: 0,
     },
+    offset = {
+      x: 0,
+      y: 0,
+    },
     placement = 'center',
+    transition = 'transform 0.25s ease-out',
   } = props;
   const defaultStyles = {
     scale: 1,
@@ -98,40 +110,88 @@ export default function DragableContainer(props: DragableContainerProps) {
     }, 10);
   }, [placement]);
 
-  const setPlacement = (placement: Placement) => {
-    if (!containerRef.current) return;
-    const treeDom = containerRef.current.querySelector('.org-tree');
+  useImperativeHandle(ref, () => ({
+    setPlacement,
+    fixVisible,
+  }));
+
+  const setPlacement = (placement: Placement, animation = false) => {
+    if (!wrapperRef.current) return;
+    const treeDom = wrapperRef.current.querySelector('.org-tree');
     if (!treeDom) return;
 
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+    const { width: containerW, height: containerH } = wrapperRef.current.getBoundingClientRect();
     const { width, height } = treeDom.getBoundingClientRect();
+    const _transition = animation ? transition : void 0;
 
     switch (placement) {
       case 'center': {
-        console.log('center:', (containerW - width) / 2, (containerH - height) / 2);
         setStyles({
           translateX: (containerW - width) / 2,
           translateY: (containerH - height) / 2,
+          transition: _transition,
         });
         break;
       }
       case 'topLeft': {
         setStyles({
-          translateX: 0,
-          translateY: 0,
+          translateX: offset.x,
+          translateY: offset.y,
+          transition: _transition,
         });
         break;
       }
       case 'topCenter': {
         setStyles({
-          translateX: (containerW - width) / 2,
-          translateY: 0,
+          translateX: (containerW - width) / 2 + offset.x,
+          translateY: offset.y,
+          transition: _transition,
+        });
+        break;
+      }
+      case 'leftCenter': {
+        setStyles({
+          translateX: 0,
+          translateY: (containerH - height) / 2,
+          transition: _transition,
         });
         break;
       }
       default: {
         break;
       }
+    }
+
+    animation &&
+      setTimeout(() => {
+        setStyles({ transition: void 0 });
+      }, 300);
+  };
+
+  const fixVisible = () => {
+    if (!wrapperRef.current) return;
+    const treeDom = wrapperRef.current.querySelector('.org-tree');
+    if (!treeDom) return;
+
+    const { width: containerW, height: containerH } = wrapperRef.current.getBoundingClientRect();
+    const { width, height } = treeDom.getBoundingClientRect();
+
+    const { translateX, translateY } = stylesRef.current;
+    const xRange = [-width, containerW];
+    const yRange = [-height, containerH];
+
+    if (
+      translateX > xRange[0] &&
+      translateX < xRange[1] &&
+      translateY > yRange[0] &&
+      translateY < yRange[1]
+    ) {
+      // console.log('在可视范围内:', placement)
+    } else {
+      // console.log('不在可视范围内:', placement)
+      setTimeout(() => {
+        setPlacement(placement, true);
+      }, 0);
     }
   };
 
@@ -253,6 +313,7 @@ export default function DragableContainer(props: DragableContainerProps) {
             styles.translateY,
           )}) scale(${styles.scale})`,
           transformOrigin: `${getUnitValue(styles.originX)} ${getUnitValue(styles.originY)}`,
+          transition: styles.transition,
         }}
       >
         {children}
@@ -260,3 +321,5 @@ export default function DragableContainer(props: DragableContainerProps) {
     </div>
   );
 }
+
+export default forwardRef(DragableContainer);

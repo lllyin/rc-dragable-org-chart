@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import classnames from './utils/classnames';
 import { TreeData, OrgTreeProps } from './tree.type';
 import TreeNode from './TreeNode';
@@ -29,9 +29,12 @@ function OrgTree(props: OrgTreeProps) {
     layout = 'vertical',
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
     expandAll = true,
+    autoAdjust = true,
+    offset,
     forward,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
+  const dragContainerRef: any = useRef(null);
   const expandKey = nodeKeys.expand;
   const levelKey = nodeKeys.level;
 
@@ -56,6 +59,11 @@ function OrgTree(props: OrgTreeProps) {
     props.data.refreshKey = refreshKey;
     if (force) {
       setRefresh(refreshKey);
+    }
+    if (autoAdjust) {
+      setTimeout(() => {
+        dragContainerRef.current?.fixVisible();
+      }, 160);
     }
   };
 
@@ -99,10 +107,9 @@ function OrgTree(props: OrgTreeProps) {
     foreUpdate(void 0, true);
   };
 
-  // console.log('datas--:', props.data);
-
   return (
     <DragableContainer
+      ref={dragContainerRef}
       pan={pan}
       zoom={zoom}
       minZoom={minZoom}
@@ -111,6 +118,7 @@ function OrgTree(props: OrgTreeProps) {
       defaultTransform={defaultTransform}
       placement={placement}
       wrapperClassName={wrapperClassName}
+      offset={offset}
     >
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
