@@ -25,7 +25,7 @@ function OrgTree(props: OrgTreeProps) {
     defaultTransform,
     wrapperClassName,
     defaultExpandLevels,
-    center = true,
+    placement,
     layout = 'vertical',
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
     expandAll = true,
@@ -109,7 +109,7 @@ function OrgTree(props: OrgTreeProps) {
       maxZoom={maxZoom}
       zoomStep={zoomStep}
       defaultTransform={defaultTransform}
-      center={center}
+      placement={placement}
       wrapperClassName={wrapperClassName}
     >
       <div className={cls('org-tree-container')}>
@@ -117,7 +117,7 @@ function OrgTree(props: OrgTreeProps) {
           <TreeNode
             key={refresh}
             {...props}
-            center={center}
+            placement={placement}
             layout={layout}
             nodeKeys={nodeKeys}
             expandAll={expandAll}

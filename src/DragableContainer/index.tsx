@@ -5,6 +5,7 @@ import { throttle } from '../utils';
 import styles from './index.module.less';
 
 const cls = classnames(styles);
+export type Placement = 'topLeft' | 'topCenter' | 'center';
 export interface DragableContainerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   // 图层是否允许拖动
@@ -22,8 +23,8 @@ export interface DragableContainerProps
     x: number;
     y: number;
   };
-  // 是否居中
-  center?: boolean;
+  // 位置
+  placement?: Placement;
   // 包裹类
   wrapperClassName?: string;
   // 默认展开层级
@@ -50,7 +51,7 @@ export default function DragableContainer(props: DragableContainerProps) {
       x: 0,
       y: 0,
     },
-    center = true,
+    placement = 'center',
   } = props;
   const defaultStyles = {
     scale: 1,
@@ -91,20 +92,48 @@ export default function DragableContainer(props: DragableContainerProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (center && containerRef.current) {
-        const treeDom = containerRef.current.querySelector('.org-tree');
-        if (treeDom) {
-          const { width: containerW, height: containerH } =
-            containerRef.current.getBoundingClientRect();
-          const { width, height } = treeDom.getBoundingClientRect();
-
-          setStyles({
-            translateX: (containerW - width) / 2,
-          });
-        }
+      if (placement) {
+        setPlacement(placement);
       }
     }, 10);
-  }, [center]);
+  }, [placement]);
+
+  const setPlacement = (placement: Placement) => {
+    if (!containerRef.current) return;
+    const treeDom = containerRef.current.querySelector('.org-tree');
+    if (!treeDom) return;
+
+    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+    const { width, height } = treeDom.getBoundingClientRect();
+
+    switch (placement) {
+      case 'center': {
+        console.log('center:', (containerW - width) / 2, (containerH - height) / 2);
+        setStyles({
+          translateX: (containerW - width) / 2,
+          translateY: (containerH - height) / 2,
+        });
+        break;
+      }
+      case 'topLeft': {
+        setStyles({
+          translateX: 0,
+          translateY: 0,
+        });
+        break;
+      }
+      case 'topCenter': {
+        setStyles({
+          translateX: (containerW - width) / 2,
+          translateY: 0,
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  };
 
   const setStyles = (values: Partial<Styles>) => {
     _setStyles((state) => {
