@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from 'react';
+import React, { Fragment, forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -313,7 +313,7 @@ var styles$1 = {"drag-wrapper":"index-module_drag-wrapper__2qxHS","drag-containe
 styleInject(css_248z$1);
 
 var cls$1 = classnames(styles$1);
-function DragableContainer(props) {
+function DragableContainer(props, ref) {
   var _props$wrapperClassNa = props.wrapperClassName,
       wrapperClassName = _props$wrapperClassNa === void 0 ? '' : _props$wrapperClassNa,
       children = props.children,
@@ -332,8 +332,15 @@ function DragableContainer(props) {
     x: 0,
     y: 0
   } : _props$defaultTransfo,
-      _props$center = props.center,
-      center = _props$center === void 0 ? true : _props$center;
+      _props$offset = props.offset,
+      offset = _props$offset === void 0 ? {
+    x: 0,
+    y: 0
+  } : _props$offset,
+      _props$placement = props.placement,
+      placement = _props$placement === void 0 ? 'center' : _props$placement,
+      _props$transition = props.transition,
+      transition = _props$transition === void 0 ? 'transform 0.25s ease-out' : _props$transition;
   var defaultStyles = {
     scale: 1,
     translateX: defaultTransform.x || 0,
@@ -379,25 +386,109 @@ function DragableContainer(props) {
   }, []);
   useEffect(function () {
     setTimeout(function () {
-      if (center && containerRef.current) {
-        var treeDom = containerRef.current.querySelector('.org-tree');
-
-        if (treeDom) {
-          var _containerRef$current = containerRef.current.getBoundingClientRect(),
-              containerW = _containerRef$current.width,
-              containerH = _containerRef$current.height;
-
-          var _treeDom$getBoundingC = treeDom.getBoundingClientRect(),
-              width = _treeDom$getBoundingC.width,
-              height = _treeDom$getBoundingC.height;
-
-          setStyles({
-            translateX: (containerW - width) / 2
-          });
-        }
+      if (placement) {
+        setPlacement(placement);
       }
     }, 10);
-  }, [center]);
+  }, [placement]);
+  useImperativeHandle(ref, function () {
+    return {
+      setPlacement: setPlacement,
+      fixVisible: fixVisible
+    };
+  });
+
+  var setPlacement = function setPlacement(placement) {
+    var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    if (!wrapperRef.current) return;
+    var treeDom = wrapperRef.current.querySelector('.org-tree');
+    if (!treeDom) return;
+
+    var _wrapperRef$current$g = wrapperRef.current.getBoundingClientRect(),
+        containerW = _wrapperRef$current$g.width,
+        containerH = _wrapperRef$current$g.height;
+
+    var _treeDom$getBoundingC = treeDom.getBoundingClientRect(),
+        width = _treeDom$getBoundingC.width,
+        height = _treeDom$getBoundingC.height;
+
+    var _transition = animation ? transition : void 0;
+
+    switch (placement) {
+      case 'center':
+        {
+          setStyles({
+            translateX: (containerW - width) / 2,
+            translateY: (containerH - height) / 2,
+            transition: _transition
+          });
+          break;
+        }
+
+      case 'topLeft':
+        {
+          setStyles({
+            translateX: offset.x,
+            translateY: offset.y,
+            transition: _transition
+          });
+          break;
+        }
+
+      case 'topCenter':
+        {
+          setStyles({
+            translateX: (containerW - width) / 2 + offset.x,
+            translateY: offset.y,
+            transition: _transition
+          });
+          break;
+        }
+
+      case 'leftCenter':
+        {
+          setStyles({
+            translateX: 0,
+            translateY: (containerH - height) / 2,
+            transition: _transition
+          });
+          break;
+        }
+    }
+
+    animation && setTimeout(function () {
+      setStyles({
+        transition: void 0
+      });
+    }, 300);
+  };
+
+  var fixVisible = function fixVisible() {
+    if (!wrapperRef.current) return;
+    var treeDom = wrapperRef.current.querySelector('.org-tree');
+    if (!treeDom) return;
+
+    var _wrapperRef$current$g2 = wrapperRef.current.getBoundingClientRect(),
+        containerW = _wrapperRef$current$g2.width,
+        containerH = _wrapperRef$current$g2.height;
+
+    var _treeDom$getBoundingC2 = treeDom.getBoundingClientRect(),
+        width = _treeDom$getBoundingC2.width,
+        height = _treeDom$getBoundingC2.height;
+
+    var _stylesRef$current = stylesRef.current,
+        translateX = _stylesRef$current.translateX,
+        translateY = _stylesRef$current.translateY;
+    var xRange = [-width, containerW];
+    var yRange = [-height, containerH];
+
+    if (translateX > xRange[0] && translateX < xRange[1] && translateY > yRange[0] && translateY < yRange[1]) ; else {
+      // console.log('不在可视范围内:', placement)
+      setTimeout(function () {
+        setPlacement(placement, true);
+      }, 0);
+    }
+  };
 
   var setStyles = function setStyles(values) {
     _setStyles(function (state) {
@@ -413,15 +504,15 @@ function DragableContainer(props) {
     if (!wrapperRef.current) return;
     var ratio = opts.ratio,
         ev = opts.ev;
-    var _stylesRef$current = stylesRef.current,
-        translateX = _stylesRef$current.translateX,
-        translateY = _stylesRef$current.translateY;
+    var _stylesRef$current2 = stylesRef.current,
+        translateX = _stylesRef$current2.translateX,
+        translateY = _stylesRef$current2.translateY;
 
-    var _wrapperRef$current$g = wrapperRef.current.getBoundingClientRect(),
-        containerW = _wrapperRef$current$g.width,
-        containerH = _wrapperRef$current$g.height,
-        left = _wrapperRef$current$g.left,
-        top = _wrapperRef$current$g.top;
+    var _wrapperRef$current$g3 = wrapperRef.current.getBoundingClientRect(),
+        containerW = _wrapperRef$current$g3.width,
+        containerH = _wrapperRef$current$g3.height,
+        left = _wrapperRef$current$g3.left,
+        top = _wrapperRef$current$g3.top;
 
     var origin = {
       x: (ratio - 1) * containerW * 0.5,
@@ -509,10 +600,12 @@ function DragableContainer(props) {
     style: {
       cursor: isMove ? 'move' : 'default',
       transform: "translate(".concat(getUnitValue(styles.translateX), ", ").concat(getUnitValue(styles.translateY), ") scale(").concat(styles.scale, ")"),
-      transformOrigin: "".concat(getUnitValue(styles.originX), " ").concat(getUnitValue(styles.originY))
+      transformOrigin: "".concat(getUnitValue(styles.originX), " ").concat(getUnitValue(styles.originY)),
+      transition: styles.transition
     }
   }, children));
 }
+var DragableContainer$1 = /*#__PURE__*/forwardRef(DragableContainer);
 
 var css_248z$2 = ".OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq {\n  display: table;\n  text-align: center;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:before,\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  display: table;\n  content: '';\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq:after {\n  clear: both;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node {\n  padding-top: 0;\n}\n.OrgTree-module_org-tree-container__3iceM .OrgTree-module_org-tree__1kbUq > .tree-node::after {\n  border: none;\n}\n";
 var styles$2 = {"org-tree-container":"OrgTree-module_org-tree-container__3iceM","org-tree":"OrgTree-module_org-tree__1kbUq"};
@@ -535,14 +628,16 @@ function OrgTree(props) {
       defaultTransform = props.defaultTransform,
       wrapperClassName = props.wrapperClassName,
       defaultExpandLevels = props.defaultExpandLevels,
-      _props$center = props.center,
-      center = _props$center === void 0 ? true : _props$center,
+      placement = props.placement,
       _props$layout = props.layout,
       layout = _props$layout === void 0 ? 'vertical' : _props$layout,
       _props$nodeKeys = props.nodeKeys,
       nodeKeys = _props$nodeKeys === void 0 ? _objectSpread2(_objectSpread2({}, defaultNodeKeys), props.nodeKeys) : _props$nodeKeys,
       _props$expandAll = props.expandAll,
       expandAll = _props$expandAll === void 0 ? true : _props$expandAll,
+      _props$autoAdjust = props.autoAdjust,
+      autoAdjust = _props$autoAdjust === void 0 ? true : _props$autoAdjust,
+      offset = props.offset,
       forward = props.forward;
 
   var _useState = useState(Date.now),
@@ -550,6 +645,7 @@ function OrgTree(props) {
       refresh = _useState2[0],
       setRefresh = _useState2[1];
 
+  var dragContainerRef = useRef(null);
   var expandKey = nodeKeys.expand;
   var levelKey = nodeKeys.level;
   useEffect(function () {
@@ -577,6 +673,14 @@ function OrgTree(props) {
 
     if (force) {
       setRefresh(refreshKey);
+    }
+
+    if (autoAdjust) {
+      setTimeout(function () {
+        var _dragContainerRef$cur;
+
+        (_dragContainerRef$cur = dragContainerRef.current) === null || _dragContainerRef$cur === void 0 ? void 0 : _dragContainerRef$cur.fixVisible();
+      }, 160);
     }
   };
 
@@ -615,18 +719,19 @@ function OrgTree(props) {
   var toogleExpandAll = function toogleExpandAll(nodeData, isExpand, defaultExpandLevels) {
     expandAllNode(nodeData, isExpand, defaultExpandLevels);
     foreUpdate(void 0, true);
-  }; // console.log('datas--:', props.data);
+  };
 
-
-  return /*#__PURE__*/React.createElement(DragableContainer, {
+  return /*#__PURE__*/React.createElement(DragableContainer$1, {
+    ref: dragContainerRef,
     pan: pan,
     zoom: zoom,
     minZoom: minZoom,
     maxZoom: maxZoom,
     zoomStep: zoomStep,
     defaultTransform: defaultTransform,
-    center: center,
-    wrapperClassName: wrapperClassName
+    placement: placement,
+    wrapperClassName: wrapperClassName,
+    offset: offset
   }, /*#__PURE__*/React.createElement("div", {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React.createElement("div", {
@@ -634,7 +739,7 @@ function OrgTree(props) {
   }, /*#__PURE__*/React.createElement(TreeNode, _objectSpread2(_objectSpread2({
     key: refresh
   }, props), {}, {
-    center: center,
+    placement: placement,
     layout: layout,
     nodeKeys: nodeKeys,
     expandAll: expandAll,

@@ -1,4 +1,5 @@
 import React from 'react';
+export declare type Placement = 'topLeft' | 'topCenter' | 'leftCenter' | 'center';
 export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
     pan?: boolean;
     zoom?: boolean;
@@ -9,9 +10,14 @@ export interface DragableContainerProps extends Omit<React.HTMLAttributes<HTMLDi
         x: number;
         y: number;
     };
-    center?: boolean;
+    offset?: {
+        x: number;
+        y: number;
+    };
+    placement?: Placement;
     wrapperClassName?: string;
     defaultExpandLevels?: number[];
+    transition?: string;
 }
 export interface Styles {
     scale: number;
@@ -19,5 +25,8 @@ export interface Styles {
     translateY: number;
     originX: number | string;
     originY: number | string;
+    transition?: string;
 }
-export default function DragableContainer(props: DragableContainerProps): JSX.Element;
+export declare function DragableContainer(props: DragableContainerProps, ref: any): JSX.Element;
+declare const _default: React.ForwardRefExoticComponent<DragableContainerProps & React.RefAttributes<unknown>>;
+export default _default;
