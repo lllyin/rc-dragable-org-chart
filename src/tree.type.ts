@@ -9,8 +9,6 @@ export interface TreeData {
 export interface OrgTreeProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>,
     DragableContainerProps {
-  // 遮挡时自动调整位置
-  autoAdjust?: boolean;
   // 布局
   layout: 'horizontal' | 'vertical';
   // node字段映射

@@ -8,6 +8,8 @@ const cls = classnames(styles);
 export type Placement = 'topLeft' | 'topCenter' | 'leftCenter' | 'center';
 export interface DragableContainerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  // 遮挡时自动调整位置
+  autoAdjust?: boolean;
   // 图层是否允许拖动
   pan?: boolean;
   // 图层是否允许缩放
@@ -64,6 +66,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     },
     placement = 'center',
     transition = 'transform 0.25s ease-out',
+    autoAdjust = true,
   } = props;
   const defaultStyles = {
     scale: 1,
@@ -93,6 +96,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     document.addEventListener('mouseup', handleMouseUp);
     wrapperRef.current?.addEventListener('wheel', handleWheelMove);
 
+    initfixVisible();
     // calcOriginPoint();
     return () => {
       // containerRef.current?.removeEventListener('mousedown', handleDown);
@@ -112,7 +116,6 @@ export function DragableContainer(props: DragableContainerProps, ref) {
 
   useImperativeHandle(ref, () => ({
     setPlacement,
-    fixVisible,
   }));
 
   const setPlacement = (placement: Placement, animation = false) => {
@@ -130,6 +133,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
           translateX: (containerW - width) / 2,
           translateY: (containerH - height) / 2,
           transition: _transition,
+          scale: 1,
         });
         break;
       }
@@ -138,6 +142,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
           translateX: offset.x,
           translateY: offset.y,
           transition: _transition,
+          scale: 1,
         });
         break;
       }
@@ -146,6 +151,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
           translateX: (containerW - width) / 2 + offset.x,
           translateY: offset.y,
           transition: _transition,
+          scale: 1,
         });
         break;
       }
@@ -154,6 +160,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
           translateX: 0,
           translateY: (containerH - height) / 2,
           transition: _transition,
+          scale: 1,
         });
         break;
       }
@@ -168,31 +175,32 @@ export function DragableContainer(props: DragableContainerProps, ref) {
       }, 300);
   };
 
-  const fixVisible = () => {
+  const initfixVisible = () => {
     if (!wrapperRef.current) return;
     const treeDom = wrapperRef.current.querySelector('.org-tree');
     if (!treeDom) return;
 
-    const { width: containerW, height: containerH } = wrapperRef.current.getBoundingClientRect();
-    const { width, height } = treeDom.getBoundingClientRect();
+    let options = {
+      root: document.querySelector('#scrollArea'),
+      rootMargin: '0px',
+      threshold: [0, 1],
+    };
 
-    const { translateX, translateY } = stylesRef.current;
-    const xRange = [-width, containerW];
-    const yRange = [-height, containerH];
+    let observer = new IntersectionObserver((entries, observer) => {
+      const res = entries[0];
+      if (res.intersectionRatio > 0) {
+        // console.log('--在可视范围内:', posRef.current.isMove, res, treeDom)
+      } else {
+        // console.log('--不在可视范围内:', posRef.current.isMove, res, treeDom)
+        setTimeout(() => {
+          if (!posRef.current.isMove && autoAdjust) {
+            setPlacement(placement, true);
+          }
+        }, 200);
+      }
+    }, options);
 
-    if (
-      translateX > xRange[0] &&
-      translateX < xRange[1] &&
-      translateY > yRange[0] &&
-      translateY < yRange[1]
-    ) {
-      // console.log('在可视范围内:', placement)
-    } else {
-      // console.log('不在可视范围内:', placement)
-      setTimeout(() => {
-        setPlacement(placement, true);
-      }, 0);
-    }
+    observer.observe(treeDom);
   };
 
   const setStyles = (values: Partial<Styles>) => {
@@ -215,6 +223,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
       left,
       top,
     } = wrapperRef.current.getBoundingClientRect();
+    // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
     const origin = {
       x: (ratio - 1) * containerW * 0.5,
       y: (ratio - 1) * containerH * 0.5,

@@ -60,11 +60,6 @@ function OrgTree(props: OrgTreeProps) {
     if (force) {
       setRefresh(refreshKey);
     }
-    if (autoAdjust) {
-      setTimeout(() => {
-        dragContainerRef.current?.fixVisible();
-      }, 160);
-    }
   };
 
   const handleExpand = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, nodeData: TreeData) => {
@@ -119,6 +114,7 @@ function OrgTree(props: OrgTreeProps) {
       placement={placement}
       wrapperClassName={wrapperClassName}
       offset={offset}
+      autoAdjust={autoAdjust}
     >
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
