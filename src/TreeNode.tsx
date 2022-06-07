@@ -48,7 +48,7 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
         // }}
       >
         <div className={cls('combine-nodes', 'combine-nodes')} data-colnum={colNum}>
-          {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))}
+          {/* {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))} */}
         </div>
       </div>
     </div>
@@ -64,11 +64,12 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
     onExpand,
     onClick,
     nodeKeys,
+    nodeKey,
   } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
   const isExpand = data[expandKey];
-  const keyId = data.id || data.user_id || data.key || Math.random();
+  const keyId = `node-${data[nodeKey]}`;
 
   const handleExpand = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     ev.stopPropagation();
@@ -106,6 +107,7 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
 }
 
 const renderChildren = (children: TreeData['children'], props: TreeNodeProps, colNum: number) => {
+  const { nodeKey } = props;
   let combinedNodes: TreeData[] = [];
   let index = 0;
 
@@ -113,6 +115,8 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
     <div className={cls('children')}>
       {children?.map((node) => {
         const isCombine = node[props.nodeKeys?.combine || ''];
+        const keyId = `child-${node[nodeKey]}`;
+
         if (isCombine) {
           combinedNodes.push(node);
           return null;
@@ -120,16 +124,16 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
         if (combinedNodes.length > 0) {
           index += 1;
           const Compnent = (
-            <Fragment>
+            <Fragment key={`combine-${keyId}`}>
               <CombinedNodes nodes={combinedNodes} extraProps={props} colNum={colNum} />
-              <Node key={node.id} data={node} extraProps={props} colNum={index} />
+              <Node key={keyId} data={node} extraProps={props} colNum={index} />
             </Fragment>
           );
           combinedNodes = [];
           return Compnent;
         }
         index += 1;
-        return <Node key={node.id} data={node} extraProps={props} colNum={index} />;
+        return <Node key={keyId} data={node} extraProps={props} colNum={index} />;
       })}
     </div>,
   ];
@@ -144,5 +148,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
 };
 
 export default function TreeNode(props: TreeNodeProps) {
-  return <Node data={props.data} extraProps={props} colNum={0} />;
+  const { nodeKey = 'id', data } = props;
+  const keyId = `tree-${data[nodeKey]}`;
+  return <Node data={data} extraProps={props} colNum={0} key={keyId} />;
 }

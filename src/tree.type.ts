@@ -32,6 +32,8 @@ export interface OrgTreeProps
   onClick?: (data: TreeData) => void;
   // forward
   forward?: (params: { data: TreeData; foreUpdate: Function }) => void;
+  // 遍历key
+  nodeKey: string;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {
