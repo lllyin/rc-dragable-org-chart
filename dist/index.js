@@ -170,7 +170,6 @@ function CombinedNodes(props) {
       extraProps = props.extraProps,
       colNum = props.colNum;
   var _extraProps$renderCon = extraProps.renderContent,
-      renderContent = _extraProps$renderCon === void 0 ? renderDefaultContent : _extraProps$renderCon,
       _extraProps$renderExp = extraProps.renderExpandButton,
       _onClick = extraProps.onClick,
       nodeKeys = extraProps.nodeKeys;
@@ -188,9 +187,7 @@ function CombinedNodes(props) {
   }, /*#__PURE__*/React__default['default'].createElement("div", {
     className: cls('combine-nodes', 'combine-nodes'),
     "data-colnum": colNum
-  }, nodes.map(function (leaf) {
-    return renderContent(leaf, leaf[levelKey], colNum);
-  }))));
+  })));
 }
 
 function Node(props) {
@@ -204,11 +201,12 @@ function Node(props) {
       collapsable = extraProps.collapsable,
       onExpand = extraProps.onExpand,
       _onClick2 = extraProps.onClick,
-      nodeKeys = extraProps.nodeKeys;
+      nodeKeys = extraProps.nodeKeys,
+      nodeKey = extraProps.nodeKey;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   var isExpand = data[expandKey];
-  var keyId = data.id || data.user_id || data.key || Math.random();
+  var keyId = "node-".concat(data[nodeKey]);
 
   var handleExpand = function handleExpand(ev) {
     ev.stopPropagation();
@@ -231,6 +229,7 @@ function Node(props) {
 }
 
 var renderChildren = function renderChildren(children, props, colNum) {
+  var nodeKey = props.nodeKey;
   var combinedNodes = [];
   var index = 0;
   var childEles = [/*#__PURE__*/React__default['default'].createElement("div", {
@@ -239,6 +238,7 @@ var renderChildren = function renderChildren(children, props, colNum) {
     var _props$nodeKeys;
 
     var isCombine = node[((_props$nodeKeys = props.nodeKeys) === null || _props$nodeKeys === void 0 ? void 0 : _props$nodeKeys.combine) || ''];
+    var keyId = "child-".concat(node[nodeKey]);
 
     if (isCombine) {
       combinedNodes.push(node);
@@ -247,12 +247,14 @@ var renderChildren = function renderChildren(children, props, colNum) {
 
     if (combinedNodes.length > 0) {
       index += 1;
-      var Compnent = /*#__PURE__*/React__default['default'].createElement(React.Fragment, null, /*#__PURE__*/React__default['default'].createElement(CombinedNodes, {
+      var Compnent = /*#__PURE__*/React__default['default'].createElement(React.Fragment, {
+        key: "combine-".concat(keyId)
+      }, /*#__PURE__*/React__default['default'].createElement(CombinedNodes, {
         nodes: combinedNodes,
         extraProps: props,
         colNum: colNum
       }), /*#__PURE__*/React__default['default'].createElement(Node, {
-        key: node.id,
+        key: keyId,
         data: node,
         extraProps: props,
         colNum: index
@@ -263,7 +265,7 @@ var renderChildren = function renderChildren(children, props, colNum) {
 
     index += 1;
     return /*#__PURE__*/React__default['default'].createElement(Node, {
-      key: node.id,
+      key: keyId,
       data: node,
       extraProps: props,
       colNum: index
@@ -288,10 +290,15 @@ var renderChildren = function renderChildren(children, props, colNum) {
 };
 
 function TreeNode(props) {
+  var _props$nodeKey = props.nodeKey,
+      nodeKey = _props$nodeKey === void 0 ? 'id' : _props$nodeKey,
+      data = props.data;
+  var keyId = "tree-".concat(data[nodeKey]);
   return /*#__PURE__*/React__default['default'].createElement(Node, {
-    data: props.data,
+    data: data,
     extraProps: props,
-    colNum: 0
+    colNum: 0,
+    key: keyId
   });
 }
 
@@ -571,16 +578,18 @@ function DragableContainer(props, ref) {
         wrapperW = _wrapperRef$current$g2.width,
         wrapperH = _wrapperRef$current$g2.height,
         left = _wrapperRef$current$g2.left,
-        top = _wrapperRef$current$g2.top; // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
-
+        top = _wrapperRef$current$g2.top;
 
     var origin = {
       x: (ratio - 1) * wrapperW * 0.5,
       y: (ratio - 1) * wrapperH * 0.5
-    }; // 计算偏移量
+    };
+    var posX = ev ? ev.clientX - left : wrapperW / 2;
+    var posY = ev ? ev.clientY - top : wrapperH / 2; // console.log('calcScaleOriginTransform', ratio, origin, { posX, posY })
+    // 计算偏移量
 
-    var x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
-    var y = translateY - ((ratio - 1) * (ev.clientY - top - translateY) - origin.y);
+    var x = translateX - ((ratio - 1) * (posX - translateX) - origin.x);
+    var y = translateY - ((ratio - 1) * (posY - translateY) - origin.y);
     return {
       translateX: Number(x.toFixed(3)),
       translateY: Number(y.toFixed(3))
@@ -602,10 +611,10 @@ function DragableContainer(props, ref) {
     }
 
     _scale = parseFloat(_scale.toFixed(2));
-    var trans = ev ? calcScaleOriginTransform({
+    var trans = calcScaleOriginTransform({
       ratio: _scale / state.scale,
       ev: ev
-    }) : {}; // console.log('_scale:', _scale);
+    }); // console.log('_scale:', _scale);
 
     var newState = _objectSpread2(_objectSpread2(_objectSpread2({}, state), trans), {}, {
       scale: _scale
@@ -716,6 +725,8 @@ function OrgTree(props) {
       defaultScale = props.defaultScale,
       _props$nodeKeys = props.nodeKeys,
       nodeKeys = _props$nodeKeys === void 0 ? _objectSpread2(_objectSpread2({}, defaultNodeKeys), props.nodeKeys) : _props$nodeKeys,
+      _props$nodeKey = props.nodeKey,
+      nodeKey = _props$nodeKey === void 0 ? 'id' : _props$nodeKey,
       _props$expandAll = props.expandAll,
       expandAll = _props$expandAll === void 0 ? true : _props$expandAll,
       _props$autoAdjust = props.autoAdjust,
@@ -820,6 +831,7 @@ function OrgTree(props) {
   }, /*#__PURE__*/React__default['default'].createElement(TreeNode, _objectSpread2(_objectSpread2({
     key: refresh
   }, props), {}, {
+    nodeKey: nodeKey,
     placement: placement,
     layout: layout,
     nodeKeys: nodeKeys,
