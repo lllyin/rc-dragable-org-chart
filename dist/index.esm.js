@@ -164,6 +164,7 @@ function CombinedNodes(props) {
       extraProps = props.extraProps,
       colNum = props.colNum;
   var _extraProps$renderCon = extraProps.renderContent,
+      renderContent = _extraProps$renderCon === void 0 ? renderDefaultContent : _extraProps$renderCon,
       _extraProps$renderExp = extraProps.renderExpandButton,
       _onClick = extraProps.onClick,
       nodeKeys = extraProps.nodeKeys;
@@ -181,7 +182,9 @@ function CombinedNodes(props) {
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('combine-nodes', 'combine-nodes'),
     "data-colnum": colNum
-  })));
+  }, nodes.map(function (leaf) {
+    return renderContent(leaf, leaf[levelKey], colNum);
+  }))));
 }
 
 function Node(props) {
