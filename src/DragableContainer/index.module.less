@@ -1,11 +1,47 @@
 .drag-wrapper {
+  position: relative;
   .drag-container {
     cursor: default;
+  }
+  .toolbar {
+    position: absolute;
+    right: 20px;
+    bottom: 16px;
+    z-index: 9999;
+    color: #666666;
+    font-size: 12px;
+    background-color: #fff;
+    .tool-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scal-tool-item {
+      cursor: pointer;
+      .scale-icon {
+        line-height: 0;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+          border-radius: 50%;
+          transform-origin: 50% 50%;
+          transition: all 0.15s ease-out;
+        }
+        > svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      .scale-num {
+        width: 44px;
+        text-align: center;
+      }
+    }
   }
 }
 
 :global {
   .__dumi-default-previewer-demo {
+    // padding: 0 !important;
     overflow: hidden;
   }
 }

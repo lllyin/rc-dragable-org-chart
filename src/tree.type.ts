@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { DragableContainerProps } from './DragableContainer';
+import { DragableContainerProps } from './DragableContainer/DragableContainer.type';
 
 export interface TreeData {
   [key: string | number]: any;

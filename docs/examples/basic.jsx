@@ -7,7 +7,7 @@ class OrgTreeDemo extends Component {
     this.state = {
       data: {
         id: 0,
-        label: 'inke股份有限公司1',
+        label: 'inke股份有限公司',
         children: [
           {
             id: 1,
@@ -54,11 +54,15 @@ class OrgTreeDemo extends Component {
     return (
       <div className="m-t-lg text-center">
         <OrgTree
+          // disableWheelZoom
           data={data}
+          placement="center"
           horizontal={horizontal}
           collapsable={collapsable}
           labelClassName={labelClassName}
+          defaultScale={0.5}
           expandAll={expandAll}
+          // toolbar={[]}
           // renderContent={(data, level) => {
           //   console.log('level:', data.label, level)
           //   return data.label;

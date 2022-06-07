@@ -1,51 +1,11 @@
 import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import classnames from '../utils/classnames';
 import { throttle } from '../utils';
+import { DragableContainerProps, Styles, Placement } from './DragableContainer.type';
 
 import styles from './index.module.less';
 
 const cls = classnames(styles);
-export type Placement = 'topLeft' | 'topCenter' | 'leftCenter' | 'center';
-export interface DragableContainerProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  // 遮挡时自动调整位置
-  autoAdjust?: boolean;
-  // 图层是否允许拖动
-  pan?: boolean;
-  // 图层是否允许缩放
-  zoom?: boolean;
-  // 图层最小缩放比例
-  minZoom?: number;
-  // 图层最大缩放比例
-  maxZoom?: number;
-  // 缩放幅度
-  zoomStep?: 0.1;
-  // 默认位移
-  defaultTransform?: {
-    x: number;
-    y: number;
-  };
-  offset?: {
-    x: number;
-    y: number;
-  };
-  // 位置
-  placement?: Placement;
-  // 包裹类
-  wrapperClassName?: string;
-  // 默认展开层级
-  defaultExpandLevels?: number[];
-  // 动画
-  transition?: string;
-}
-export interface Styles {
-  scale: number;
-  translateX: number;
-  translateY: number;
-  originX: number | string;
-  originY: number | string;
-  transition?: string;
-}
 
 export function DragableContainer(props: DragableContainerProps, ref) {
   const {
@@ -56,6 +16,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     minZoom = 0.1,
     maxZoom = 2,
     zoomStep = 0.1,
+    defaultScale = 1,
     defaultTransform = {
       x: 0,
       y: 0,
@@ -67,9 +28,11 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     placement = 'center',
     transition = 'transform 0.25s ease-out',
     autoAdjust = true,
+    toolbar = ['zoom'],
+    disableWheelZoom = false,
   } = props;
   const defaultStyles = {
-    scale: 1,
+    scale: defaultScale,
     translateX: defaultTransform.x || 0,
     translateY: defaultTransform.y || 0,
     originX: '50%',
@@ -109,7 +72,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
   useEffect(() => {
     setTimeout(() => {
       if (placement) {
-        setPlacement(placement);
+        setPlacement(placement, false, defaultScale);
       }
     }, 10);
   }, [placement]);
@@ -118,49 +81,55 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     setPlacement,
   }));
 
-  const setPlacement = (placement: Placement, animation = false) => {
+  const setPlacement = (placement: Placement, animation = false, defaultScale = 1) => {
     if (!wrapperRef.current) return;
     const treeDom = wrapperRef.current.querySelector('.org-tree');
     if (!treeDom) return;
 
-    const { width: containerW, height: containerH } = wrapperRef.current.getBoundingClientRect();
+    const { width: wrapperW, height: wrapperH } = wrapperRef.current.getBoundingClientRect();
     const { width, height } = treeDom.getBoundingClientRect();
     const _transition = animation ? transition : void 0;
+    const ratio = defaultScale / 1;
+    const origin = {
+      x: (ratio - 1) * wrapperW * 0.5,
+      y: (ratio - 1) * wrapperH * 0.5,
+    };
 
+    // console.log('setPlacement:', placement, { wrapperW, wrapperH, width, height })
     switch (placement) {
       case 'center': {
         setStyles({
-          translateX: (containerW - width) / 2,
-          translateY: (containerH - height) / 2,
+          translateX: (wrapperW - width) / 2 + origin.x,
+          translateY: (wrapperH - height) / 2 + origin.y,
           transition: _transition,
-          scale: 1,
+          scale: defaultScale,
         });
         break;
       }
       case 'topLeft': {
         setStyles({
-          translateX: offset.x,
-          translateY: offset.y,
+          translateX: offset.x + origin.x,
+          translateY: offset.y + origin.y,
           transition: _transition,
-          scale: 1,
+          scale: defaultScale,
         });
         break;
       }
       case 'topCenter': {
         setStyles({
-          translateX: (containerW - width) / 2 + offset.x,
-          translateY: offset.y,
+          translateX: (wrapperW - width) / 2 + offset.x + origin.x,
+          translateY: offset.y + origin.y,
           transition: _transition,
-          scale: 1,
+          scale: defaultScale,
         });
         break;
       }
       case 'leftCenter': {
         setStyles({
-          translateX: 0,
-          translateY: (containerH - height) / 2,
+          translateX: 0 + origin.x,
+          translateY: (wrapperH - height) / 2 + origin.y,
           transition: _transition,
-          scale: 1,
+          scale: defaultScale,
         });
         break;
       }
@@ -218,15 +187,15 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     const { ratio, ev } = opts;
     const { translateX, translateY } = stylesRef.current;
     const {
-      width: containerW,
-      height: containerH,
+      width: wrapperW,
+      height: wrapperH,
       left,
       top,
     } = wrapperRef.current.getBoundingClientRect();
     // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
     const origin = {
-      x: (ratio - 1) * containerW * 0.5,
-      y: (ratio - 1) * containerH * 0.5,
+      x: (ratio - 1) * wrapperW * 0.5,
+      y: (ratio - 1) * wrapperH * 0.5,
     };
     // 计算偏移量
     const x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
@@ -238,24 +207,22 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     };
   };
 
-  const onZoom = (ev: globalThis.WheelEvent) => {
-    const wheelDirection = ev.deltaY;
+  const onZoom = (flag = 1, ev?: globalThis.WheelEvent) => {
     const state = stylesRef.current;
-
-    // console.log('onZoom:', ev.deltaY);
-
     let _scale = state.scale;
 
-    if (wheelDirection > 0) {
+    if (flag > 0) {
       // 缩小
       _scale = _scale <= minZoom ? minZoom : _scale - zoomStep;
-    } else if (wheelDirection < 0) {
+    } else if (flag < 0) {
       // 放大
       _scale = _scale >= maxZoom ? maxZoom : _scale + zoomStep;
     }
-    const trans = calcScaleOriginTransform({ ratio: _scale / state.scale, ev });
+    _scale = parseFloat(_scale.toFixed(2));
 
-    // console.log('trans:', trans);
+    const trans = ev ? calcScaleOriginTransform({ ratio: _scale / state.scale, ev }) : {};
+
+    // console.log('_scale:', _scale);
     const newState = {
       ...state,
       ...trans,
@@ -265,7 +232,13 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     setStyles(newState);
   };
 
-  const throttleOnZoom = throttle(onZoom, 1);
+  const handleZoom = (ev: globalThis.WheelEvent) => {
+    const wheelDirection = ev.deltaY;
+
+    onZoom(wheelDirection, ev);
+  };
+
+  const throttleOnZoom = throttle(handleZoom, 1);
 
   const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (ev) => {
     ev.preventDefault();
@@ -295,7 +268,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
   };
 
   const handleWheelMove = (ev: globalThis.WheelEvent) => {
-    if (!zoom) return;
+    if (!zoom || disableWheelZoom) return;
     ev.preventDefault();
     ev.stopPropagation();
 
@@ -306,7 +279,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     return typeof value === 'number' ? `${value}px` : value;
   };
 
-  // console.log('render styles:', styles);
+  // console.log('render styles:', styles, props);
   return (
     <div
       className={cls('drag-wrapper', wrapperClassName)}
@@ -326,6 +299,54 @@ export function DragableContainer(props: DragableContainerProps, ref) {
         }}
       >
         {children}
+      </div>
+      <div className={cls('toolbar')}>
+        {toolbar.includes('zoom') && (
+          <div className={cls('tool-item scal-tool-item')}>
+            <div className={cls('scale-icon')} onClick={() => onZoom(1)}>
+              <svg
+                t="1654504508891"
+                class="icon"
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                p-id="4720"
+                width="200"
+                height="200"
+              >
+                <path
+                  d="M269.473684 485.052632m40.421053 0l404.210526 0q40.421053 0 40.421053 40.421052l0 0q0 40.421053-40.421053 40.421053l-404.210526 0q-40.421053 0-40.421053-40.421053l0 0q0-40.421053 40.421053-40.421052Z"
+                  fill="#666666"
+                  p-id="4721"
+                ></path>
+              </svg>
+            </div>
+            <div className={cls('scale-num')}>{(styles.scale * 100) >> 0}%</div>
+            <div className={cls('scale-icon')} onClick={() => onZoom(-1)}>
+              <svg
+                t="1654504404583"
+                class="icon"
+                viewBox="0 0 1024 1024"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                p-id="4584"
+                width="200"
+                height="200"
+              >
+                <path
+                  d="M269.473684 485.052632m40.421053 0l404.210526 0q40.421053 0 40.421053 40.421052l0 0q0 40.421053-40.421053 40.421053l-404.210526 0q-40.421053 0-40.421053-40.421053l0 0q0-40.421053 40.421053-40.421052Z"
+                  fill="#666666"
+                  p-id="4585"
+                ></path>
+                <path
+                  d="M552.421053 282.947368m0 40.421053l0 404.210526q0 40.421053-40.421053 40.421053l0 0q-40.421053 0-40.421053-40.421053l0-404.210526q0-40.421053 40.421053-40.421053l0 0q40.421053 0 40.421053 40.421053Z"
+                  fill="#666666"
+                  p-id="4586"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

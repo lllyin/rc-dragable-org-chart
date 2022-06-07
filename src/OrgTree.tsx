@@ -27,11 +27,14 @@ function OrgTree(props: OrgTreeProps) {
     defaultExpandLevels,
     placement,
     layout = 'vertical',
+    defaultScale,
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
     expandAll = true,
     autoAdjust = true,
     offset,
     forward,
+    toolbar,
+    disableWheelZoom,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
   const dragContainerRef: any = useRef(null);
@@ -115,6 +118,9 @@ function OrgTree(props: OrgTreeProps) {
       wrapperClassName={wrapperClassName}
       offset={offset}
       autoAdjust={autoAdjust}
+      defaultScale={defaultScale}
+      toolbar={toolbar}
+      disableWheelZoom={disableWheelZoom}
     >
       <div className={cls('org-tree-container')}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
