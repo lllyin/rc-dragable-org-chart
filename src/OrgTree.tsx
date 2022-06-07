@@ -29,6 +29,7 @@ function OrgTree(props: OrgTreeProps) {
     layout = 'vertical',
     defaultScale,
     nodeKeys = { ...defaultNodeKeys, ...props.nodeKeys },
+    nodeKey = 'id',
     expandAll = true,
     autoAdjust = true,
     offset,
@@ -127,6 +128,7 @@ function OrgTree(props: OrgTreeProps) {
           <TreeNode
             key={refresh}
             {...props}
+            nodeKey={nodeKey}
             placement={placement}
             layout={layout}
             nodeKeys={nodeKeys}

@@ -55,6 +55,7 @@ class OrgTreeDemo extends Component {
       <div className="m-t-lg text-center">
         <OrgTree
           // disableWheelZoom
+          nodeKey="id"
           data={data}
           placement="center"
           horizontal={horizontal}
