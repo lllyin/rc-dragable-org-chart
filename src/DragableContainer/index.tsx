@@ -184,7 +184,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
   };
 
   // 计算缩放原点
-  const calcScaleOriginTransform = (opts: { ratio: number; ev: globalThis.WheelEvent }) => {
+  const calcScaleOriginTransform = (opts: { ratio: number; ev?: globalThis.WheelEvent }) => {
     if (!wrapperRef.current) return;
     const { ratio, ev } = opts;
     const { translateX, translateY } = stylesRef.current;
@@ -194,14 +194,16 @@ export function DragableContainer(props: DragableContainerProps, ref) {
       left,
       top,
     } = wrapperRef.current.getBoundingClientRect();
-    // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
     const origin = {
       x: (ratio - 1) * wrapperW * 0.5,
       y: (ratio - 1) * wrapperH * 0.5,
     };
+    const posX = ev ? ev.clientX - left : wrapperW / 2;
+    const posY = ev ? ev.clientY - top : wrapperH / 2;
+    // console.log('calcScaleOriginTransform', ratio, origin, { posX, posY })
     // 计算偏移量
-    const x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
-    const y = translateY - ((ratio - 1) * (ev.clientY - top - translateY) - origin.y);
+    const x = translateX - ((ratio - 1) * (posX - translateX) - origin.x);
+    const y = translateY - ((ratio - 1) * (posY - translateY) - origin.y);
 
     return {
       translateX: Number(x.toFixed(3)),
@@ -222,7 +224,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
     }
     _scale = parseFloat(_scale.toFixed(2));
 
-    const trans = ev ? calcScaleOriginTransform({ ratio: _scale / state.scale, ev }) : {};
+    const trans = calcScaleOriginTransform({ ratio: _scale / state.scale, ev });
 
     // console.log('_scale:', _scale);
     const newState = {
