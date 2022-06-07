@@ -48,7 +48,7 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
         // }}
       >
         <div className={cls('combine-nodes', 'combine-nodes')} data-colnum={colNum}>
-          {/* {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))} */}
+          {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))}
         </div>
       </div>
     </div>
