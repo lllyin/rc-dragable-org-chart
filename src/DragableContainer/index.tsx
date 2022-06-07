@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } f
 import classnames from '../utils/classnames';
 import { throttle } from '../utils';
 import { DragableContainerProps, Styles, Placement } from './DragableContainer.type';
+import { ReactComponent as ZoomOutIcon } from './zoom-out-icon.svg';
+import { ReactComponent as ZoomInIcon } from './zoom-in-icon.svg';
 
 import styles from './index.module.less';
 
@@ -304,46 +306,12 @@ export function DragableContainer(props: DragableContainerProps, ref) {
         {toolbar.includes('zoom') && (
           <div className={cls('tool-item scal-tool-item')}>
             <div className={cls('scale-icon')} onClick={() => onZoom(1)}>
-              <svg
-                t="1654504508891"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="4720"
-                width="200"
-                height="200"
-              >
-                <path
-                  d="M269.473684 485.052632m40.421053 0l404.210526 0q40.421053 0 40.421053 40.421052l0 0q0 40.421053-40.421053 40.421053l-404.210526 0q-40.421053 0-40.421053-40.421053l0 0q0-40.421053 40.421053-40.421052Z"
-                  fill="#666666"
-                  p-id="4721"
-                ></path>
-              </svg>
+              {/* <img src={ZoomOutIcon} /> */}
+              <ZoomOutIcon />
             </div>
             <div className={cls('scale-num')}>{(styles.scale * 100) >> 0}%</div>
             <div className={cls('scale-icon')} onClick={() => onZoom(-1)}>
-              <svg
-                t="1654504404583"
-                class="icon"
-                viewBox="0 0 1024 1024"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                p-id="4584"
-                width="200"
-                height="200"
-              >
-                <path
-                  d="M269.473684 485.052632m40.421053 0l404.210526 0q40.421053 0 40.421053 40.421052l0 0q0 40.421053-40.421053 40.421053l-404.210526 0q-40.421053 0-40.421053-40.421053l0 0q0-40.421053 40.421053-40.421052Z"
-                  fill="#666666"
-                  p-id="4585"
-                ></path>
-                <path
-                  d="M552.421053 282.947368m0 40.421053l0 404.210526q0 40.421053-40.421053 40.421053l0 0q-40.421053 0-40.421053-40.421053l0-404.210526q0-40.421053 40.421053-40.421053l0 0q40.421053 0 40.421053 40.421053Z"
-                  fill="#666666"
-                  p-id="4586"
-                ></path>
-              </svg>
+              <ZoomInIcon />
             </div>
           </div>
         )}
