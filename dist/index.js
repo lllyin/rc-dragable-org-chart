@@ -314,8 +314,45 @@ function throttle(fn, delay) {
   };
 }
 
-var css_248z$1 = ".index-module_drag-wrapper__2qxHS .index-module_drag-container__qXc8X {\n  cursor: default;\n}\n.__dumi-default-previewer-demo {\n  overflow: hidden;\n}\n";
-var styles$1 = {"drag-wrapper":"index-module_drag-wrapper__2qxHS","drag-container":"index-module_drag-container__qXc8X"};
+var _defs, _path;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function SvgZoomOutIcon(props) {
+  return /*#__PURE__*/React.createElement("svg", _extends({
+    className: "zoom-out-icon_svg__icon",
+    viewBox: "0 0 1024 1024",
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 200,
+    height: 200
+  }, props), _defs || (_defs = /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("style", null))), _path || (_path = /*#__PURE__*/React.createElement("path", {
+    d: "M309.894 485.053h404.211q40.421 0 40.421 40.42 0 40.422-40.42 40.422H309.894q-40.421 0-40.421-40.421t40.42-40.421z",
+    fill: "#666"
+  })));
+}
+
+var _defs$1, _path$1, _path2;
+
+function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
+
+function SvgZoomInIcon(props) {
+  return /*#__PURE__*/React.createElement("svg", _extends$1({
+    className: "zoom-in-icon_svg__icon",
+    viewBox: "0 0 1024 1024",
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 200,
+    height: 200
+  }, props), _defs$1 || (_defs$1 = /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("style", null))), _path$1 || (_path$1 = /*#__PURE__*/React.createElement("path", {
+    d: "M309.894 485.053h404.211q40.421 0 40.421 40.42 0 40.422-40.42 40.422H309.894q-40.421 0-40.421-40.421t40.42-40.421z",
+    fill: "#666"
+  })), _path2 || (_path2 = /*#__PURE__*/React.createElement("path", {
+    d: "M552.421 323.368v404.21Q552.421 768 512 768t-40.421-40.421v-404.21q0-40.422 40.421-40.422t40.421 40.421z",
+    fill: "#666"
+  })));
+}
+
+var css_248z$1 = ".index-module_drag-wrapper__2qxHS {\n  position: relative;\n}\n.index-module_drag-wrapper__2qxHS .index-module_drag-container__qXc8X {\n  cursor: default;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc {\n  position: absolute;\n  right: 20px;\n  bottom: 16px;\n  z-index: 9999;\n  color: #666666;\n  font-size: 12px;\n  background-color: #fff;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_tool-item__1sV7A {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_scal-tool-item__3gpma {\n  cursor: pointer;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_scal-tool-item__3gpma .index-module_scale-icon__1zqpL {\n  line-height: 0;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_scal-tool-item__3gpma .index-module_scale-icon__1zqpL:hover {\n  background-color: rgba(0, 0, 0, 0.1);\n  border-radius: 50%;\n  transform-origin: 50% 50%;\n  transition: all 0.15s ease-out;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_scal-tool-item__3gpma .index-module_scale-icon__1zqpL > svg {\n  width: 20px;\n  height: 20px;\n}\n.index-module_drag-wrapper__2qxHS .index-module_toolbar__1Rpbc .index-module_scal-tool-item__3gpma .index-module_scale-num__GHOF7 {\n  width: 44px;\n  text-align: center;\n}\n.__dumi-default-previewer-demo {\n  overflow: hidden;\n}\n";
+var styles$1 = {"drag-wrapper":"index-module_drag-wrapper__2qxHS","drag-container":"index-module_drag-container__qXc8X","toolbar":"index-module_toolbar__1Rpbc","tool-item":"index-module_tool-item__1sV7A","scal-tool-item":"index-module_scal-tool-item__3gpma","scale-icon":"index-module_scale-icon__1zqpL","scale-num":"index-module_scale-num__GHOF7"};
 styleInject(css_248z$1);
 
 var cls$1 = classnames(styles$1);
@@ -333,6 +370,8 @@ function DragableContainer(props, ref) {
       maxZoom = _props$maxZoom === void 0 ? 2 : _props$maxZoom,
       _props$zoomStep = props.zoomStep,
       zoomStep = _props$zoomStep === void 0 ? 0.1 : _props$zoomStep,
+      _props$defaultScale = props.defaultScale,
+      defaultScale = _props$defaultScale === void 0 ? 1 : _props$defaultScale,
       _props$defaultTransfo = props.defaultTransform,
       defaultTransform = _props$defaultTransfo === void 0 ? {
     x: 0,
@@ -348,9 +387,13 @@ function DragableContainer(props, ref) {
       _props$transition = props.transition,
       transition = _props$transition === void 0 ? 'transform 0.25s ease-out' : _props$transition,
       _props$autoAdjust = props.autoAdjust,
-      autoAdjust = _props$autoAdjust === void 0 ? true : _props$autoAdjust;
+      autoAdjust = _props$autoAdjust === void 0 ? true : _props$autoAdjust,
+      _props$toolbar = props.toolbar,
+      toolbar = _props$toolbar === void 0 ? ['zoom'] : _props$toolbar,
+      _props$disableWheelZo = props.disableWheelZoom,
+      disableWheelZoom = _props$disableWheelZo === void 0 ? false : _props$disableWheelZo;
   var defaultStyles = {
-    scale: 1,
+    scale: defaultScale,
     translateX: defaultTransform.x || 0,
     translateY: defaultTransform.y || 0,
     originX: '50%',
@@ -396,7 +439,7 @@ function DragableContainer(props, ref) {
   React.useEffect(function () {
     setTimeout(function () {
       if (placement) {
-        setPlacement(placement);
+        setPlacement(placement, false, defaultScale);
       }
     }, 10);
   }, [placement]);
@@ -408,13 +451,14 @@ function DragableContainer(props, ref) {
 
   var setPlacement = function setPlacement(placement) {
     var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var defaultScale = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
     if (!wrapperRef.current) return;
     var treeDom = wrapperRef.current.querySelector('.org-tree');
     if (!treeDom) return;
 
     var _wrapperRef$current$g = wrapperRef.current.getBoundingClientRect(),
-        containerW = _wrapperRef$current$g.width,
-        containerH = _wrapperRef$current$g.height;
+        wrapperW = _wrapperRef$current$g.width,
+        wrapperH = _wrapperRef$current$g.height;
 
     var _treeDom$getBoundingC = treeDom.getBoundingClientRect(),
         width = _treeDom$getBoundingC.width,
@@ -422,14 +466,20 @@ function DragableContainer(props, ref) {
 
     var _transition = animation ? transition : void 0;
 
+    var ratio = defaultScale / 1;
+    var origin = {
+      x: (ratio - 1) * wrapperW * 0.5,
+      y: (ratio - 1) * wrapperH * 0.5
+    }; // console.log('setPlacement:', placement, { wrapperW, wrapperH, width, height })
+
     switch (placement) {
       case 'center':
         {
           setStyles({
-            translateX: (containerW - width) / 2,
-            translateY: (containerH - height) / 2,
+            translateX: (wrapperW - width) / 2 + origin.x,
+            translateY: (wrapperH - height) / 2 + origin.y,
             transition: _transition,
-            scale: 1
+            scale: defaultScale
           });
           break;
         }
@@ -437,10 +487,10 @@ function DragableContainer(props, ref) {
       case 'topLeft':
         {
           setStyles({
-            translateX: offset.x,
-            translateY: offset.y,
+            translateX: offset.x + origin.x,
+            translateY: offset.y + origin.y,
             transition: _transition,
-            scale: 1
+            scale: defaultScale
           });
           break;
         }
@@ -448,10 +498,10 @@ function DragableContainer(props, ref) {
       case 'topCenter':
         {
           setStyles({
-            translateX: (containerW - width) / 2 + offset.x,
-            translateY: offset.y,
+            translateX: (wrapperW - width) / 2 + offset.x + origin.x,
+            translateY: offset.y + origin.y,
             transition: _transition,
-            scale: 1
+            scale: defaultScale
           });
           break;
         }
@@ -459,10 +509,10 @@ function DragableContainer(props, ref) {
       case 'leftCenter':
         {
           setStyles({
-            translateX: 0,
-            translateY: (containerH - height) / 2,
+            translateX: 0 + origin.x,
+            translateY: (wrapperH - height) / 2 + origin.y,
             transition: _transition,
-            scale: 1
+            scale: defaultScale
           });
           break;
         }
@@ -518,15 +568,15 @@ function DragableContainer(props, ref) {
         translateY = _stylesRef$current.translateY;
 
     var _wrapperRef$current$g2 = wrapperRef.current.getBoundingClientRect(),
-        containerW = _wrapperRef$current$g2.width,
-        containerH = _wrapperRef$current$g2.height,
+        wrapperW = _wrapperRef$current$g2.width,
+        wrapperH = _wrapperRef$current$g2.height,
         left = _wrapperRef$current$g2.left,
         top = _wrapperRef$current$g2.top; // console.log('calcScaleOriginTransform', containerRef.current?.style.transform, { translateX, translateY, containerW, containerH, left, top })
 
 
     var origin = {
-      x: (ratio - 1) * containerW * 0.5,
-      y: (ratio - 1) * containerH * 0.5
+      x: (ratio - 1) * wrapperW * 0.5,
+      y: (ratio - 1) * wrapperH * 0.5
     }; // 计算偏移量
 
     var x = translateX - ((ratio - 1) * (ev.clientX - left - translateX) - origin.x);
@@ -537,24 +587,25 @@ function DragableContainer(props, ref) {
     };
   };
 
-  var onZoom = function onZoom(ev) {
-    var wheelDirection = ev.deltaY;
-    var state = stylesRef.current; // console.log('onZoom:', ev.deltaY);
-
+  var onZoom = function onZoom() {
+    var flag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var ev = arguments.length > 1 ? arguments[1] : undefined;
+    var state = stylesRef.current;
     var _scale = state.scale;
 
-    if (wheelDirection > 0) {
+    if (flag > 0) {
       // 缩小
       _scale = _scale <= minZoom ? minZoom : _scale - zoomStep;
-    } else if (wheelDirection < 0) {
+    } else if (flag < 0) {
       // 放大
       _scale = _scale >= maxZoom ? maxZoom : _scale + zoomStep;
     }
 
-    var trans = calcScaleOriginTransform({
+    _scale = parseFloat(_scale.toFixed(2));
+    var trans = ev ? calcScaleOriginTransform({
       ratio: _scale / state.scale,
       ev: ev
-    }); // console.log('trans:', trans);
+    }) : {}; // console.log('_scale:', _scale);
 
     var newState = _objectSpread2(_objectSpread2(_objectSpread2({}, state), trans), {}, {
       scale: _scale
@@ -563,7 +614,12 @@ function DragableContainer(props, ref) {
     setStyles(newState);
   };
 
-  var throttleOnZoom = throttle(onZoom, 1);
+  var handleZoom = function handleZoom(ev) {
+    var wheelDirection = ev.deltaY;
+    onZoom(wheelDirection, ev);
+  };
+
+  var throttleOnZoom = throttle(handleZoom, 1);
 
   var handleMouseDown = function handleMouseDown(ev) {
     ev.preventDefault();
@@ -589,7 +645,7 @@ function DragableContainer(props, ref) {
   };
 
   var handleWheelMove = function handleWheelMove(ev) {
-    if (!zoom) return;
+    if (!zoom || disableWheelZoom) return;
     ev.preventDefault();
     ev.stopPropagation();
     throttleOnZoom(ev);
@@ -597,7 +653,7 @@ function DragableContainer(props, ref) {
 
   var getUnitValue = function getUnitValue(value) {
     return typeof value === 'number' ? "".concat(value, "px") : value;
-  }; // console.log('render styles:', styles);
+  }; // console.log('render styles:', styles, props);
 
 
   return /*#__PURE__*/React__default['default'].createElement("div", {
@@ -613,7 +669,23 @@ function DragableContainer(props, ref) {
       transformOrigin: "".concat(getUnitValue(styles.originX), " ").concat(getUnitValue(styles.originY)),
       transition: styles.transition
     }
-  }, children));
+  }, children), /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls$1('toolbar')
+  }, toolbar.includes('zoom') && /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls$1('tool-item scal-tool-item')
+  }, /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls$1('scale-icon'),
+    onClick: function onClick() {
+      return onZoom(1);
+    }
+  }, /*#__PURE__*/React__default['default'].createElement(SvgZoomOutIcon, null)), /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls$1('scale-num')
+  }, styles.scale * 100 >> 0, "%"), /*#__PURE__*/React__default['default'].createElement("div", {
+    className: cls$1('scale-icon'),
+    onClick: function onClick() {
+      return onZoom(-1);
+    }
+  }, /*#__PURE__*/React__default['default'].createElement(SvgZoomInIcon, null)))));
 }
 var DragableContainer$1 = /*#__PURE__*/React.forwardRef(DragableContainer);
 
@@ -641,6 +713,7 @@ function OrgTree(props) {
       placement = props.placement,
       _props$layout = props.layout,
       layout = _props$layout === void 0 ? 'vertical' : _props$layout,
+      defaultScale = props.defaultScale,
       _props$nodeKeys = props.nodeKeys,
       nodeKeys = _props$nodeKeys === void 0 ? _objectSpread2(_objectSpread2({}, defaultNodeKeys), props.nodeKeys) : _props$nodeKeys,
       _props$expandAll = props.expandAll,
@@ -648,7 +721,9 @@ function OrgTree(props) {
       _props$autoAdjust = props.autoAdjust,
       autoAdjust = _props$autoAdjust === void 0 ? true : _props$autoAdjust,
       offset = props.offset,
-      forward = props.forward;
+      forward = props.forward,
+      toolbar = props.toolbar,
+      disableWheelZoom = props.disableWheelZoom;
 
   var _useState = React.useState(Date.now),
       _useState2 = _slicedToArray(_useState, 2),
@@ -734,7 +809,10 @@ function OrgTree(props) {
     placement: placement,
     wrapperClassName: wrapperClassName,
     offset: offset,
-    autoAdjust: autoAdjust
+    autoAdjust: autoAdjust,
+    defaultScale: defaultScale,
+    toolbar: toolbar,
+    disableWheelZoom: disableWheelZoom
   }, /*#__PURE__*/React__default['default'].createElement("div", {
     className: cls$2('org-tree-container')
   }, /*#__PURE__*/React__default['default'].createElement("div", {
