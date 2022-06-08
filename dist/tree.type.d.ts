@@ -23,6 +23,7 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
         foreUpdate: Function;
     }) => void;
     nodeKey: string;
+    spacing?: number;
 }
 export interface TreeNodeProps extends OrgTreeProps {
     onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;
