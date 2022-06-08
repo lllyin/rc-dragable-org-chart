@@ -36,11 +36,13 @@ function OrgTree(props: OrgTreeProps) {
     forward,
     toolbar,
     disableWheelZoom,
+    spacing = 10,
   } = props;
   const [refresh, setRefresh] = useState(Date.now);
   const dragContainerRef: any = useRef(null);
   const expandKey = nodeKeys.expand;
   const levelKey = nodeKeys.level;
+  const style = { '--card-spacing': `${spacing}px` } as React.CSSProperties;
 
   useEffect(() => {
     if (expandAll !== void 0) {
@@ -123,7 +125,7 @@ function OrgTree(props: OrgTreeProps) {
       toolbar={toolbar}
       disableWheelZoom={disableWheelZoom}
     >
-      <div className={cls('org-tree-container')}>
+      <div className={cls('org-tree-container')} style={style}>
         <div className={cls('org-tree', `${layout} org-tree`)}>
           <TreeNode
             key={refresh}

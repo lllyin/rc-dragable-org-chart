@@ -34,6 +34,8 @@ export interface OrgTreeProps
   forward?: (params: { data: TreeData; foreUpdate: Function }) => void;
   // 遍历key
   nodeKey: string;
+  // 卡片间距
+  spacing?: number;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {
