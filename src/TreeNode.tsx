@@ -35,7 +35,7 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
     <div
       className={cls(
         'tree-node combine-tree-node',
-        `tree-node is-leaf'} ${isExpand ? '' : 'collapsed'}`,
+        `tree-node is-leaf ${isExpand ? '' : 'collapsed'} len-${nodes.length}`,
       )}
       key={`leafs-len-${nodes.length}`}
       data-colnum={colNum}
@@ -47,7 +47,10 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
         //   ev.stopPropagation();
         // }}
       >
-        <div className={cls('combine-nodes', 'combine-nodes')} data-colnum={colNum}>
+        <div
+          className={cls('combine-nodes', `combine-nodes len-${nodes.length}`)}
+          data-colnum={colNum}
+        >
           {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))}
         </div>
       </div>

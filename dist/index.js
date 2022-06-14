@@ -177,7 +177,7 @@ function CombinedNodes(props) {
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   return /*#__PURE__*/React__default['default'].createElement("div", {
-    className: cls('tree-node combine-tree-node', "tree-node is-leaf'} ".concat( '' )),
+    className: cls('tree-node combine-tree-node', "tree-node is-leaf ".concat( '' , " len-").concat(nodes.length)),
     key: "leafs-len-".concat(nodes.length),
     "data-colnum": colNum
   }, /*#__PURE__*/React__default['default'].createElement("div", {
@@ -186,7 +186,7 @@ function CombinedNodes(props) {
       return _onClick && _onClick(nodes);
     }
   }, /*#__PURE__*/React__default['default'].createElement("div", {
-    className: cls('combine-nodes', 'combine-nodes'),
+    className: cls('combine-nodes', "combine-nodes len-".concat(nodes.length)),
     "data-colnum": colNum
   }, nodes.map(function (leaf) {
     return renderContent(leaf, leaf[levelKey], colNum);
@@ -551,7 +551,7 @@ function DragableContainer(props, ref) {
         // console.log('--不在可视范围内:', posRef.current.isMove, res, treeDom)
         setTimeout(function () {
           if (!posRef.current.isMove && autoAdjust) {
-            setPlacement(placement, true);
+            setPlacement(placement, true, defaultScale);
           }
         }, 200);
       }
@@ -706,6 +706,7 @@ var styles$2 = {"org-tree-container":"OrgTree-module_org-tree-container__3iceM",
 styleInject(css_248z$2);
 
 var cls$2 = classnames(styles$2);
+var isInit = false;
 var defaultNodeKeys = {
   label: 'label',
   expand: '_expand',
@@ -756,6 +757,12 @@ function OrgTree(props) {
   React.useEffect(function () {
     if (expandAll !== void 0) {
       toogleExpandAll(props.data, expandAll, defaultExpandLevels);
+      setTimeout(function () {
+        var _dragContainerRef$cur;
+
+        isInit && ((_dragContainerRef$cur = dragContainerRef.current) === null || _dragContainerRef$cur === void 0 ? void 0 : _dragContainerRef$cur.setPlacement(placement, false, defaultScale));
+        isInit = true;
+      }, 10);
     }
 
     forward && forward({
