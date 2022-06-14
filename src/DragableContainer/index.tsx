@@ -165,7 +165,7 @@ export function DragableContainer(props: DragableContainerProps, ref) {
         // console.log('--不在可视范围内:', posRef.current.isMove, res, treeDom)
         setTimeout(() => {
           if (!posRef.current.isMove && autoAdjust) {
-            setPlacement(placement, true);
+            setPlacement(placement, true, defaultScale);
           }
         }, 200);
       }

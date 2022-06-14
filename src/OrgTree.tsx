@@ -7,6 +7,7 @@ import DragableContainer from './DragableContainer/index';
 import styles from './OrgTree.module.less';
 
 const cls = classnames(styles);
+let isInit = false;
 
 const defaultNodeKeys = {
   label: 'label',
@@ -48,6 +49,11 @@ function OrgTree(props: OrgTreeProps) {
   useEffect(() => {
     if (expandAll !== void 0) {
       toogleExpandAll(props.data, expandAll, defaultExpandLevels);
+
+      setTimeout(() => {
+        isInit && dragContainerRef.current?.setPlacement(placement, false, defaultScale);
+        isInit = true;
+      }, 10);
     }
     forward &&
       forward({
