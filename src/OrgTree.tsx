@@ -42,6 +42,7 @@ function OrgTree(props: OrgTreeProps) {
   const dragContainerRef: any = useRef(null);
   const expandKey = nodeKeys.expand;
   const levelKey = nodeKeys.level;
+  const parentKey = '_parent';
   const style = { '--card-spacing': `${spacing}px` } as React.CSSProperties;
 
   useEffect(() => {
@@ -92,6 +93,7 @@ function OrgTree(props: OrgTreeProps) {
     if (nodeData.children) {
       nodeData.children.forEach((node) => {
         node[levelKey] = nodeData[levelKey] + 1;
+        node[parentKey] = nodeData;
         expandAllNode(node, isExpand);
       });
     }

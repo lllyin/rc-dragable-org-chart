@@ -36,6 +36,8 @@ export interface OrgTreeProps
   nodeKey: string;
   // 卡片间距
   spacing?: number;
+  // 是否合并叶子结点
+  mergeNode?: (data: TreeData) => boolean;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {

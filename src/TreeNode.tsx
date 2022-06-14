@@ -107,14 +107,15 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
 }
 
 const renderChildren = (children: TreeData['children'], props: TreeNodeProps, colNum: number) => {
-  const { nodeKey } = props;
+  const { nodeKey, mergeNode } = props;
   let combinedNodes: TreeData[] = [];
   let index = 0;
 
   let childEles = [
     <div className={cls('children')}>
       {children?.map((node) => {
-        const isCombine = node[props.nodeKeys?.combine || ''];
+        // const isCombine = node[props.nodeKeys?.combine || ''];
+        const isCombine = mergeNode && mergeNode(node);
         const keyId = `child-${node[nodeKey]}`;
 
         if (isCombine) {
@@ -141,7 +142,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
   if (combinedNodes.length === children?.length) {
     childEles = [<CombinedNodes nodes={combinedNodes} extraProps={props} colNum={colNum} />];
   } else if (combinedNodes.length > 0) {
-    childEles.unshift(<CombinedNodes nodes={combinedNodes} extraProps={props} colNum={colNum} />);
+    childEles.push(<CombinedNodes nodes={combinedNodes} extraProps={props} colNum={colNum} />);
   }
 
   return childEles;
