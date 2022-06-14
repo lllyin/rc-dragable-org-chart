@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 import OrgTree from 'rc-dragable-org-chart';
 
+const isLeaf = (data) => {
+  return !data.children || data.children.length === 0;
+};
+
 class OrgTreeDemo extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +73,9 @@ class OrgTreeDemo extends Component {
           }}
           onClick={(e, data) => {
             //todo
+          }}
+          mergeNode={(node) => {
+            return node._level >= 3;
           }}
         ></OrgTree>
       </div>
