@@ -2,7 +2,7 @@
   "private": false,
   "license": "MIT",
   "name": "rc-dragable-org-chart",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
