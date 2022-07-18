@@ -23,8 +23,8 @@
     border-left: 1px solid #ddd;
   }
 
-  &:not(:first-child):before,
-  &:not(:last-child):after {
+  &:not(:first-of-type):before,
+  &:not(:last-of-type):after {
     border-top: 1px solid #ddd;
   }
 
@@ -64,6 +64,11 @@
       display: table;
       clear: both;
       content: '';
+    }
+    > .combine-tree-node {
+      .arrow-icon {
+        display: none;
+      }
     }
   }
 }
@@ -113,8 +118,8 @@
       border-bottom: 1px solid #ddd;
     }
 
-    &:not(:first-child):before,
-    &:not(:last-child):after {
+    &:not(:first-of-type):before,
+    &:not(:last-of-type):after {
       border-top: 0;
       border-left: 1px solid #ddd;
     }
@@ -215,4 +220,13 @@
   &:global(.expanded):after {
     border: none;
   }
+}
+
+.arrow-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 12px;
+  height: auto;
+  transform: translate(-50%, 0%);
 }

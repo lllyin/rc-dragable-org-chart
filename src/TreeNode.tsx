@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import classnames from './utils/classnames';
 import { TreeData, TreeNodeProps } from './tree.type';
+import { ReactComponent as ArrowIcon } from './icons/arrow-icon.svg';
 
 import styles from './TreeNode.module.less';
 
@@ -54,6 +55,7 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
           {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))}
         </div>
       </div>
+      <ArrowIcon className={cls('arrow-icon')} />
     </div>
   );
 }
@@ -139,6 +141,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
         index += 1;
         return <Node key={keyId} data={node} extraProps={props} colNum={index} />;
       })}
+      <ArrowIcon className={cls('arrow-icon')} />
     </div>,
   ];
 

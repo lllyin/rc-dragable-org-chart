@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } f
 import classnames from '../utils/classnames';
 import { throttle } from '../utils';
 import { DragableContainerProps, Styles, Placement } from './DragableContainer.type';
-import { ReactComponent as ZoomOutIcon } from './zoom-out-icon.svg';
-import { ReactComponent as ZoomInIcon } from './zoom-in-icon.svg';
+import { ReactComponent as ZoomOutIcon } from '../icons/zoom-out-icon.svg';
+import { ReactComponent as ZoomInIcon } from '../icons/zoom-in-icon.svg';
 
 import styles from './index.module.less';
 
