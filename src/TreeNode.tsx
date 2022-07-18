@@ -70,11 +70,15 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
     onClick,
     nodeKeys,
     nodeKey,
+    isHide,
   } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
   const isExpand = data[expandKey];
   const keyId = `node-${data[nodeKey]}`;
+  const isHidden = isHide && isHide(data);
+
+  if (isHidden) return null;
 
   const handleExpand = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     ev.stopPropagation();
@@ -112,16 +116,21 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
 }
 
 const renderChildren = (children: TreeData['children'], props: TreeNodeProps, colNum: number) => {
-  const { nodeKey, mergeNode } = props;
+  const { nodeKey, mergeNode, isHide } = props;
   let combinedNodes: TreeData[] = [];
   let index = 0;
 
   let childEles = [
     <div className={cls('children')}>
       {children?.map((node) => {
-        // const isCombine = node[props.nodeKeys?.combine || ''];
         const isCombine = mergeNode && mergeNode(node);
+        const isHidden = isHide && isHide(node);
         const keyId = `child-${node[nodeKey]}`;
+
+        if (isHidden) {
+          console.log('isCombine:', isCombine, node);
+          return null;
+        }
 
         if (isCombine) {
           combinedNodes.push(node);

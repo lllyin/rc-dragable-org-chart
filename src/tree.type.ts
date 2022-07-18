@@ -38,6 +38,8 @@ export interface OrgTreeProps
   spacing?: number;
   // 是否合并叶子结点
   mergeNode?: (data: TreeData) => boolean;
+  // 是否隐藏节点
+  isHide?: (data: TreeData) => boolean;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {
