@@ -12,7 +12,7 @@ class OrgTreeDemo extends Component {
     this.state = {
       data: {
         id: 0,
-        label: 'inke股份有限公司1',
+        label: '测试有限公司1',
         children: [
           {
             id: 1,
@@ -76,6 +76,9 @@ class OrgTreeDemo extends Component {
           }}
           mergeNode={(node) => {
             return node._level >= 3;
+          }}
+          isHide={(node) => {
+            return node.label === '运维工程师';
           }}
         ></OrgTree>
       </div>

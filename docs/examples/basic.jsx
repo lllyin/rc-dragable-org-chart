@@ -7,7 +7,7 @@ class OrgTreeDemo extends Component {
     this.state = {
       data: {
         id: 0,
-        label: 'inke股份有限公司',
+        label: '测试有限公司',
         children: [
           {
             id: 1,

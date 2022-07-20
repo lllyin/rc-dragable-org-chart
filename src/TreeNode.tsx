@@ -27,6 +27,7 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
     renderExpandButton = renderDefaultExpandBtn,
     onClick,
     nodeKeys,
+    nodeKey,
   } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
@@ -52,7 +53,11 @@ function CombinedNodes(props: { nodes: TreeData[]; extraProps: TreeNodeProps; co
           className={cls('combine-nodes', `combine-nodes len-${nodes.length}`)}
           data-colnum={colNum}
         >
-          {nodes.map((leaf) => renderContent(leaf, leaf[levelKey], colNum))}
+          {nodes.map((leaf) => {
+            const keyId = `leaf-${leaf[nodeKey]}`;
+
+            return <Fragment key={keyId}>{renderContent(leaf, leaf[levelKey], colNum)}</Fragment>;
+          })}
         </div>
       </div>
       <ArrowIcon className={cls('arrow-icon')} />
@@ -119,6 +124,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
   const { nodeKey, mergeNode, isHide } = props;
   let combinedNodes: TreeData[] = [];
   let index = 0;
+  let isAllNull = true;
 
   let childEles = [
     <div className={cls('children')}>
@@ -128,7 +134,6 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
         const keyId = `child-${node[nodeKey]}`;
 
         if (isHidden) {
-          console.log('isCombine:', isCombine, node);
           return null;
         }
 
@@ -136,8 +141,11 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
           combinedNodes.push(node);
           return null;
         }
+
+        isAllNull = false;
         if (combinedNodes.length > 0) {
           index += 1;
+
           const Compnent = (
             <Fragment key={`combine-${keyId}`}>
               <CombinedNodes nodes={combinedNodes} extraProps={props} colNum={colNum} />
@@ -150,7 +158,7 @@ const renderChildren = (children: TreeData['children'], props: TreeNodeProps, co
         index += 1;
         return <Node key={keyId} data={node} extraProps={props} colNum={index} />;
       })}
-      <ArrowIcon className={cls('arrow-icon')} />
+      {isAllNull ? null : <ArrowIcon className={cls('arrow-icon')} />}
     </div>,
   ];
 
