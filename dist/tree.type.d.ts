@@ -25,6 +25,7 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     nodeKey: string;
     spacing?: number;
     mergeNode?: (data: TreeData) => boolean;
+    isHide?: (data: TreeData) => boolean;
 }
 export interface TreeNodeProps extends OrgTreeProps {
     onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;

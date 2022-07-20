@@ -1,4 +1,4 @@
-import React, { Fragment, createElement, forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
+import React, { createElement, Fragment, forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -110,6 +110,23 @@ function classnames(styles) {
   };
 }
 
+var _defs, _path;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function SvgArrowIcon(props) {
+  return /*#__PURE__*/createElement("svg", _extends({
+    className: "arrow-icon_svg__icon",
+    viewBox: "0 0 1609 1024",
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 314.258,
+    height: 200
+  }, props), _defs || (_defs = /*#__PURE__*/createElement("defs", null, /*#__PURE__*/createElement("style", null))), _path || (_path = /*#__PURE__*/createElement("path", {
+    d: "M1441.938 643.95L907.995 110.007a146.286 146.286 0 00-206.848 0L167.205 643.95a146.286 146.286 0 00143.36 244.297L804.57 748.25l494.154 139.703a146.286 146.286 0 00143.36-244.297z",
+    fill: "#C6C6C6"
+  })));
+}
+
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
   var insertAt = ref.insertAt;
@@ -137,8 +154,8 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf,\n.TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-right: var(--card-spacing);\n  padding-left: 10px;\n  padding-left: var(--card-spacing);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_combine-nodes__93IVM {\n  padding: 0 10px;\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt.TreeNode-module_combine-tree-node__AXMnr::before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss.TreeNode-module_combine-tree-node__AXMnr::before {\n  display: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  float: none;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:before,\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  width: 19px;\n  height: 50%;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  top: 50%;\n  left: 0;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:only-child:before {\n  top: 1px;\n  border-bottom: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:first-child):before,\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:last-child):after {\n  border-top: 0;\n  border-left: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:only-child):after {\n  border-top: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt.is-leaf,\n.horizontal .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-top: 10px;\n  padding-top: var(--card-spacing);\n  padding-bottom: 10px;\n  padding-bottom: var(--card-spacing);\n}\n.horizontal .TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  display: table-cell;\n  vertical-align: middle;\n}\n.horizontal .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_children__3g1ss:before {\n  top: 50%;\n  left: 0;\n  width: 20px;\n  height: 0;\n  border-top: 1px solid #ddd;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_children__3g1ss:after {\n  display: none;\n}\n.horizontal .TreeNode-module_children__3g1ss > .TreeNode-module_tree-node__2gHNt {\n  display: block;\n}\n.horizontal > .TreeNode-module_tree-node__2gHNt:only-child::before {\n  border-bottom: 0;\n}\n.horizontal .TreeNode-module_epxand-btn__6p0ph {\n  top: 50%;\n  left: 100%;\n  margin-top: -11px;\n  margin-left: 9px;\n}\n.TreeNode-module_epxand-btn__6p0ph {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  z-index: 10;\n  width: 20px;\n  height: 20px;\n  margin-top: 9px;\n  margin-left: -11px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n}\n.TreeNode-module_epxand-btn__6p0ph:hover {\n  background-color: #e7e8e9;\n  transform: scale(1.15);\n}\n.TreeNode-module_epxand-btn__6p0ph:before,\n.TreeNode-module_epxand-btn__6p0ph:after {\n  position: absolute;\n  content: '';\n}\n.TreeNode-module_epxand-btn__6p0ph:before {\n  top: 50%;\n  right: 4px;\n  left: 4px;\n  height: 0;\n  border-top: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph:after {\n  top: 4px;\n  bottom: 4px;\n  left: 50%;\n  width: 0;\n  border-left: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph.expanded:after {\n  border: none;\n}\n";
-var styles = {"tree-node":"TreeNode-module_tree-node__2gHNt","label":"TreeNode-module_label__dGNlq","label-inner":"TreeNode-module_label-inner__nVX8y","children":"TreeNode-module_children__3g1ss","combine-nodes":"TreeNode-module_combine-nodes__93IVM","combine-tree-node":"TreeNode-module_combine-tree-node__AXMnr","epxand-btn":"TreeNode-module_epxand-btn__6p0ph"};
+var css_248z = ".TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  padding-top: 20px;\n  vertical-align: top;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf  .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-left: 10px;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt:after {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 50%;\n  height: 19px;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt:after {\n  left: 50%;\n  border-left: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt:not(:first-of-type):before,\n.TreeNode-module_tree-node__2gHNt:not(:last-of-type):after {\n  border-top: 1px solid #ddd;\n}\n.TreeNode-module_tree-node__2gHNt.is-leaf,\n.TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-right: 10px;\n  padding-right: var(--card-spacing);\n  padding-left: 10px;\n  padding-left: var(--card-spacing);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  position: relative;\n  display: inline-block;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq .TreeNode-module_label-inner__nVX8y {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 20px;\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  width: 0;\n  height: 20px;\n  border-left: 1px solid #ddd;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  display: table;\n  clear: both;\n  content: '';\n}\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss > .TreeNode-module_combine-tree-node__AXMnr .TreeNode-module_arrow-icon__1ljPg {\n  display: none;\n}\n.TreeNode-module_combine-nodes__93IVM {\n  padding: 0 0;\n}\n.TreeNode-module_tree-node__2gHNt,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss {\n  position: relative;\n  margin: 0;\n  list-style-type: none;\n}\n.TreeNode-module_tree-node__2gHNt:empty,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:empty {\n  display: none;\n}\n.TreeNode-module_tree-node__2gHNt.TreeNode-module_combine-tree-node__AXMnr::before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss.TreeNode-module_combine-tree-node__AXMnr::before {\n  display: none;\n}\n.TreeNode-module_tree-node__2gHNt:before,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:before,\n.TreeNode-module_tree-node__2gHNt:after,\n.TreeNode-module_tree-node__2gHNt .TreeNode-module_children__3g1ss:after {\n  transition: all 0.35s;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt {\n  display: table-cell;\n  float: none;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:before,\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  width: 19px;\n  height: 50%;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:after {\n  top: 50%;\n  left: 0;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:only-child:before {\n  top: 1px;\n  border-bottom: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:first-of-type):before,\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:last-of-type):after {\n  border-top: 0;\n  border-left: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt:not(:only-child):after {\n  border-top: 1px solid #ddd;\n}\n.horizontal .TreeNode-module_tree-node__2gHNt.is-leaf,\n.horizontal .TreeNode-module_tree-node__2gHNt.collapsed {\n  padding-top: 10px;\n  padding-top: var(--card-spacing);\n  padding-bottom: 10px;\n  padding-bottom: var(--card-spacing);\n}\n.horizontal .TreeNode-module_tree-node__2gHNt .TreeNode-module_label__dGNlq {\n  display: table-cell;\n  vertical-align: middle;\n}\n.horizontal .TreeNode-module_children__3g1ss {\n  display: table-cell;\n  padding-top: 0;\n  padding-left: 20px;\n}\n.horizontal .TreeNode-module_children__3g1ss:before {\n  top: 50%;\n  left: 0;\n  width: 20px;\n  height: 0;\n  border-top: 1px solid #ddd;\n  border-left: 0;\n}\n.horizontal .TreeNode-module_children__3g1ss:after {\n  display: none;\n}\n.horizontal .TreeNode-module_children__3g1ss > .TreeNode-module_tree-node__2gHNt {\n  display: block;\n}\n.horizontal > .TreeNode-module_tree-node__2gHNt:only-child::before {\n  border-bottom: 0;\n}\n.horizontal .TreeNode-module_epxand-btn__6p0ph {\n  top: 50%;\n  left: 100%;\n  margin-top: -11px;\n  margin-left: 9px;\n}\n.TreeNode-module_epxand-btn__6p0ph {\n  position: absolute;\n  top: 100%;\n  left: 50%;\n  z-index: 10;\n  width: 20px;\n  height: 20px;\n  margin-top: 9px;\n  margin-left: -11px;\n  background-color: #fff;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n  transition: all 0.35s ease;\n}\n.TreeNode-module_epxand-btn__6p0ph:hover {\n  background-color: #e7e8e9;\n  transform: scale(1.15);\n}\n.TreeNode-module_epxand-btn__6p0ph:before,\n.TreeNode-module_epxand-btn__6p0ph:after {\n  position: absolute;\n  content: '';\n}\n.TreeNode-module_epxand-btn__6p0ph:before {\n  top: 50%;\n  right: 4px;\n  left: 4px;\n  height: 0;\n  border-top: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph:after {\n  top: 4px;\n  bottom: 4px;\n  left: 50%;\n  width: 0;\n  border-left: 1px solid #ccc;\n}\n.TreeNode-module_epxand-btn__6p0ph.expanded:after {\n  border: none;\n}\n.TreeNode-module_arrow-icon__1ljPg {\n  position: absolute;\n  top: 0;\n  left: 50%;\n  z-index: 1;\n  width: 12px;\n  height: auto;\n  transform: translate(-50%, 0%);\n}\n";
+var styles = {"tree-node":"TreeNode-module_tree-node__2gHNt","label":"TreeNode-module_label__dGNlq","label-inner":"TreeNode-module_label-inner__nVX8y","children":"TreeNode-module_children__3g1ss","combine-tree-node":"TreeNode-module_combine-tree-node__AXMnr","arrow-icon":"TreeNode-module_arrow-icon__1ljPg","combine-nodes":"TreeNode-module_combine-nodes__93IVM","epxand-btn":"TreeNode-module_epxand-btn__6p0ph"};
 styleInject(css_248z);
 
 var cls = classnames(styles);
@@ -167,7 +184,8 @@ function CombinedNodes(props) {
       renderContent = _extraProps$renderCon === void 0 ? renderDefaultContent : _extraProps$renderCon,
       _extraProps$renderExp = extraProps.renderExpandButton,
       _onClick = extraProps.onClick,
-      nodeKeys = extraProps.nodeKeys;
+      nodeKeys = extraProps.nodeKeys,
+      nodeKey = extraProps.nodeKey;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   return /*#__PURE__*/React.createElement("div", {
@@ -183,8 +201,13 @@ function CombinedNodes(props) {
     className: cls('combine-nodes', "combine-nodes len-".concat(nodes.length)),
     "data-colnum": colNum
   }, nodes.map(function (leaf) {
-    return renderContent(leaf, leaf[levelKey], colNum);
-  }))));
+    var keyId = "leaf-".concat(leaf[nodeKey]);
+    return /*#__PURE__*/React.createElement(Fragment, {
+      key: keyId
+    }, renderContent(leaf, leaf[levelKey], colNum));
+  }))), /*#__PURE__*/React.createElement(SvgArrowIcon, {
+    className: cls('arrow-icon')
+  }));
 }
 
 function Node(props) {
@@ -199,11 +222,14 @@ function Node(props) {
       onExpand = extraProps.onExpand,
       _onClick2 = extraProps.onClick,
       nodeKeys = extraProps.nodeKeys,
-      nodeKey = extraProps.nodeKey;
+      nodeKey = extraProps.nodeKey,
+      isHide = extraProps.isHide;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   var isExpand = data[expandKey];
   var keyId = "node-".concat(data[nodeKey]);
+  var isHidden = isHide && isHide(data);
+  if (isHidden) return null;
 
   var handleExpand = function handleExpand(ev) {
     ev.stopPropagation();
@@ -227,20 +253,28 @@ function Node(props) {
 
 var renderChildren = function renderChildren(children, props, colNum) {
   var nodeKey = props.nodeKey,
-      mergeNode = props.mergeNode;
+      mergeNode = props.mergeNode,
+      isHide = props.isHide;
   var combinedNodes = [];
   var index = 0;
+  var isAllNull = true;
   var childEles = [/*#__PURE__*/React.createElement("div", {
     className: cls('children')
   }, children === null || children === void 0 ? void 0 : children.map(function (node) {
-    // const isCombine = node[props.nodeKeys?.combine || ''];
     var isCombine = mergeNode && mergeNode(node);
+    var isHidden = isHide && isHide(node);
     var keyId = "child-".concat(node[nodeKey]);
+
+    if (isHidden) {
+      return null;
+    }
 
     if (isCombine) {
       combinedNodes.push(node);
       return null;
     }
+
+    isAllNull = false;
 
     if (combinedNodes.length > 0) {
       index += 1;
@@ -267,6 +301,8 @@ var renderChildren = function renderChildren(children, props, colNum) {
       extraProps: props,
       colNum: index
     });
+  }), isAllNull ? null : /*#__PURE__*/React.createElement(SvgArrowIcon, {
+    className: cls('arrow-icon')
   }))];
 
   if (combinedNodes.length === (children === null || children === void 0 ? void 0 : children.length)) {
@@ -318,35 +354,35 @@ function throttle(fn, delay) {
   };
 }
 
-var _defs, _path;
+var _defs$1, _path$1;
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
 
 function SvgZoomOutIcon(props) {
-  return /*#__PURE__*/createElement("svg", _extends({
+  return /*#__PURE__*/createElement("svg", _extends$1({
     className: "zoom-out-icon_svg__icon",
     viewBox: "0 0 1024 1024",
     xmlns: "http://www.w3.org/2000/svg",
     width: 200,
     height: 200
-  }, props), _defs || (_defs = /*#__PURE__*/createElement("defs", null, /*#__PURE__*/createElement("style", null))), _path || (_path = /*#__PURE__*/createElement("path", {
+  }, props), _defs$1 || (_defs$1 = /*#__PURE__*/createElement("defs", null, /*#__PURE__*/createElement("style", null))), _path$1 || (_path$1 = /*#__PURE__*/createElement("path", {
     d: "M309.894 485.053h404.211q40.421 0 40.421 40.42 0 40.422-40.42 40.422H309.894q-40.421 0-40.421-40.421t40.42-40.421z",
     fill: "#666"
   })));
 }
 
-var _defs$1, _path$1, _path2;
+var _defs$2, _path$2, _path2;
 
-function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
+function _extends$2() { _extends$2 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
 
 function SvgZoomInIcon(props) {
-  return /*#__PURE__*/createElement("svg", _extends$1({
+  return /*#__PURE__*/createElement("svg", _extends$2({
     className: "zoom-in-icon_svg__icon",
     viewBox: "0 0 1024 1024",
     xmlns: "http://www.w3.org/2000/svg",
     width: 200,
     height: 200
-  }, props), _defs$1 || (_defs$1 = /*#__PURE__*/createElement("defs", null, /*#__PURE__*/createElement("style", null))), _path$1 || (_path$1 = /*#__PURE__*/createElement("path", {
+  }, props), _defs$2 || (_defs$2 = /*#__PURE__*/createElement("defs", null, /*#__PURE__*/createElement("style", null))), _path$2 || (_path$2 = /*#__PURE__*/createElement("path", {
     d: "M309.894 485.053h404.211q40.421 0 40.421 40.42 0 40.422-40.42 40.422H309.894q-40.421 0-40.421-40.421t40.42-40.421z",
     fill: "#666"
   })), _path2 || (_path2 = /*#__PURE__*/createElement("path", {
