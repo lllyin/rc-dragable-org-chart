@@ -4,7 +4,7 @@ export interface TreeData {
     [key: string | number]: any;
     children?: TreeData[];
 }
-export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>, DragableContainerProps {
+export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick' | 'onTransitionEnd'>, DragableContainerProps {
     layout: 'horizontal' | 'vertical';
     nodeKeys?: {
         label: string;
@@ -24,8 +24,11 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     }) => void;
     nodeKey: string;
     spacing?: number;
+    getNodeTransform?: (data: TreeData) => React.CSSProperties;
     mergeNode?: (data: TreeData) => boolean;
     isHide?: (data: TreeData) => boolean;
+    isAnim?: (data: TreeData) => boolean;
+    onTransitionEnd?: (data: TreeData) => void;
 }
 export interface TreeNodeProps extends OrgTreeProps {
     onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;

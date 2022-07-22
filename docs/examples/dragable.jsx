@@ -80,6 +80,9 @@ class OrgTreeDemo extends Component {
           isHide={(node) => {
             return node.label === '运维工程师';
           }}
+          isAnim={(node) => {
+            return node.label === '技术部';
+          }}
         ></OrgTree>
       </div>
     );
