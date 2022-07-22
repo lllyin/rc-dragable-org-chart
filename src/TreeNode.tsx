@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import classnames from './utils/classnames';
 import { TreeData, TreeNodeProps } from './tree.type';
 import { ReactComponent as ArrowIcon } from './icons/arrow-icon.svg';
@@ -76,12 +76,31 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
     nodeKeys,
     nodeKey,
     isHide,
+    isAnim,
+    getNodeTransform = () => ({ transform: `translateX(0%)` }),
+    onTransitionEnd,
   } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
   const isExpand = data[expandKey];
-  const keyId = `node-${data[nodeKey]}`;
+  const keyId = `node-${data[nodeKey]}-${JSON.stringify(data.transform || {})}`;
   const isHidden = isHide && isHide(data);
+  const isShowAnim = isAnim && isAnim(data);
+  const nodeTransform = isShowAnim ? getNodeTransform(data) : {};
+  const [anim, setAnim] = useState<React.CSSProperties>(nodeTransform);
+
+  useEffect(() => {
+    if (isShowAnim) {
+      setTimeout(() => {
+        setAnim({
+          transform: `translateX(0%)`,
+        });
+      }, 0);
+      setTimeout(() => {
+        onTransitionEnd && onTransitionEnd(data);
+      }, 1100);
+    }
+  }, [isShowAnim]);
 
   if (isHidden) return null;
 
@@ -99,6 +118,7 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
       )}
       data-id={keyId}
       data-colnum={colNum ?? ''}
+      style={anim}
     >
       <div
         className={cls('label')}

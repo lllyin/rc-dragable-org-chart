@@ -7,7 +7,7 @@ export interface TreeData {
 }
 
 export interface OrgTreeProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'onClick' | 'onTransitionEnd'>,
     DragableContainerProps {
   // 布局
   layout: 'horizontal' | 'vertical';
@@ -36,10 +36,15 @@ export interface OrgTreeProps
   nodeKey: string;
   // 卡片间距
   spacing?: number;
+  // 获取节点动画
+  getNodeTransform?: (data: TreeData) => React.CSSProperties;
   // 是否合并叶子结点
   mergeNode?: (data: TreeData) => boolean;
   // 是否隐藏节点
   isHide?: (data: TreeData) => boolean;
+  // 是否开启动画
+  isAnim?: (data: TreeData) => boolean;
+  onTransitionEnd?: (data: TreeData) => void;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {
