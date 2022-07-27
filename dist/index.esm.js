@@ -312,7 +312,7 @@ function Node(props) {
       var el = result.el,
           animationName = result.animationName;
       setAnim({
-        // duration | timing-function | delay | iteration-count | direction | fill-mode | play-state | name 
+        // duration | timing-function | delay | iteration-count | direction | fill-mode | play-state | name
         animation: "".concat(animationDuration, "ms ease 0ms 1 normal forwards running ").concat(animationName)
       });
       setTimeout(function () {
