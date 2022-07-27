@@ -24,11 +24,12 @@ export interface OrgTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
     }) => void;
     nodeKey: string;
     spacing?: number;
-    getNodeTransform?: (data: TreeData) => React.CSSProperties;
+    getNodeAnimations?: (data: TreeData) => string[];
+    animationDuration?: number;
     mergeNode?: (data: TreeData) => boolean;
     isHide?: (data: TreeData) => boolean;
     isAnim?: (data: TreeData) => boolean;
-    onTransitionEnd?: (data: TreeData) => void;
+    onAnimationEnd?: (data: TreeData, self: HTMLDivElement | null) => void;
 }
 export interface TreeNodeProps extends OrgTreeProps {
     onExpand: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TreeData) => void;

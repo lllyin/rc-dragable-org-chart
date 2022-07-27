@@ -1,4 +1,4 @@
-import React, { createElement, useState, useEffect, Fragment, forwardRef, useRef, useImperativeHandle } from 'react';
+import React, { createElement, useState, useRef, useEffect, Fragment, forwardRef, useImperativeHandle } from 'react';
 
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
@@ -127,6 +127,63 @@ function SvgArrowIcon(props) {
   })));
 }
 
+function throttle(fn, delay) {
+  var timer; // @ts-ignore
+
+  var context = this;
+  return function () {
+    var args = Array.prototype.slice.call(arguments);
+
+    if (timer) {
+      return;
+    }
+
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+      clearTimeout(timer);
+      timer = null;
+    }, delay);
+  };
+}
+function injectStyle() {
+  var animations = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var styleEl = document.createElement('style');
+  var r = Math.random().toString(36).substring(2);
+  var result = genKeyframes(animations, "node-animation__".concat(r));
+  if (!result) return null;
+  var animationName = result.name,
+      style = result.style;
+  styleEl.id = "node-inject-style_".concat(r);
+  styleEl.innerHTML = style;
+  document.head.appendChild(styleEl);
+  return {
+    el: styleEl,
+    styleId: styleEl.id,
+    animationName: animationName
+  };
+}
+function genKeyframes() {
+  var animations = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var name = arguments.length > 1 ? arguments[1] : undefined;
+  if (animations.length === 0) return null;
+
+  if (animations.length === 1) {
+    animations.push(animations[0]);
+  }
+
+  var step = 100 / (animations.length - 1);
+  var r = Math.random().toString(36).substring(2);
+  var frames = animations.map(function (animation, index) {
+    return "".concat(index * step, "% {\n      transform: ").concat(animation, "\n    }");
+  }).join('\n');
+  var keyName = name || "node-animation_".concat(r, " ");
+  var style = "\n    @keyframes ".concat(keyName, " {\n      ").concat(frames, "\n    }\n  ");
+  return {
+    name: keyName,
+    style: style
+  };
+}
+
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
   var insertAt = ref.insertAt;
@@ -225,36 +282,47 @@ function Node(props) {
       nodeKey = extraProps.nodeKey,
       isHide = extraProps.isHide,
       isAnim = extraProps.isAnim,
-      _extraProps$getNodeTr = extraProps.getNodeTransform,
-      getNodeTransform = _extraProps$getNodeTr === void 0 ? function () {
-    return {
-      transform: "translateX(0%)"
-    };
-  } : _extraProps$getNodeTr,
-      onTransitionEnd = extraProps.onTransitionEnd;
+      _extraProps$getNodeAn = extraProps.getNodeAnimations,
+      getNodeAnimations = _extraProps$getNodeAn === void 0 ? function () {
+    return [];
+  } : _extraProps$getNodeAn,
+      _extraProps$animation = extraProps.animationDuration,
+      animationDuration = _extraProps$animation === void 0 ? 800 : _extraProps$animation,
+      onAnimationEnd = extraProps.onAnimationEnd;
   var expandKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.expand) || '_expand';
   var levelKey = (nodeKeys === null || nodeKeys === void 0 ? void 0 : nodeKeys.level) || '_level';
   var isExpand = data[expandKey];
   var keyId = "node-".concat(data[nodeKey], "-").concat(JSON.stringify(data.transform || {}));
   var isHidden = isHide && isHide(data);
   var isShowAnim = isAnim && isAnim(data);
-  var nodeTransform = isShowAnim ? getNodeTransform(data) : {};
+  var animations = isShowAnim ? getNodeAnimations(data) : [];
 
-  var _useState = useState(nodeTransform),
+  var _useState = useState(isShowAnim ? {
+    willChange: 'transform'
+  } : {}),
       _useState2 = _slicedToArray(_useState, 2),
       anim = _useState2[0],
       setAnim = _useState2[1];
 
+  var nodeRef = useRef(null);
   useEffect(function () {
     if (isShowAnim) {
+      var result = injectStyle(animations);
+      if (!result) return;
+      var el = result.el,
+          animationName = result.animationName;
+      setAnim({
+        // duration | timing-function | delay | iteration-count | direction | fill-mode | play-state | name 
+        animation: "".concat(animationDuration, "ms ease 0ms 1 normal forwards running ").concat(animationName)
+      });
       setTimeout(function () {
-        setAnim({
-          transform: "translateX(0%)"
-        });
-      }, 0);
-      setTimeout(function () {
-        onTransitionEnd && onTransitionEnd(data);
-      }, 1100);
+        onAnimationEnd && onAnimationEnd(data, nodeRef.current);
+      }, animationDuration + 50);
+      return function () {
+        var _el$parentNode;
+
+        if (el) (_el$parentNode = el.parentNode) === null || _el$parentNode === void 0 ? void 0 : _el$parentNode.removeChild(el);
+      };
     }
   }, [isShowAnim]);
   if (isHidden) return null;
@@ -269,7 +337,8 @@ function Node(props) {
     className: cls('tree-node', "tree-node ".concat(isLeaf(data) ? 'is-leaf' : '', " ").concat(isExpand ? '' : 'collapsed')),
     "data-id": keyId,
     "data-colnum": colNum !== null && colNum !== void 0 ? colNum : '',
-    style: anim
+    style: anim,
+    ref: nodeRef
   }, /*#__PURE__*/React.createElement("div", {
     className: cls('label'),
     onClick: function onClick() {
@@ -362,25 +431,6 @@ function TreeNode(props) {
     colNum: 0,
     key: keyId
   });
-}
-
-function throttle(fn, delay) {
-  var timer; // @ts-ignore
-
-  var context = this;
-  return function () {
-    var args = Array.prototype.slice.call(arguments);
-
-    if (timer) {
-      return;
-    }
-
-    timer = setTimeout(function () {
-      fn.apply(context, args);
-      clearTimeout(timer);
-      timer = null;
-    }, delay);
-  };
 }
 
 var _defs$1, _path$1;
