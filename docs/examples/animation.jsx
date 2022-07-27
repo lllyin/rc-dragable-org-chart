@@ -77,9 +77,10 @@ class OrgTreeDemo extends Component {
           mergeNode={(node) => {
             return node._level >= 3;
           }}
-          isHide={(node) => {
-            return node.label === '运维工程师';
+          isAnim={(node) => {
+            return node.label !== null;
           }}
+          getNodeAnimations={() => ['translateX(-100%)', 'translateX(0g%)']}
         ></OrgTree>
       </div>
     );

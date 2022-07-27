@@ -37,7 +37,9 @@ export interface OrgTreeProps
   // 卡片间距
   spacing?: number;
   // 获取节点动画
-  getNodeTransform?: (data: TreeData) => React.CSSProperties;
+  getNodeAnimations?: (data: TreeData) => string[];
+  // 动画时长，默认800ms
+  animationDuration?: number;
   // 是否合并叶子结点
   mergeNode?: (data: TreeData) => boolean;
   // 是否隐藏节点

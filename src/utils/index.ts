@@ -17,3 +17,47 @@ export function throttle(fn: Function, delay: number): Function {
     }, delay);
   };
 }
+
+export function injectStyle(animations: string[] = []) {
+  const styleEl = document.createElement('style');
+  const r = Math.random().toString(36).substring(2);
+  const result = genKeyframes(animations, `node-animation__${r}`);
+
+  if (!result) return null;
+
+  const { name: animationName, style } = result;
+
+  styleEl.id = `node-inject-style_${r}`;
+  styleEl.innerHTML = style;
+  document.head.appendChild(styleEl);
+
+  return {
+    el: styleEl,
+    styleId: styleEl.id,
+    animationName,
+  };
+}
+
+export function genKeyframes(animations: string[] = [], name?: string) {
+  if (animations.length === 0) return null;
+  const step = 100 / animations.length;
+  const r = Math.random().toString(36).substring(2);
+  const frames = animations
+    .map((animation, index) => {
+      return `${index * step}% {
+      transform: ${animation}
+    }`;
+    })
+    .join('\n');
+  const keyName = name || `node-animation_${r} `;
+  const style = `
+    @keyframes ${keyName} {
+      ${frames}
+    }
+  `;
+
+  return {
+    name: keyName,
+    style,
+  };
+}
