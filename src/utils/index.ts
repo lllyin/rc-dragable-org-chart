@@ -40,7 +40,10 @@ export function injectStyle(animations: string[] = []) {
 
 export function genKeyframes(animations: string[] = [], name?: string) {
   if (animations.length === 0) return null;
-  const step = 100 / animations.length;
+  if (animations.length === 1) {
+    animations.push(animations[0]);
+  }
+  const step = 100 / (animations.length - 1);
   const r = Math.random().toString(36).substring(2);
   const frames = animations
     .map((animation, index) => {

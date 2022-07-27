@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import classnames from './utils/classnames';
 import { TreeData, TreeNodeProps } from './tree.type';
 import { ReactComponent as ArrowIcon } from './icons/arrow-icon.svg';
-import { injectStyle, genKeyframes } from './utils';
+import { injectStyle } from './utils';
 
 import styles from './TreeNode.module.less';
 
@@ -80,7 +80,7 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
     isAnim,
     getNodeAnimations = () => [],
     animationDuration = 800,
-    onTransitionEnd,
+    onAnimationEnd,
   } = extraProps;
   const expandKey = nodeKeys?.expand || '_expand';
   const levelKey = nodeKeys?.level || '_level';
@@ -89,21 +89,23 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
   const isHidden = isHide && isHide(data);
   const isShowAnim = isAnim && isAnim(data);
   const animations = isShowAnim ? getNodeAnimations(data) : [];
-  const [anim, setAnim] = useState<React.CSSProperties>({});
+  const [anim, setAnim] = useState<React.CSSProperties>(
+    isShowAnim ? { willChange: 'transform' } : {},
+  );
+  const nodeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isShowAnim) {
       const result = injectStyle(animations);
       if (!result) return;
       const { el, animationName } = result;
+      setAnim({
+        // duration | timing-function | delay | iteration-count | direction | fill-mode | play-state | name
+        animation: `${animationDuration}ms ease 0ms 1 normal forwards running ${animationName}`,
+      });
       setTimeout(() => {
-        setAnim({
-          animation: `${animationName} ${animationDuration}ms ease-out`,
-        });
-      }, 0);
-      setTimeout(() => {
-        onTransitionEnd && onTransitionEnd(data);
-      }, animationDuration + 200);
+        onAnimationEnd && onAnimationEnd(data, nodeRef.current);
+      }, animationDuration + 50);
 
       return () => {
         if (el) el.parentNode?.removeChild(el);
@@ -128,6 +130,7 @@ function Node(props: { data: TreeData; extraProps: TreeNodeProps; colNum: number
       data-id={keyId}
       data-colnum={colNum ?? ''}
       style={anim}
+      ref={nodeRef}
     >
       <div
         className={cls('label')}

@@ -46,7 +46,7 @@ export interface OrgTreeProps
   isHide?: (data: TreeData) => boolean;
   // 是否开启动画
   isAnim?: (data: TreeData) => boolean;
-  onTransitionEnd?: (data: TreeData) => void;
+  onAnimationEnd?: (data: TreeData, self: HTMLDivElement | null) => void;
 }
 
 export interface TreeNodeProps extends OrgTreeProps {
